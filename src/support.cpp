@@ -1,3 +1,4 @@
+#include <cmath>
 #include "support.h"
 
 D_VECTOR multiply(D_VECTOR A, double b) {
