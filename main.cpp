@@ -1,6 +1,7 @@
 #include <iostream>
+#include "src/model.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Model model;
     return 0;
 }
