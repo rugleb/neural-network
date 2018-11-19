@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
-project(nn_cpp)
+project(neural-network)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(nn_cpp main.cpp src/model.cpp src/model.h src/support.cpp src/support.h)
+add_executable(network main.cpp src/model.cpp src/model.h src/support.cpp src/support.h)
