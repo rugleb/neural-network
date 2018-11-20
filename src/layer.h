@@ -10,6 +10,9 @@ protected:
     std::vector<Neuron> neurons;
 public:
     Layer();
+    explicit Layer(const Neuron &neuron, size_t count = 1) {
+        this->addNeurons(neuron, count);
+    }
 
     std::vector<Neuron> getNeurons() {
         return neurons;
