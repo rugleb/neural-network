@@ -3,7 +3,7 @@
 
 
 #include "support.h"
-#include "neuron.h"
+#include "Neuron.h"
 
 class Layer {
 protected:
@@ -21,7 +21,7 @@ public:
     void addNeuron(Neuron neuron);
     void addNeurons(Neuron neuron, size_t count);
 
-    D_VECTOR calc(D_VECTOR input, D_MATRIX weights);
+    D_VECTOR activate(const D_VECTOR &input, const D_MATRIX &weights);
 };
 
 

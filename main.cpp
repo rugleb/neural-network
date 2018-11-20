@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "src/model.h"
+#include "src/Model.h"
 #include "src/support.h"
 
 #define DATASET std::vector<Set>

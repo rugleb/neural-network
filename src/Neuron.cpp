@@ -1,10 +1,12 @@
-#include "neuron.h"
+#include "Neuron.h"
 
-Neuron::Neuron() {
+Neuron::Neuron()
+{
 
 }
 
-double Neuron::activate(double x, bool derivative = false) {
+double Neuron::activate(double x, bool derivative = false)
+{
     if (derivative) {
         return 1;
     }
@@ -12,7 +14,8 @@ double Neuron::activate(double x, bool derivative = false) {
     return x;
 }
 
-double Neuron::calc(const D_VECTOR &input, const D_VECTOR &weights) {
+double Neuron::calc(const D_VECTOR &input, const D_VECTOR &weights)
+{
     double y = 0.;
 
     for (size_t i = 0; i < input.size(); i++) {

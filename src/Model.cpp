@@ -1,14 +1,18 @@
 #include <algorithm>
 
-#include "model.h"
+#include "Model.h"
 
-Model::Model() {
+#define SQUARE(x) (x * x)
+
+
+Model::Model()
+{
     Layer layer;
     this->layers = {layer};
 }
 
-void Model::train(std::vector<Set> dataset, double error) {
-
+void Model::train(std::vector<Set> dataset, double error)
+{
     this->generateLayers(dataset.front());
     this->generateWeights(dataset.front());
 
@@ -24,22 +28,23 @@ void Model::train(std::vector<Set> dataset, double error) {
     }
 }
 
-D_VECTOR Model::feedForward(const D_VECTOR x) {
-
+D_VECTOR Model::feedForward(const D_VECTOR x)
+{
     D_VECTOR output = x;
+
     for (size_t i = 0; i < this->weights.size(); i++) {
 
         D_MATRIX w = this->weights[i];
         Layer layer = this->layers[i + 1];
 
-        output = layer.calc(output, w);
+        output = layer.activate(output, w);
     }
 
     return output;
 }
 
-void Model::generateLayers(const Set &set) {
-
+void Model::generateLayers(const Set &set)
+{
     Layer first(Neuron(), set.X.size());
     Layer last(Neuron(), set.Y.size());
 
@@ -47,11 +52,12 @@ void Model::generateLayers(const Set &set) {
     this->layers.push_back(last);
 }
 
-void Model::generateWeights(const Set &set) {
-
+void Model::generateWeights(const Set &set)
+{
+    this->weights = {};
     for (size_t i = 1; i < this->layers.size(); i++) {
 
-        size_t rowsCount = this->layers[i].getNeurons().size();
+        size_t rowsCount = this->layers[i - 0].getNeurons().size();
         size_t colsCount = this->layers[i - 1].getNeurons().size();
 
         D_MATRIX localWeights;
@@ -59,7 +65,7 @@ void Model::generateWeights(const Set &set) {
 
             D_VECTOR row(colsCount);
             for (size_t k = 0; k < colsCount; k++) {
-                row[k] = 0.1;
+                row[k] = .1;
             }
 
             localWeights.push_back(row);
@@ -69,11 +75,13 @@ void Model::generateWeights(const Set &set) {
     }
 }
 
-void Model::addLayer(Layer layer) {
+void Model::addLayer(Layer layer)
+{
     this->layers.push_back(layer);
 }
 
-double Model::error(const D_VECTOR &expected, const D_VECTOR &actual) {
+double Model::error(const D_VECTOR &expected, const D_VECTOR &actual)
+{
     double err = .0;
     size_t size = expected.size();
 
@@ -81,7 +89,7 @@ double Model::error(const D_VECTOR &expected, const D_VECTOR &actual) {
         double a = actual[i];
         double e = expected[i];
 
-        err += (e - a) * (e - a) / 2;
+        err += SQUARE(e - a) / 2;
     }
 
     return err;

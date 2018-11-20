@@ -2,7 +2,7 @@
 #define NN_CPP_MODEL_H
 
 #include "support.h"
-#include "layer.h"
+#include "Layer.h"
 
 
 struct Set {
