@@ -21,6 +21,7 @@ public:
     void addLayer(Layer layer);
 
     void train(std::vector<Set> dataset, double error);
+    D_VECTOR feedForward(D_VECTOR x);
 };
 
 

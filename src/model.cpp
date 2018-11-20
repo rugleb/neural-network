@@ -24,13 +24,32 @@ void Model::train(std::vector<Set> dataset, double error) {
         for (size_t j = 0; j < rowsCount; j++) {
             D_VECTOR row(colsCount);
             for (size_t k = 0; k < colsCount; k++) {
-                row[i] = 0.;
+                row[k] = 0.1;
             }
             localWeights.push_back(row);
         }
 
         this->weights.push_back(localWeights);
     }
+
+    for (size_t epoch = 0; epoch < 1; epoch++) {
+        for (Set &set : dataset) {
+            D_VECTOR output = this->feedForward(set.X);
+        }
+    }
+}
+
+D_VECTOR Model::feedForward(const D_VECTOR x) {
+    D_VECTOR output = x;
+
+    for (size_t i = 0; i < this->weights.size(); i++) {
+        D_MATRIX w = this->weights[i];
+        Layer layer = this->layers[i + 1];
+
+        output = layer.calc(output, w);
+    }
+
+    return output;
 }
 
 void Model::addLayer(Layer layer) {
