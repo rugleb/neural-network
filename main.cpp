@@ -5,6 +5,7 @@
 
 #define DATASET std::vector<Set>
 
+
 DATASET generate(unsigned int count)
 {
     DATASET dataset(count);
@@ -27,7 +28,7 @@ int main()
     Model model;
     model.addLayer(layer);
 
-    DATASET dataset = generate(2);
+    DATASET dataset = generate(1000);
     model.train(dataset, 1e-3);
 
     return 0;
