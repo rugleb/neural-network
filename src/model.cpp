@@ -26,11 +26,12 @@ double Model::activate(double x) {
     return x;
 }
 
-D_VECTOR Model::activate(D_VECTOR X) {
-    D_VECTOR y;
+D_VECTOR Model::activate(D_VECTOR x) {
+    size_t size = x.size();
+    D_VECTOR y(size);
 
-    for (double &x: X) {
-        y.push_back(activate(x));
+    for (size_t i = 0; i < size; i++) {
+        y[i] = activate(x[i]);
     }
 
     return y;

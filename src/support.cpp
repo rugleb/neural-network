@@ -1,31 +1,34 @@
 #include <cmath>
 #include "support.h"
 
-D_VECTOR multiply(D_VECTOR A, double b) {
-    D_VECTOR y;
+D_VECTOR multiply(D_VECTOR a, double b) {
+    size_t size = a.size();
+    D_VECTOR y(size);
 
-    for (double a : A) {
-        y.push_back(a * b);
+    for (size_t i = 0; i < size; i++) {
+        y[i] = a[i] * b;
     }
 
     return y;
 }
 
-double multiply(D_VECTOR A, D_VECTOR B) {
+double multiply(D_VECTOR a, D_VECTOR b) {
+    size_t size = a.size();
     double y = 0.;
 
-    for (size_t i = 0; i < A.size(); i++) {
-        y += A[i] * B[i];
+    for (size_t i = 0; i < size; i++) {
+        y = a[i] * b[i];
     }
 
     return y;
 }
 
-D_VECTOR sum(D_VECTOR A, D_VECTOR B) {
-    D_VECTOR y;
+D_VECTOR sum(D_VECTOR a, D_VECTOR b) {
+    size_t size = a.size();
+    D_VECTOR y(size);
 
-    for (size_t i = 0; i < A.size(); i++) {
-        y.push_back(A[i] + B[i]);
+    for (size_t i = 0; i < b; i++) {
+        y[i] = a[i] * b[i];
     }
 
     return y;
