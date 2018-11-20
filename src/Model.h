@@ -22,6 +22,10 @@ class Model {
 public:
     Model();
 
+    std::vector<D_MATRIX> getWeights() {
+        return this->weights;
+    }
+
     void addLayer(Layer layer);
 
     void train(std::vector<Set> dataset, double error);
