@@ -2,6 +2,7 @@
 #define NN_CPP_MODEL_H
 
 #include "support.h"
+#include "layer.h"
 
 
 struct Set {
@@ -12,12 +13,15 @@ struct Set {
 
 class Model {
     std::vector<Set> dataset;
+    std::vector<Layer> layers;
     std::vector<D_MATRIX> weights;
 public:
     Model();
-    void train(std::vector<Set>, double);
-    double activate(double);
-    D_VECTOR activate(D_VECTOR);
+
+    void addLayer(Layer layer);
+    void addLayers(Layer layer, size_t count);
+
+    void train(std::vector<Set> dataset, double error);
 };
 
 

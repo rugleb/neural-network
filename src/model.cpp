@@ -22,17 +22,12 @@ void Model::train(std::vector<Set> dataset, double error) {
 
 }
 
-double Model::activate(double x) {
-    return x;
+void Model::addLayer(Layer layer) {
+    this->layers.push_back(layer);
 }
 
-D_VECTOR Model::activate(D_VECTOR x) {
-    size_t size = x.size();
-    D_VECTOR y(size);
-
-    for (size_t i = 0; i < size; i++) {
-        y[i] = activate(x[i]);
+void Model::addLayers(Layer layer, size_t count) {
+    for (size_t i = 0; i < count; i++) {
+        this->addLayer(layer);
     }
-
-    return y;
 }
