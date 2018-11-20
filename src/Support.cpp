@@ -1,5 +1,5 @@
 #include <cmath>
-#include "support.h"
+#include "Support.h"
 
 D_VECTOR operator*(D_VECTOR a, double b)
 {

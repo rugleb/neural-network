@@ -2,7 +2,7 @@
 #define NEURAL_NETWORK_NEURON_H
 
 
-#include "support.h"
+#include "Support.h"
 
 class Neuron {
 public:

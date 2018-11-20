@@ -2,7 +2,7 @@
 #define NEURAL_NETWORK_LAYER_H
 
 
-#include "support.h"
+#include "Support.h"
 #include "Neuron.h"
 
 class Layer {

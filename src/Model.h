@@ -1,7 +1,7 @@
 #ifndef NN_CPP_MODEL_H
 #define NN_CPP_MODEL_H
 
-#include "support.h"
+#include "Support.h"
 #include "Layer.h"
 
 
