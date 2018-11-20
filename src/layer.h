@@ -11,7 +11,14 @@ protected:
 public:
     Layer();
 
-    void addNeuron(Neuron);
+    std::vector<Neuron> getNeurons() {
+        return neurons;
+    }
+
+    void addNeuron(Neuron neuron);
+    void addNeurons(Neuron neuron, size_t count);
+
+    D_VECTOR calc(D_VECTOR input, D_MATRIX weights);
 };
 
 
