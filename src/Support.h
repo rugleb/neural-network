@@ -14,4 +14,5 @@ double   operator* (D_VECTOR, D_VECTOR);
 D_VECTOR operator+ (D_VECTOR, D_VECTOR);
 D_VECTOR operator- (D_VECTOR, D_VECTOR);
 
+
 #endif

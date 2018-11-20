@@ -1,9 +1,9 @@
 #ifndef NEURAL_NETWORK_LAYER_H
 #define NEURAL_NETWORK_LAYER_H
 
-
 #include "Support.h"
 #include "Neuron.h"
+
 
 class Layer {
 protected:

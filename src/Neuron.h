@@ -1,8 +1,8 @@
 #ifndef NEURAL_NETWORK_NEURON_H
 #define NEURAL_NETWORK_NEURON_H
 
-
 #include "Support.h"
+
 
 class Neuron {
 public:
