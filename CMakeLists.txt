@@ -3,4 +3,4 @@ project(neural-network)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(network main.cpp src/model.cpp src/model.h src/support.cpp src/support.h src/layer.cpp src/layer.h)
+add_executable(network main.cpp src/model.cpp src/model.h src/support.cpp src/support.h src/layer.cpp src/layer.h src/neuron.cpp src/neuron.h)
