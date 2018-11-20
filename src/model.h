@@ -12,9 +12,11 @@ struct Set {
 
 
 class Model {
-    std::vector<Set> dataset;
     std::vector<Layer> layers;
     std::vector<D_MATRIX> weights;
+
+    void generateLayers(const Set &set);
+    void generateWeights(const Set &set);
 public:
     Model();
 
