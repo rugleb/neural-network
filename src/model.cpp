@@ -13,9 +13,14 @@ void Model::train(std::vector<Set> dataset, double error) {
     this->generateWeights(dataset.front());
 
     for (size_t epoch = 0; epoch < 1; epoch++) {
+        double err = .0;
+
         for (Set &set : dataset) {
             D_VECTOR output = this->feedForward(set.X);
+            err += this->error(set.Y, output);
         }
+
+        if (err / dataset.size() < error) break;
     }
 }
 
@@ -66,4 +71,18 @@ void Model::generateWeights(const Set &set) {
 
 void Model::addLayer(Layer layer) {
     this->layers.push_back(layer);
+}
+
+double Model::error(const D_VECTOR &expected, const D_VECTOR &actual) {
+    double err = .0;
+    size_t size = expected.size();
+
+    for (size_t i = 0; i < size; i++) {
+        double a = actual[i];
+        double e = expected[i];
+
+        err += (e - a) * (e - a) / 2;
+    }
+
+    return err;
 }

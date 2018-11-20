@@ -17,6 +17,7 @@ class Model {
 
     void generateLayers(const Set &set);
     void generateWeights(const Set &set);
+    double error(const D_VECTOR &expected, const D_VECTOR &actual);
 public:
     Model();
 
