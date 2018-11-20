@@ -16,11 +16,7 @@ double Neuron::activate(double x, bool derivative = false)
 
 double Neuron::calc(const D_VECTOR &input, const D_VECTOR &weights)
 {
-    double y = 0.;
-
-    for (size_t i = 0; i < input.size(); i++) {
-        y += input[i] * weights[i];
-    }
+    double y = input * weights;
 
     return this->activate(y);
 }

@@ -38,7 +38,6 @@ D_VECTOR Model::feedForward(const D_VECTOR x)
     D_VECTOR output = x;
 
     for (size_t i = 0; i < this->weights.size(); i++) {
-
         D_MATRIX w = this->weights[i];
         Layer layer = this->layers[i + 1];
 
@@ -86,10 +85,7 @@ double Model::error(const D_VECTOR &expected, const D_VECTOR &actual)
     size_t size = expected.size();
 
     for (size_t i = 0; i < size; i++) {
-        double a = actual[i];
-        double e = expected[i];
-
-        err += SQUARE(e - a) / 2;
+        err += SQUARE(actual[i] - expected[i]) / 2;
     }
 
     return err;

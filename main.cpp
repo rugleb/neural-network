@@ -5,7 +5,8 @@
 
 #define DATASET std::vector<Set>
 
-DATASET generate(unsigned int count) {
+DATASET generate(unsigned int count)
+{
     DATASET dataset(count);
 
     for (size_t i = 0; i < count; i++) {
@@ -19,10 +20,9 @@ DATASET generate(unsigned int count) {
     return dataset;
 }
 
-int main() {
-
-    Neuron neuron;
-    Layer layer(neuron, 2);
+int main()
+{
+    Layer layer(Neuron(), 2);
 
     Model model;
     model.addLayer(layer);
