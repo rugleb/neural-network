@@ -12,6 +12,7 @@ struct Set {
 
 
 class Model {
+protected:
     std::vector<Layer> layers;
     std::vector<D_MATRIX> weights;
 
