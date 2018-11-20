@@ -8,8 +8,8 @@ class Neuron {
 public:
     Neuron();
 
-    double activate(double);
-    double calc(D_VECTOR, D_VECTOR);
+    double activate(double x, bool derivative);
+    double calc(const D_VECTOR &input, const D_VECTOR &weights);
 };
 
 
