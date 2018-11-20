@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#define SQUARE(x)   (x * x)
+
 #define D_VECTOR    std::vector<double>
 #define D_MATRIX    std::vector<D_VECTOR>
 

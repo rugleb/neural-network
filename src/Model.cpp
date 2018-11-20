@@ -2,8 +2,6 @@
 
 #include "Model.h"
 
-#define SQUARE(x) (x * x)
-
 
 Model::Model()
 {
