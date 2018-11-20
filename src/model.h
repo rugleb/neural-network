@@ -12,7 +12,7 @@ struct Set {
 
 class Model {
     std::vector<Set> dataset;
-    std::vector<D_VECTOR> W;
+    std::vector<D_MATRIX> weights;
 public:
     Model();
     void train(std::vector<Set>, double);

@@ -4,6 +4,7 @@
 #include <vector>
 
 #define D_VECTOR    std::vector<double>
+#define D_MATRIX    std::vector<D_VECTOR>
 
 
 D_VECTOR multiply(D_VECTOR A, double b);
