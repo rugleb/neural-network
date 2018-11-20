@@ -15,6 +15,7 @@ class Model {
     std::vector<Layer> layers;
     std::vector<D_MATRIX> weights;
 
+    void init(const Set &set);
     void generateLayers(const Set &set);
     void generateWeights(const Set &set);
     double error(const D_VECTOR &expected, const D_VECTOR &actual);

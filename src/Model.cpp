@@ -18,8 +18,7 @@ void Model::addLayer(Layer layer)
 
 void Model::train(std::vector<Set> dataset, double error)
 {
-    this->generateLayers(dataset.front());
-    this->generateWeights(dataset.front());
+    this->init(dataset.front());
 
     for (size_t epoch = 0; epoch < 1; epoch++) {
         double err = .0;
@@ -45,6 +44,12 @@ D_VECTOR Model::feedForward(const D_VECTOR x)
     }
 
     return output;
+}
+
+void Model::init(const Set &set)
+{
+    this->generateLayers(set);
+    this->generateWeights(set);
 }
 
 void Model::generateLayers(const Set &set)
