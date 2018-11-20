@@ -11,6 +11,11 @@ Model::Model()
     this->layers = {layer};
 }
 
+void Model::addLayer(Layer layer)
+{
+    this->layers.push_back(layer);
+}
+
 void Model::train(std::vector<Set> dataset, double error)
 {
     this->generateLayers(dataset.front());
@@ -73,11 +78,6 @@ void Model::generateWeights(const Set &set)
 
         this->weights.push_back(localWeights);
     }
-}
-
-void Model::addLayer(Layer layer)
-{
-    this->layers.push_back(layer);
 }
 
 double Model::error(const D_VECTOR &expected, const D_VECTOR &actual)
