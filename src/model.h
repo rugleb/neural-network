@@ -19,7 +19,6 @@ public:
     Model();
 
     void addLayer(Layer layer);
-    void addLayers(Layer layer, size_t count);
 
     void train(std::vector<Set> dataset, double error);
 };
