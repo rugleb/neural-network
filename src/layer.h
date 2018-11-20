@@ -3,13 +3,15 @@
 
 
 #include "support.h"
+#include "neuron.h"
 
 class Layer {
 protected:
-    D_VECTOR input;
-    D_VECTOR output;
+    std::vector<Neuron> neurons;
 public:
     Layer();
+
+    void addNeuron(Neuron);
 };
 
 
