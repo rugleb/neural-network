@@ -5,6 +5,7 @@ compiler:
 
 script:
 - ./compile.sh
+- ./network
 
 notifications:
   email:
