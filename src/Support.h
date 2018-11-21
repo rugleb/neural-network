@@ -9,10 +9,12 @@
 #define D_MATRIX    std::vector<D_VECTOR>
 
 
-D_VECTOR operator* (D_VECTOR, double);
-double   operator* (D_VECTOR, D_VECTOR);
-D_VECTOR operator+ (D_VECTOR, D_VECTOR);
-D_VECTOR operator- (D_VECTOR, D_VECTOR);
+D_VECTOR operator* (const D_VECTOR &, double);
+double   operator* (const D_VECTOR &, const D_VECTOR &);
+D_VECTOR operator+ (const D_VECTOR &, const D_VECTOR &);
+D_VECTOR operator- (const D_VECTOR &, const D_VECTOR &);
 
+double sum (const D_VECTOR &);
+double mid (const D_VECTOR &);
 
 #endif

@@ -1,7 +1,7 @@
 #include <cmath>
 #include "Support.h"
 
-D_VECTOR operator*(D_VECTOR a, double b)
+D_VECTOR operator*(const D_VECTOR &a, double b)
 {
     size_t size = a.size();
     D_VECTOR y(size);
@@ -13,7 +13,7 @@ D_VECTOR operator*(D_VECTOR a, double b)
     return y;
 }
 
-double operator*(D_VECTOR a, D_VECTOR b)
+double operator*(const D_VECTOR &a, const D_VECTOR &b)
 {
     size_t size = a.size();
     double y = 0.;
@@ -25,7 +25,7 @@ double operator*(D_VECTOR a, D_VECTOR b)
     return y;
 }
 
-D_VECTOR operator+(D_VECTOR a, D_VECTOR b)
+D_VECTOR operator+(const D_VECTOR &a, const D_VECTOR &b)
 {
     size_t size = a.size();
     D_VECTOR y(size);
@@ -37,7 +37,7 @@ D_VECTOR operator+(D_VECTOR a, D_VECTOR b)
     return y;
 }
 
-D_VECTOR operator-(D_VECTOR a, D_VECTOR b)
+D_VECTOR operator-(const D_VECTOR &a, const D_VECTOR &b)
 {
     size_t size = a.size();
     D_VECTOR y(size);
@@ -47,4 +47,20 @@ D_VECTOR operator-(D_VECTOR a, D_VECTOR b)
     }
 
     return y;
+}
+
+double sum(const D_VECTOR &x)
+{
+    double y = .0;
+
+    for (double i : x) {
+        y += i;
+    }
+
+    return y;
+}
+
+double mid(const D_VECTOR &x)
+{
+    return sum(x) / x.size();
 }
