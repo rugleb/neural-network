@@ -10,7 +10,7 @@ DATASET generate(unsigned int count)
 {
     DATASET dataset(count);
 
-    for (size_t i = 0; i < count; i++) {
+    for (std::size_t i = 0; i < count; i++) {
         D_VECTOR x = {0., 1., 2.};
         D_VECTOR y = {0., 1., 2.};
 

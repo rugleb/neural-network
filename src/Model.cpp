@@ -18,7 +18,7 @@ void Model::train(std::vector<Set> dataset, double error)
 {
     this->init(dataset.front());
 
-    for (size_t epoch = 0; epoch < 1; epoch++) {
+    for (std::size_t epoch = 0; epoch < 1; epoch++) {
         double err = .0;
 
         for (Set &set : dataset) {
@@ -36,7 +36,7 @@ D_VECTOR Model::feedForward(const D_VECTOR x)
 {
     D_VECTOR output = x;
 
-    for (size_t i = 0; i < this->weights.size(); i++) {
+    for (std::size_t i = 0; i < this->weights.size(); i++) {
         D_MATRIX w = this->weights[i];
         Layer layer = this->layers[i + 1];
 
@@ -64,16 +64,16 @@ void Model::generateLayers(const Set &set)
 void Model::generateWeights(const Set &set)
 {
     this->weights = {};
-    for (size_t i = 1; i < this->layers.size(); i++) {
+    for (std::size_t i = 1; i < this->layers.size(); i++) {
 
-        size_t rowsCount = this->layers[i - 0].getNeurons().size();
-        size_t colsCount = this->layers[i - 1].getNeurons().size();
+        std::size_t rowsCount = this->layers[i - 0].getNeurons().size();
+        std::size_t colsCount = this->layers[i - 1].getNeurons().size();
 
         D_MATRIX localWeights;
-        for (size_t j = 0; j < rowsCount; j++) {
+        for (std::size_t j = 0; j < rowsCount; j++) {
 
             D_VECTOR row(colsCount);
-            for (size_t k = 0; k < colsCount; k++) {
+            for (std::size_t k = 0; k < colsCount; k++) {
                 row[k] = .1;
             }
 
@@ -87,9 +87,9 @@ void Model::generateWeights(const Set &set)
 double Model::error(const D_VECTOR &expected, const D_VECTOR &actual)
 {
     double err = .0;
-    size_t size = expected.size();
+    std::size_t size = expected.size();
 
-    for (size_t i = 0; i < size; i++) {
+    for (std::size_t i = 0; i < size; i++) {
         err += SQUARE(actual[i] - expected[i]) / 2;
     }
 
