@@ -23,6 +23,8 @@ void Model::train(std::vector<Set> dataset, double error)
 
         for (Set &set : dataset) {
             D_VECTOR output = this->feedForward(set.X);
+            this->backPropagation(set.Y - output);
+
             err += this->error(set.Y, output);
         }
 
@@ -92,4 +94,9 @@ double Model::error(const D_VECTOR &expected, const D_VECTOR &actual)
     }
 
     return err;
+}
+
+void Model::backPropagation(const D_VECTOR &e)
+{
+    
 }
