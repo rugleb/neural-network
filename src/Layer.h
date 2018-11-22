@@ -5,13 +5,14 @@
 #include "Neuron.h"
 
 
-class Layer {
+class Layer
+{
 protected:
     std::vector<Neuron> neurons;
 public:
     Layer();
-    Layer(const Neuron &neuron, std::size_t count = 1) {
-        this->addNeurons(neuron, count);
+    Layer(const Neuron &neuron, std::size_t number = 1) {
+        this->addNeurons(neuron, number);
     }
 
     std::vector<Neuron> getNeurons() {
@@ -21,7 +22,7 @@ public:
     void addNeuron(Neuron neuron);
     void addNeurons(Neuron neuron, std::size_t count);
 
-    D_VECTOR activate(const D_VECTOR &input, const D_MATRIX &weights);
+    D_VECTOR calc(D_VECTOR input);
 };
 
 

@@ -10,20 +10,19 @@ void Layer::addNeuron(Neuron neuron)
     this->neurons.push_back(neuron);
 }
 
-void Layer::addNeurons(Neuron neuron, std::size_t count)
+void Layer::addNeurons(Neuron neuron, std::size_t number)
 {
-    for (std::size_t i = 0; i < count; i++) {
+    for (std::size_t i = 0; i < number; i++) {
         this->addNeuron(neuron);
     }
 }
 
-D_VECTOR Layer::activate(const D_VECTOR &input, const D_MATRIX &weights)
+D_VECTOR Layer::calc(const D_VECTOR input)
 {
     D_VECTOR output(this->neurons.size());
 
-    for (std::size_t i = 0; i < this->neurons.size(); i++) {
-        Neuron neuron = this->neurons[i];
-        output[i] = neuron.calc(input, weights[i]);
+    for (std::size_t i = 0; i < input.size(); i++) {
+        output[i] = neurons[i].calc(input);
     }
 
     return output;
