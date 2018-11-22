@@ -23,13 +23,7 @@ protected:
     void backPropagation(const D_VECTOR &e);
 public:
     Model();
-
-    std::vector<D_MATRIX> getWeights() {
-        return this->weights;
-    }
-
     void addLayer(Layer layer);
-
     void train(std::vector<Set> dataset, double error);
     D_VECTOR feedForward(D_VECTOR x);
 };
