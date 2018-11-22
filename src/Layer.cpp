@@ -27,3 +27,10 @@ D_VECTOR Layer::calc(const D_VECTOR input)
 
     return output;
 }
+
+void Layer::randomize(double min, double max)
+{
+    for (Neuron &neuron : this->neurons) {
+        neuron.randomize(min, max);
+    }
+}

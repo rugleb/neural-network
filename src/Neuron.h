@@ -12,6 +12,8 @@ public:
 
     double activate(double x);
     double calc(D_VECTOR x);
+
+    void randomize(double min, double max);
 };
 
 

@@ -22,6 +22,8 @@ public:
     void addNeuron(Neuron neuron);
     void addNeurons(Neuron neuron, std::size_t count);
 
+    void randomize(double min, double max);
+
     D_VECTOR calc(D_VECTOR input);
 };
 
