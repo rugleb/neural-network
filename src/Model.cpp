@@ -66,21 +66,11 @@ void Model::generateWeights(const Set &set)
     this->weights = {};
     for (std::size_t i = 1; i < this->layers.size(); i++) {
 
-        std::size_t rowsCount = this->layers[i - 0].getNeurons().size();
-        std::size_t colsCount = this->layers[i - 1].getNeurons().size();
+        std::size_t linesSize = this->layers[i - 0].getNeurons().size();
+        std::size_t columnsSize = this->layers[i - 1].getNeurons().size();
 
-        D_MATRIX localWeights;
-        for (std::size_t j = 0; j < rowsCount; j++) {
-
-            D_VECTOR row(colsCount);
-            for (std::size_t k = 0; k < colsCount; k++) {
-                row[k] = .1;
-            }
-
-            localWeights.push_back(row);
-        }
-
-        this->weights.push_back(localWeights);
+        D_MATRIX w = random(linesSize, columnsSize, -0.1, 0.1);
+        this->weights.push_back(w);
     }
 }
 
