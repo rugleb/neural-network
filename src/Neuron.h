@@ -5,11 +5,13 @@
 
 
 class Neuron {
+protected:
+    D_VECTOR weights;
 public:
-    Neuron();
+    explicit Neuron(std::size_t size);
 
-    double activate(double x, bool derivative);
-    double calc(const D_VECTOR &input, const D_VECTOR &weights);
+    double activate(double x);
+    double calc(D_VECTOR x);
 };
 
 

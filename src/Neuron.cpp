@@ -1,22 +1,16 @@
 #include "Neuron.h"
 
-Neuron::Neuron()
+Neuron::Neuron(std::size_t weightsNumber)
 {
-
+    this->weights.reserve(weightsNumber);
 }
 
-double Neuron::activate(double x, bool derivative = false)
+double Neuron::activate(double x)
 {
-    if (derivative) {
-        return 1;
-    }
-
     return x;
 }
 
-double Neuron::calc(const D_VECTOR &input, const D_VECTOR &weights)
+double Neuron::calc(const D_VECTOR input)
 {
-    double y = input * weights;
-
-    return this->activate(y);
+    return this->activate(input * this->weights);
 }
