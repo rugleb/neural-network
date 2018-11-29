@@ -5,6 +5,7 @@
 
 
 typedef std::vector<double> double2;
+typedef std::vector<double2> double3;
 
 
 std::size_t checkDim(const double2 &a, const double2 &b);
