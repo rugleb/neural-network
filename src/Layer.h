@@ -5,6 +5,7 @@
 typedef double (*callable) (double);
 
 
+double relu(double x);
 double linear(double x);
 
 

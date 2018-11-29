@@ -8,3 +8,11 @@ Layer::Layer(unsigned int units, callable activation) {
 double linear(double x) {
     return x;
 }
+
+double relu(double x) {
+    if (x > 0) {
+        return x;
+    }
+
+    return x;
+}
