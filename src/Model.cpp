@@ -2,7 +2,7 @@
 
 void Model::add(Layer layer)
 {
-    layers.push_back(layer);
+    this->layers.push_back(layer);
 }
 
 void Model::fit(dataset dataset, std::size_t epochs, double precision)
@@ -12,7 +12,7 @@ void Model::fit(dataset dataset, std::size_t epochs, double precision)
         double error = .0;
 
         for (set &set : dataset) {
-            double2 e = feedforward(set);
+            double2 e = this->feedforward(set);
             error += MSE(e);
         }
 
