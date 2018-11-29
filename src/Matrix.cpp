@@ -1,6 +1,7 @@
 #include "Matrix.h"
 
-double operator*(const double2 &a, const double2 &b) {
+double operator*(const double2 &a, const double2 &b)
+{
     std::size_t size = a.size();
     double y = .0;
 
@@ -11,7 +12,8 @@ double operator*(const double2 &a, const double2 &b) {
     return y;
 }
 
-double2 operator+(const double2 &a, const double2 &b) {
+double2 operator+(const double2 &a, const double2 &b)
+{
     std::size_t size = a.size();
     double2 y(size);
 
@@ -22,7 +24,8 @@ double2 operator+(const double2 &a, const double2 &b) {
     return y;
 }
 
-double2 operator-(const double2 &a, const double2 &b) {
+double2 operator-(const double2 &a, const double2 &b)
+{
     std::size_t size = a.size();
     double2 y(size);
 
