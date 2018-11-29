@@ -1,15 +1,18 @@
 #include "Layer.h"
 
-Layer::Layer(unsigned int units, callable activation) {
+Layer::Layer(unsigned int units, callable activation)
+{
     this->units = units;
     this->activation = activation;
 }
 
-double linear(double x) {
+double linear(double x)
+{
     return x;
 }
 
-double relu(double x) {
+double relu(double x)
+{
     if (x > 0) {
         return x;
     }

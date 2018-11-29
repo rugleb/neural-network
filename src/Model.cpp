@@ -1,10 +1,12 @@
 #include "Model.h"
 
-void Model::add(Layer layer) {
+void Model::add(Layer layer)
+{
     layers.push_back(layer);
 }
 
-void Model::fit(dataset dataset, std::size_t epochs, double precision) {
+void Model::fit(dataset dataset, std::size_t epochs, double precision)
+{
 
     for (std::size_t epoch = 0; epoch < epochs; epoch++) {
 
@@ -22,15 +24,15 @@ void Model::fit(dataset dataset, std::size_t epochs, double precision) {
 
 }
 
-double2 Model::feedforward(set data) {
-
+double2 Model::feedforward(set data)
+{
     double2 y;
 
     return data.Y - y;
 }
 
-double MSE(double2 e) {
-
+double MSE(double2 e)
+{
     std::size_t size = e.size();
     double y = .0;
 
