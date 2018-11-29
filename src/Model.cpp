@@ -22,11 +22,15 @@ void Model::fit(dataset dataset, std::size_t epochs, double precision)
     }
 }
 
-double2 Model::feedforward(set data)
+double2 Model::feedforward(set trainSet)
 {
-    double2 y;
+    double2 output = trainSet.X;
 
-    return data.Y - y;
+    for (Layer &layer : this->layers) {
+
+    }
+
+    return trainSet.Y - output;
 }
 
 double MSE(double2 e)
