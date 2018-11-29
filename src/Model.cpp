@@ -16,7 +16,9 @@ void Model::fit(dataset dataset, std::size_t epochs, double precision)
             error += MSE(e);
         }
 
-        if (error / dataset.size() < precision) {
+        error /= dataset.size();
+
+        if (error < precision) {
             break;
         }
     }
@@ -27,7 +29,7 @@ double2 Model::feedforward(set trainSet)
     double2 output = trainSet.X;
 
     for (Layer &layer : this->layers) {
-
+        output = layer.activate(output);
     }
 
     return trainSet.Y - output;

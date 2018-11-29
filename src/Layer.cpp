@@ -6,6 +6,11 @@ Layer::Layer(unsigned int units, callable activation)
     this->activation = activation;
 }
 
+double2 Layer::activate(double2 input)
+{
+    return input;
+}
+
 double linear(double x)
 {
     return x;

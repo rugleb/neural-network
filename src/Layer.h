@@ -1,6 +1,7 @@
 #ifndef NEURAL_NETWORK_LAYER_H
 #define NEURAL_NETWORK_LAYER_H
 
+#include "Matrix.h"
 
 typedef double (*callable) (double);
 
@@ -15,6 +16,7 @@ protected:
     callable activation;
 public:
     Layer(unsigned int units, callable activation);
+    double2 activate(double2 input);
 };
 
 
