@@ -4,6 +4,10 @@
 
 typedef double (*callable) (double);
 
+
+double linear(double x);
+
+
 class Layer {
 protected:
     unsigned int units;
