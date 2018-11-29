@@ -6,6 +6,8 @@
 #include "Layer.h"
 #include "Matrix.h"
 
+#define  SQUARE(x)  (x * x)
+
 
 typedef struct {
     double2 X;
@@ -13,6 +15,9 @@ typedef struct {
 } set;
 
 typedef std::vector<set> dataset;
+
+
+double MSE(double2 e);
 
 
 class Model {
