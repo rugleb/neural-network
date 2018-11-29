@@ -40,8 +40,8 @@ double MSE(double2 e)
     std::size_t size = e.size();
     double y = .0;
 
-    for (int i = 0; i < size; ++i) {
-        y += SQUARE(e[i]);
+    for (double &x : e) {
+        y += SQUARE(x);
     }
 
     return y / size;
