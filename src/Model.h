@@ -18,6 +18,8 @@ typedef std::vector<set> dataset;
 class Model {
 protected:
     std::vector<Layer> layers;
+
+    double2 feedforward(set data);
 public:
     void add(Layer layer);
     void fit(dataset dataset, std::size_t epochs, double precision);
