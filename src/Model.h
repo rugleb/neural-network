@@ -2,10 +2,10 @@
 #define NEURAL_NETWORK_MODEL_H
 
 #include <vector>
+
 #include "Layer.h"
+#include "Matrix.h"
 
-
-typedef std::vector<double> double2;
 
 typedef struct {
     double2 X;
