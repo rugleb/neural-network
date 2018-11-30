@@ -3,11 +3,11 @@
 
 #include "Matrix.h"
 
-typedef double (*callable) (double);
+typedef double (*callable) (double, bool);
 
 
-double relu(double x);
-double linear(double x);
+double relu(double x, bool derivative);
+double linear(double x, bool derivative);
 
 
 class Layer {

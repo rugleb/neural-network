@@ -11,16 +11,20 @@ double2 Layer::activate(double2 input)
     return input;
 }
 
-double linear(double x)
+double linear(double x, bool derivative = false)
 {
-    return x;
-}
-
-double relu(double x)
-{
-    if (x > 0) {
-        return x;
+    if (derivative) {
+        return 1.;
     }
 
     return x;
+}
+
+double relu(double x, bool derivative = false)
+{
+    if (derivative) {
+        return x > 0 ? 1. : 0.;
+    }
+
+    return x > 0 ? x : 0.;
 }
