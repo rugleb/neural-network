@@ -46,3 +46,35 @@ double2 operator-(const double2 &a, const double2 &b)
 
     return y;
 }
+
+double rand(double min, double max)
+{
+    std::random_device device;
+    std::default_random_engine engine(device);
+
+    std::uniform_real_distribution<double> uniform(min, max);
+
+    return uniform(engine);
+}
+
+double2 rand(unsigned int size, double min, double max)
+{
+    double2 vector(size);
+
+    for (unsigned int i = 0; i < size; i++) {
+        vector[i] = rand(min, max);
+    }
+
+    return vector;
+}
+
+double3 rand(unsigned int rows, unsigned int cols, double min, double max)
+{
+    double3 matrix(rows);
+
+    for (unsigned int i = 0; i < rows; i++) {
+        matrix[i] = rand(cols, min, max);
+    }
+
+    return matrix;
+}
