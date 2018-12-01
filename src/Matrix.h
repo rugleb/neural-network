@@ -5,18 +5,19 @@
 #include <random>
 
 
-typedef std::vector<double> double2;
-typedef std::vector<double2> double3;
+typedef double unit;
+typedef std::vector<unit> vector;
+typedef std::vector<vector> matrix;
 
 
-std::size_t checkDim(const double2 &a, const double2 &b);
+std::size_t checkDim(const vector &a, const vector &b);
 
-double  operator* (const double2 &a, const double2 &b);
-double2 operator+ (const double2 &a, const double2 &b);
-double2 operator- (const double2 &a, const double2 &b);
+double operator* (const vector &a, const vector &b);
+vector operator+ (const vector &a, const vector &b);
+vector operator- (const vector &a, const vector &b);
 
-double  rand (double min, double max);
-double2 rand (unsigned int size, double min, double max);
-double3 rand (unsigned int rows, unsigned int cols, double min, double max);
+unit   rand (double min, double max);
+vector rand (unsigned int size, double min, double max);
+matrix rand (unsigned int rows, unsigned int cols, double min, double max);
 
 #endif

@@ -12,7 +12,7 @@ void Model::fit(std::vector<data> dataset, std::size_t epochs, double precision)
         double error = .0;
 
         for (data &set : dataset) {
-            double2 e = this->feedforward(set);
+            vector e = this->feedforward(set);
             error += MSE(e);
         }
 
@@ -24,18 +24,18 @@ void Model::fit(std::vector<data> dataset, std::size_t epochs, double precision)
     }
 }
 
-double2 Model::feedforward(data trainSet)
+vector Model::feedforward(data trainSet)
 {
-    double2 output = trainSet.X;
+    vector output = trainSet.x;
 
     for (Layer &layer : this->layers) {
         output = layer.activate(output);
     }
 
-    return trainSet.Y - output;
+    return trainSet.y - output;
 }
 
-double MSE(double2 e)
+double MSE(vector e)
 {
     std::size_t size = e.size();
     double y = .0;

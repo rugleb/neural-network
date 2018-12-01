@@ -16,7 +16,7 @@ protected:
     callable activation;
 public:
     Layer(unsigned int units, callable activation);
-    double2 activate(double2 input);
+    vector activate(vector input);
 };
 
 

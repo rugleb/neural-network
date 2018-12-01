@@ -6,7 +6,7 @@ Layer::Layer(unsigned int units, callable activation)
     this->activation = activation;
 }
 
-double2 Layer::activate(double2 input)
+vector Layer::activate(vector input)
 {
     return input;
 }

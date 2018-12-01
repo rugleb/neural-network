@@ -1,6 +1,6 @@
 #include "Matrix.h"
 
-std::size_t checkDim(const double2 &a, const double2 &b)
+std::size_t checkDim(const vector &a, const vector &b)
 {
     std::size_t size = a.size();
 
@@ -11,7 +11,7 @@ std::size_t checkDim(const double2 &a, const double2 &b)
     return size;
 }
 
-double operator*(const double2 &a, const double2 &b)
+double operator*(const vector &a, const vector &b)
 {
     std::size_t size = checkDim(a, b);
     double y = .0;
@@ -23,10 +23,10 @@ double operator*(const double2 &a, const double2 &b)
     return y;
 }
 
-double2 operator+(const double2 &a, const double2 &b)
+vector operator+(const vector &a, const vector &b)
 {
     std::size_t size = checkDim(a, b);
-    double2 y(size);
+    vector y(size);
 
     for (std::size_t i = 0; i < size; i++) {
         y[i] = a[i] + b[i];
@@ -35,10 +35,10 @@ double2 operator+(const double2 &a, const double2 &b)
     return y;
 }
 
-double2 operator-(const double2 &a, const double2 &b)
+vector operator-(const vector &a, const vector &b)
 {
     std::size_t size = checkDim(a, b);
-    double2 y(size);
+    vector y(size);
 
     for (std::size_t i = 0; i < size; i++) {
         y[i] = a[i] - b[i];
@@ -57,9 +57,9 @@ double rand(double min, double max)
     return uniform(engine);
 }
 
-double2 rand(unsigned int size, double min, double max)
+vector rand(unsigned int size, double min, double max)
 {
-    double2 vector(size);
+    vector vector(size);
 
     for (unsigned int i = 0; i < size; i++) {
         vector[i] = rand(min, max);
@@ -68,9 +68,9 @@ double2 rand(unsigned int size, double min, double max)
     return vector;
 }
 
-double3 rand(unsigned int rows, unsigned int cols, double min, double max)
+matrix rand(unsigned int rows, unsigned int cols, double min, double max)
 {
-    double3 matrix(rows);
+    matrix matrix(rows);
 
     for (unsigned int i = 0; i < rows; i++) {
         matrix[i] = rand(cols, min, max);

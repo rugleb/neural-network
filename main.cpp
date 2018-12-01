@@ -7,8 +7,8 @@ std::vector<data> generate(unsigned int size)
     for (unsigned int i = 0; i < size; i++) {
         data set;
 
-        set.X = { .0, .1, .2 };
-        set.Y = { (double) i };
+        set.x = { .0, .1, .2 };
+        set.y = { (double) i };
 
         dataset[i] = set;
     }
