@@ -82,6 +82,18 @@ vector operator-(const vector &a, const vector &b)
     return y;
 }
 
+vector operator^(const vector &a, const vector &b)
+{
+    std::size_t size = checkDim(a, b);
+    vector y(size);
+
+    for (std::size_t i = 0; i < size; i++) {
+        y[i] = a[i] * b[i];
+    }
+
+    return y;
+}
+
 double rand(double min, double max)
 {
     std::random_device device;

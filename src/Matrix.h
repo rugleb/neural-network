@@ -18,6 +18,7 @@ double operator* (const vector &a, const vector &b);
 vector operator+ (const vector &a, const vector &b);
 vector operator- (const vector &a, const vector &b);
 vector operator* (const matrix &a, const vector &b);
+vector operator^ (const vector &a, const vector &b);
 
 unit   rand (double min, double max);
 vector rand (unsigned int size, double min, double max);
