@@ -46,6 +46,18 @@ double operator*(const vector &a, const vector &b)
     return y;
 }
 
+vector operator*(const vector &a, unit &b)
+{
+    std::size_t size = a.size();
+    vector y(size);
+
+    for (std::size_t i = 0; i < size; i++) {
+        y[i] = a[i] * b;
+    }
+
+    return y;
+}
+
 vector operator+(const vector &a, const vector &b)
 {
     std::size_t size = checkDim(a, b);

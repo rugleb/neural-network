@@ -13,6 +13,7 @@ typedef std::vector<vector> matrix;
 std::size_t checkDim(const vector &a, const vector &b);
 std::size_t checkDim(const matrix &a, const vector &b);
 
+vector operator* (const vector &a, unit &b);
 double operator* (const vector &a, const vector &b);
 vector operator+ (const vector &a, const vector &b);
 vector operator- (const vector &a, const vector &b);
