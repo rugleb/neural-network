@@ -12,9 +12,7 @@
 typedef struct {
     double2 X;
     double2 Y;
-} set;
-
-typedef std::vector<set> dataset;
+} data;
 
 
 double MSE(double2 e);
@@ -24,10 +22,10 @@ class Model {
 protected:
     std::vector<Layer> layers;
 
-    double2 feedforward(set trainSet);
+    double2 feedforward(data trainSet);
 public:
     void add(Layer layer);
-    void fit(dataset dataset, std::size_t epochs, double precision);
+    void fit(std::vector<data> dataset, std::size_t epochs, double precision);
 };
 
 

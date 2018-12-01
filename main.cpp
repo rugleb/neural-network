@@ -1,19 +1,19 @@
 #include "src/Model.h"
 
-dataset generate(unsigned int size)
+std::vector<data> generate(unsigned int size)
 {
-    dataset data(size);
+    std::vector<data> dataset(size);
 
     for (unsigned int i = 0; i < size; i++) {
-        set set;
+        data set;
 
         set.X = { .0, .1, .2 };
         set.Y = { (double) i };
 
-        data[i] = set;
+        dataset[i] = set;
     }
 
-    return data;
+    return dataset;
 }
 
 int main()
@@ -23,8 +23,8 @@ int main()
     model.add(Layer(10, linear));
     model.add(Layer(5, relu));
 
-    dataset train = generate((unsigned int) 1e+6);
-    model.fit(train, 20, 1e-5);
+    std::vector<data> dataset = generate((unsigned int) 1e+6);
+    model.fit(dataset, 20, 1e-5);
 
     return 0;
 }
