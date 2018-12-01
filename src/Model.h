@@ -21,11 +21,11 @@ double MSE(vector e);
 class Model {
 protected:
     std::vector<Layer> layers;
-
-    vector feedforward(data trainSet);
 public:
     void add(Layer layer);
     void fit(std::vector<data> dataset, std::size_t epochs, double precision);
+
+    std::vector<Layer> getLayers() { return this->layers; };
 };
 
 

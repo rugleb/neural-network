@@ -4,21 +4,21 @@
 #include <vector>
 #include <random>
 
+#include "Layer.h"
 
 typedef double unit;
 typedef std::vector<unit> vector;
 typedef std::vector<vector> matrix;
 
+matrix operator* (const matrix &a, const matrix &b);
+matrix operator+ (const matrix &a, const matrix &b);
+matrix operator- (const matrix &a, const matrix &b);
+matrix operator^ (const matrix &a, const matrix &b);
+matrix operator* (const matrix &a, double b);
 
-std::size_t checkDim(const vector &a, const vector &b);
-std::size_t checkDim(const matrix &a, const vector &b);
-
-vector operator* (const vector &a, unit &b);
-double operator* (const vector &a, const vector &b);
-vector operator+ (const vector &a, const vector &b);
-vector operator- (const vector &a, const vector &b);
-vector operator* (const matrix &a, const vector &b);
-vector operator^ (const vector &a, const vector &b);
+matrix transpose (const vector &m);
+matrix activate  (const matrix &m, callable f);
+matrix derivative  (const matrix &m, callable f);
 
 unit   rand (double min, double max);
 vector rand (unsigned int size, double min, double max);

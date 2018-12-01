@@ -1,94 +1,103 @@
 #include "Matrix.h"
 
-std::size_t checkDim(const vector &a, const vector &b)
+matrix operator*(const matrix &a, const matrix &b)
 {
-    std::size_t size = a.size();
+    std::size_t rows = a.size();
+    std::size_t cols = b.front().size();
 
-    if (size != b.size()) {
-        throw "Error: invalid dimension of vectors";
+    if (a.front().size() != b.size()) {
+        throw "Error: matrix dimension is wrong";
     }
 
-    return size;
-}
+    matrix y(rows);
 
-std::size_t checkDim(const matrix &a, const vector &b)
-{
-    std::size_t size = b.size();
-
-    if (size != a.front().size()) {
-        throw "Error: invalid dimension of vectors";
-    }
-
-    return size;
-}
-
-vector operator*(const matrix &a, const vector &b)
-{
-    std::size_t size = checkDim(a, b);
-    vector y(size);
-
-    for (std::size_t i = 0; i < size; i++) {
-        y[i] = a[i] * b;
+    for (std::size_t i = 0; i < rows; ++i) {
+        y[i] = vector(cols);
+        for (std::size_t j = 0; j < cols; ++j) {
+            for (std::size_t k = 0; k < a.front().size(); ++k) {
+                y[i][j] += a[i][k] * b[k][j];
+            }
+        }
     }
 
     return y;
 }
 
-double operator*(const vector &a, const vector &b)
+matrix operator+(const matrix &a, const matrix &b)
 {
-    std::size_t size = checkDim(a, b);
-    double y = .0;
+    std::size_t rows = a.size();
+    std::size_t cols = a.front().size();
 
-    for (std::size_t i = 0; i < size; i++) {
-        y += a[i] * b[i];
+    if (rows != b.size() || cols != b.front().size()) {
+        throw "Error: matrix dimension is wrong";
+    }
+
+    matrix y(rows);
+
+    for (std::size_t i = 0; i < rows; ++i) {
+        y[i] = vector(cols);
+        for (std::size_t j = 0; j < cols; ++j) {
+            y[i][j] = a[i][j] + b[i][j];
+        }
     }
 
     return y;
 }
 
-vector operator*(const vector &a, unit &b)
+matrix operator-(const matrix &a, const matrix &b)
 {
-    std::size_t size = a.size();
-    vector y(size);
+    std::size_t rows = a.size();
+    std::size_t cols = a.front().size();
 
-    for (std::size_t i = 0; i < size; i++) {
-        y[i] = a[i] * b;
+    if (rows != b.size() || cols != b.front().size()) {
+        throw "Error: matrix dimension is wrong";
+    }
+
+    matrix y(rows);
+
+    for (std::size_t i = 0; i < rows; ++i) {
+        y[i] = vector(cols);
+        for (std::size_t j = 0; j < cols; ++j) {
+            y[i][j] = a[i][j] - b[i][j];
+        }
     }
 
     return y;
 }
 
-vector operator+(const vector &a, const vector &b)
+matrix operator^(const matrix &a, const matrix &b)
 {
-    std::size_t size = checkDim(a, b);
-    vector y(size);
+    std::size_t rows = a.size();
+    std::size_t cols = a.front().size();
 
-    for (std::size_t i = 0; i < size; i++) {
-        y[i] = a[i] + b[i];
+    if (rows != b.size() || cols != b.front().size()) {
+        throw "Error: matrix dimension is wrong";
+    }
+
+    matrix y(rows);
+
+    for (std::size_t i = 0; i < rows; ++i) {
+        y[i] = vector(cols);
+        for (std::size_t j = 0; j < cols; ++j) {
+            y[i][j] = a[i][j] * b[i][j];
+        }
     }
 
     return y;
 }
 
-vector operator-(const vector &a, const vector &b)
+matrix operator*(const matrix &a, double b)
 {
-    std::size_t size = checkDim(a, b);
-    vector y(size);
+    std::size_t rows = a.size();
+    std::size_t cols = a.front().size();
 
-    for (std::size_t i = 0; i < size; i++) {
-        y[i] = a[i] - b[i];
-    }
+    matrix y(rows);
 
-    return y;
-}
-
-vector operator^(const vector &a, const vector &b)
-{
-    std::size_t size = checkDim(a, b);
-    vector y(size);
-
-    for (std::size_t i = 0; i < size; i++) {
-        y[i] = a[i] * b[i];
+    for (std::size_t i = 0; i < rows; ++i) {
+        y[i] = vector(cols);
+        for (std::size_t j = 0; j < cols; ++j) {
+            y[i][j] = a[i][j] * b;
+        }
     }
 
     return y;
@@ -124,4 +133,50 @@ matrix rand(unsigned int rows, unsigned int cols, double min, double max)
     }
 
     return matrix;
+}
+
+matrix transpose(const vector &m)
+{
+    std::size_t size = m.size();
+    matrix y(size);
+
+    for (std::size_t i = 0; i < size; i++) {
+        y[i] = {m[i]};
+    }
+
+    return y;
+}
+
+matrix activate(const matrix &m, callable f)
+{
+    std::size_t rows = m.size();
+    std::size_t cols = m.front().size();
+
+    matrix y(rows);
+
+    for (std::size_t i = 0; i < rows; ++i) {
+        y[i] = vector(cols);
+        for (std::size_t j = 0; j < cols; ++j) {
+            y[i][j] = f(m[i][j], false);
+        }
+    }
+
+    return y;
+}
+
+matrix derivative(const matrix &m, callable f)
+{
+    std::size_t rows = m.size();
+    std::size_t cols = m.front().size();
+
+    matrix y(rows);
+
+    for (std::size_t i = 0; i < rows; ++i) {
+        y[i] = vector(cols);
+        for (std::size_t j = 0; j < cols; ++j) {
+            y[i][j] = f(m[i][j], true);
+        }
+    }
+
+    return y;
 }

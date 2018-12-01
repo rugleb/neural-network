@@ -5,10 +5,11 @@
 
 typedef double (*callable) (double, bool);
 
-
 double relu(double x, bool derivative);
-double linear(double x, bool derivative);
+matrix relu(const matrix &m, bool derivative);
 
+double linear(double x, bool derivative);
+matrix linear(const matrix &m, bool derivative);
 
 class Layer {
 protected:
@@ -17,6 +18,7 @@ protected:
 public:
     Layer(unsigned int units, callable activation);
     vector activate(vector input);
+    unsigned int getUnits() { return this->units; };
 };
 
 
