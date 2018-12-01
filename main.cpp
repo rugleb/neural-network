@@ -7,8 +7,8 @@ std::vector<data> generate(unsigned int size)
     for (unsigned int i = 0; i < size; i++) {
         data set;
 
-        set.x = { .0, .1, .2 };
-        set.y = { (double) i };
+        set.x = { (double) i / size};
+        set.y = { (double) i * 2 / size };
 
         dataset[i] = set;
     }
@@ -18,13 +18,14 @@ std::vector<data> generate(unsigned int size)
 
 int main()
 {
+    std::vector<data> dataset = generate((unsigned int) 1e+5);
+
     Model model;
 
-    model.add(Layer(10, linear));
-    model.add(Layer(5, relu));
+    model.add(Layer(3, relu));      // hidden layer
+    model.add(Layer(1, relu));      // output layer
 
-    std::vector<data> dataset = generate((unsigned int) 1e+6);
-    model.fit(dataset, 20, 1e-5);
+    model.fit(dataset, 200, 1e-5);
 
     return 0;
 }

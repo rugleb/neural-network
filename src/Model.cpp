@@ -1,48 +1,20 @@
+#include <iostream>
+
 #include "Model.h"
+#include "Training.h"
 
 void Model::add(Layer layer)
 {
     this->layers.push_back(layer);
 }
 
-void Model::fit(std::vector<data> dataset, std::size_t epochs, double precision)
+void Model::fit(const std::vector<data> &dataset, std::size_t maxEpochs, double acc)
 {
-    for (std::size_t epoch = 0; epoch < epochs; epoch++) {
+    Training training(this);
 
-        double error = .0;
+    training.run(maxEpochs, acc, dataset);
 
-        for (data &set : dataset) {
-            vector e = this->feedforward(set);
-            error += MSE(e);
-        }
-
-        error /= dataset.size();
-
-        if (error < precision) {
-            break;
-        }
-    }
-}
-
-vector Model::feedforward(data trainSet)
-{
-    vector output = trainSet.x;
-
-    for (Layer &layer : this->layers) {
-        output = layer.activate(output);
-    }
-
-    return trainSet.y - output;
-}
-
-double MSE(vector e)
-{
-    std::size_t size = e.size();
-    double y = .0;
-
-    for (double &x : e) {
-        y += SQUARE(x);
-    }
-
-    return y / size;
+    std::cout << "Training time: " << training.getTime() << " ms" << std::endl;
+    std::cout << "Training epochs: " << training.getEpochs() << std::endl;
+    std::cout << "Training accuracy: " << training.getAcc() << std::endl;
 }
