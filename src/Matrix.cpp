@@ -11,6 +11,29 @@ std::size_t checkDim(const vector &a, const vector &b)
     return size;
 }
 
+std::size_t checkDim(const matrix &a, const vector &b)
+{
+    std::size_t size = b.size();
+
+    if (size != a.front().size()) {
+        throw "Error: invalid dimension of vectors";
+    }
+
+    return size;
+}
+
+vector operator*(const matrix &a, const vector &b)
+{
+    std::size_t size = checkDim(a, b);
+    vector y(size);
+
+    for (std::size_t i = 0; i < size; i++) {
+        y[i] = a[i] * b;
+    }
+
+    return y;
+}
+
 double operator*(const vector &a, const vector &b)
 {
     std::size_t size = checkDim(a, b);
