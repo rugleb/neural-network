@@ -1,30 +1,17 @@
 #ifndef NEURAL_NETWORK_LAYER_H
 #define NEURAL_NETWORK_LAYER_H
 
-#include "Support.h"
-#include "Neuron.h"
+#include "Matrix.h"
 
-
-class Layer
-{
+class Layer {
 protected:
-    std::vector<Neuron> neurons;
+    unsigned int units;
+    callable activation;
 public:
-    Layer();
-    Layer(const Neuron &neuron, std::size_t number = 1) {
-        this->addNeurons(neuron, number);
-    }
-
-    std::vector<Neuron> getNeurons() {
-        return neurons;
-    }
-
-    void addNeuron(Neuron neuron);
-    void addNeurons(Neuron neuron, std::size_t count);
-
-    void randomize(double min, double max);
-
-    D_VECTOR calc(D_VECTOR input);
+    Layer(unsigned int units, callable activation);
+    vector activate(vector input);
+    unsigned int getUnits() { return this->units; };
+    callable getActivation() { return this->activation; };
 };
 
 

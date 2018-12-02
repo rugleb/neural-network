@@ -1,29 +1,23 @@
-#ifndef NN_CPP_MODEL_H
-#define NN_CPP_MODEL_H
+#ifndef NEURAL_NETWORK_MODEL_H
+#define NEURAL_NETWORK_MODEL_H
 
-#include "Support.h"
+#include <vector>
+
 #include "Layer.h"
 
+typedef struct {
+    vector x;
+    vector y;
+} data;
 
-struct Set {
-    D_VECTOR X;
-    D_VECTOR Y;
-};
-
-
-class Model
-{
+class Model {
 protected:
     std::vector<Layer> layers;
-
-    void init(const Set &set);
-    double error(const D_VECTOR &expected, const D_VECTOR &actual);
-    void backPropagation(const D_VECTOR &e);
 public:
-    Model();
-    void addLayer(Layer layer);
-    void train(std::vector<Set> dataset, double error);
-    D_VECTOR feedForward(D_VECTOR x);
+    void add(Layer layer);
+    void fit(const std::vector<data> &dataset, std::size_t epochs, double precision);
+
+    std::vector<Layer> getLayers() { return this->layers; };
 };
 
 

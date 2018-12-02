@@ -1,20 +1,15 @@
-#include <iostream>
-
 #include "src/Model.h"
-#include "src/Support.h"
 
-#define DATASET std::vector<Set>
-
-
-DATASET generate(unsigned int count)
+std::vector<data> generate(unsigned int size)
 {
-    DATASET dataset(count);
+    std::vector<data> dataset(size);
 
-    for (std::size_t i = 0; i < count; i++) {
-        D_VECTOR x = {0., 1., 2.};
-        D_VECTOR y = {0., 1., 2.};
+    for (unsigned int i = 0; i < size; i++) {
+        data set;
 
-        Set set = {x, y};
+        set.x = { (double) i / size};
+        set.y = { (double) i * 2 / size };
+
         dataset[i] = set;
     }
 
@@ -23,13 +18,14 @@ DATASET generate(unsigned int count)
 
 int main()
 {
-    Layer layer(Neuron(), 2);
+    std::vector<data> dataset = generate((unsigned int) 1e+5);
 
     Model model;
-    model.addLayer(layer);
 
-    DATASET dataset = generate(1000);
-    model.train(dataset, 1e-3);
+    model.add(Layer(3, relu));      // hidden layer
+    model.add(Layer(1, relu));      // output layer
+
+    model.fit(dataset, 200, 1e-5);
 
     return 0;
 }
