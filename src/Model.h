@@ -3,7 +3,14 @@
 
 #include <vector>
 #include "Layer.h"
+#include "Matrix.h"
 
+typedef struct {
+    vector x;
+    vector y;
+} set;
+
+typedef std::vector<set> dataset;
 
 class Model {
 protected:
