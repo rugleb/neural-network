@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <random>
 #include <iostream>
 
 typedef std::vector<double> vector;
@@ -18,5 +19,9 @@ matrix operator^ (const matrix &, const matrix &);
 matrix operator* (const matrix &, const matrix &);
 matrix T (const matrix &);
 matrix T (const vector &);
+
+double rand(double, double);
+vector rand(unsigned int, double, double);
+matrix rand(unsigned int, unsigned int, double, double);
 
 #endif

@@ -121,3 +121,34 @@ matrix T(const vector &v)
 
     return y;
 }
+
+double rand(double min, double max)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(min, max);
+
+    return dis(gen);
+}
+
+vector rand(unsigned int size, double min, double max)
+{
+    vector v(size);
+
+    for (auto i = 0; i < size; i++) {
+        v[i] = rand(min, max);
+    }
+
+    return v;
+}
+
+matrix rand(unsigned int rows, unsigned int cols, double min, double max)
+{
+    matrix m(rows);
+
+    for (auto i = 0; i < rows; i++) {
+        m[i] = rand(cols, min, max);
+    }
+
+    return m;
+}
