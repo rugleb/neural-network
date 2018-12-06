@@ -17,6 +17,7 @@ protected:
     std::vector<Layer> layers;
 public:
     void add(Layer layer);
+    void fit(dataset trains, double acc, std::size_t epochs);
 };
 
 
