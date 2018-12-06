@@ -108,3 +108,16 @@ matrix T(const matrix &m)
 
     return y;
 }
+
+matrix T(const vector &v)
+{
+    auto rows = v.size();
+
+    matrix y(rows);
+
+    for (auto i = 0; i < rows; i++) {
+        y[i] = { v[i] };
+    }
+
+    return y;
+}

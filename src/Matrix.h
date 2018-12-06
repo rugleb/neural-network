@@ -17,5 +17,6 @@ matrix operator- (const matrix &, const matrix &);
 matrix operator^ (const matrix &, const matrix &);
 matrix operator* (const matrix &, const matrix &);
 matrix T (const matrix &);
+matrix T (const vector &);
 
 #endif
