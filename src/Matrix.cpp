@@ -124,11 +124,11 @@ matrix T(const vector &v)
 
 double rand(double min, double max)
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(min, max);
+    std::random_device device;
+    std::mt19937 generator(device());
+    std::uniform_real_distribution<> distribution(min, max);
 
-    return dis(gen);
+    return distribution(generator);
 }
 
 vector rand(unsigned int size, double min, double max)
