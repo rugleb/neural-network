@@ -2,6 +2,7 @@
 #define NEURAL_NETWORK_MODEL_H
 
 #include <vector>
+
 #include "Layer.h"
 #include "Matrix.h"
 
@@ -17,8 +18,21 @@ protected:
     std::vector<Layer> layers;
 public:
     void add(Layer layer);
-    void fit(dataset trains, double acc, std::size_t epochs);
+    void fit(const dataset &data, double acc, std::size_t epochs);
 };
 
+class Training {
+protected:
+    Model *model;
+
+    matrix feedforward(set sample);
+    void backPropagation(matrix e);
+public:
+    explicit Training(Model * model);
+    void compile();
+    void run(dataset dataset, double acc, std::size_t epochs);
+};
+
+double MSE(const matrix &e);
 
 #endif
