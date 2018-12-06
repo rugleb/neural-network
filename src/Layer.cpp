@@ -17,3 +17,9 @@ double linear(double x, bool derivative)
 
     return x;
 }
+
+Layer::Layer(unsigned int neurons, callable activation)
+{
+    this->neurons = neurons;
+    this->activation = activation;
+}
