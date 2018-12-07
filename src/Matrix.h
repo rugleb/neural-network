@@ -17,6 +17,7 @@ matrix operator+ (const matrix &, const matrix &);
 matrix operator- (const matrix &, const matrix &);
 matrix operator^ (const matrix &, const matrix &);
 matrix operator* (const matrix &, const matrix &);
+matrix operator* (const matrix &, double);
 matrix T (const matrix &);
 matrix T (const vector &);
 

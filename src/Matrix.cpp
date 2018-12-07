@@ -92,6 +92,23 @@ matrix operator*(const matrix &a, const matrix &b)
     return y;
 }
 
+matrix operator*(const matrix &a, double b)
+{
+    auto rows = a.size();
+    auto cols = a.front().size();
+
+    matrix y(rows);
+
+    for (auto i = 0; i < rows; i++) {
+        y[i] = vector(cols);
+        for (auto j = 0; j < cols; j++) {
+            y[i][j] = a[i][j] * b;
+        }
+    }
+
+    return y;
+}
+
 matrix T(const matrix &m)
 {
     auto rows = m.front().size();
