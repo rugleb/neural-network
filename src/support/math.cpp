@@ -198,3 +198,28 @@ double sigmoid(double x, bool derivative)
 
     return y;
 }
+
+double MSE(const vector &e, const vector &a)
+{
+    auto size = e.size();
+    double y = 0.;
+
+    for (auto i = 0; i < size; i++) {
+        y += square(e[i] - a[i]) / 2;
+    }
+
+    return y / size;
+}
+
+double MSE(const matrix &e, const matrix &a)
+{
+    auto size = e.size();
+    double y = 0.;
+
+    for (auto i = 0; i < size; i++) {
+        y += square(e[i][0] - a[i][0]) / 2;
+    }
+
+    return y / size;
+}
+

@@ -6,6 +6,8 @@
 #include <random>
 #include <iostream>
 
+#define  square(x)  (x * x)
+
 typedef std::vector<double> vector;
 typedef std::vector<vector> matrix;
 
@@ -30,5 +32,8 @@ matrix rand(unsigned int, unsigned int, double, double);
 double relu (double, bool = false);
 double linear (double, bool = false);
 double sigmoid (double, bool = false);
+
+double MSE (const vector &, const vector &);
+double MSE (const matrix &, const matrix &);
 
 #endif

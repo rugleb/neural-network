@@ -33,6 +33,4 @@ public:
     void run(dataset dataset, double acc, std::size_t epochs);
 };
 
-double MSE(const matrix &e);
-
 #endif
