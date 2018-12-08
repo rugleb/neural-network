@@ -5,13 +5,13 @@
 
 class Layer {
 protected:
+    unsigned long dim;
     callable activation;
-    unsigned long neurons;
 public:
     Layer(unsigned long neurons, callable activation);
-    matrix activate(const matrix &m, bool derivative = false);
+    matrix activate(const matrix &x, bool derivative = false);
     double activate(double x, bool derivative = false);
-    unsigned long getNeurons();
+    unsigned long dimension();
 };
 
 

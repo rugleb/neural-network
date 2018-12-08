@@ -19,7 +19,7 @@ void Model::fit(std::vector<data> dataset, double accuracy, std::size_t epochs)
     auto ySize = dataset.front().x.size();
 
     for (auto i = 1; i < size; i++) {
-        auto xSize = layers[i - 1].getNeurons();
+        auto xSize = layers[i - 1].dimension();
         w[i] = rand(xSize, ySize, -1., 1.);
         ySize = xSize;
     }

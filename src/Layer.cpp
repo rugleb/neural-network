@@ -1,31 +1,31 @@
 #include "Layer.h"
 
-Layer::Layer(unsigned long neurons, callable activation)
+Layer::Layer(unsigned long dimension, callable activation)
 {
-    this->neurons = neurons;
+    this->dim = dimension;
     this->activation = activation;
 }
 
-matrix Layer::activate(const matrix &m, bool derivative)
+unsigned long Layer::dimension()
 {
-    auto rows = m.size();
-    auto cols = m.front().size();
+    return this->dim;
+}
+
+matrix Layer::activate(const matrix &x, bool derivative)
+{
+    auto rows = x.size();
+    auto cols = x.front().size();
 
     matrix y(rows);
 
     for (auto i = 0; i < rows; i++) {
         y[i] = vector(cols);
         for (auto j = 0; j < cols; j++) {
-            y[i][j] = this->activate(m[i][j], derivative);
+            y[i][j] = this->activate(x[i][j], derivative);
         }
     }
 
     return y;
-}
-
-unsigned long Layer::getNeurons()
-{
-    return this->neurons;
 }
 
 double Layer::activate(double x, bool derivative)
