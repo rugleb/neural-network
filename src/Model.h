@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Layer.h"
-#include "Matrix.h"
+#include "support/math.h"
 
 typedef struct {
     vector x;
