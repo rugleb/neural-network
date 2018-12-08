@@ -1,10 +1,7 @@
 #ifndef NEURAL_NETWORK_LAYER_H
 #define NEURAL_NETWORK_LAYER_H
 
-typedef double (*callable) (double, bool);
-
-double relu (double, bool = false);
-double linear (double, bool = false);
+#include "support/math.h"
 
 class Layer {
 protected:
