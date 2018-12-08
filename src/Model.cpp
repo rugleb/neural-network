@@ -37,7 +37,7 @@ void Model::fit(std::vector<data> dataset, double accuracy, std::size_t epochs)
                 y[i] = layers[i - 1].activate(w[i] * y[i - 1]);
             }
 
-            acc += relative(y.back(), T(sample.y));
+            acc += relative(T(sample.y), y.back());
 
             matrix e = y.back() - T(sample.y);
             for (auto i = size - 1; i >= 1; i--) {
