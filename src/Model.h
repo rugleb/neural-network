@@ -2,6 +2,8 @@
 #define NEURAL_NETWORK_MODEL_H
 
 #include <vector>
+#include <random>
+#include <algorithm>
 
 #include "Layer.h"
 #include "support/math.h"
@@ -16,7 +18,9 @@ protected:
     std::vector<Layer> layers;
 public:
     void add(Layer layer);
-    void fit(const std::vector<data> &, double, std::size_t);
+    void fit(std::vector<data>, double, std::size_t);
 };
+
+void shuffle(std::vector<data>);
 
 #endif

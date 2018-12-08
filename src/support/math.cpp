@@ -244,4 +244,3 @@ double relative(const matrix &e, const matrix &a)
 
     return y / rows;
 }
-

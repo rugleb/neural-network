@@ -5,7 +5,7 @@ void Model::add(Layer layer)
     this->layers.push_back(layer);
 }
 
-void Model::fit(const std::vector<data> &dataset, double accuracy, std::size_t epochs)
+void Model::fit(std::vector<data> dataset, double accuracy, std::size_t epochs)
 {
     auto size = layers.size() + 1;
 
@@ -28,6 +28,7 @@ void Model::fit(const std::vector<data> &dataset, double accuracy, std::size_t e
     for (auto epoch = 0; epoch < epochs; epoch++) {
 
         acc = 0.;
+        shuffle(dataset);
 
         for (const data &sample : dataset) {
 
@@ -60,4 +61,11 @@ void Model::fit(const std::vector<data> &dataset, double accuracy, std::size_t e
     }
 
     std::cout << "Training finished" << std::endl;
+}
+
+void shuffle(std::vector<data> dataset)
+{
+    std::random_device device;
+    std::mt19937 generator(device());
+    std::shuffle(dataset.begin(), dataset.end(), generator);
 }
