@@ -1,15 +1,33 @@
 #include "src/Model.h"
 
+std::vector<data> generate(unsigned int size)
+{
+    std::vector<data> dataset(size);
+
+    for (auto i = 0; i < size; i++) {
+        data sample;
+        double x = rand(-3.14, 3.14);
+
+        sample.x = { x };
+        sample.y = { sin(x) };
+
+        dataset[i] = sample;
+    }
+
+    return dataset;
+}
+
 int main()
 {
-    std::vector<data> dataset = {};
+    std::vector<data> dataset = generate(1000);
 
     Model model;
 
-    model.add(Layer(3, linear));
-    model.add(Layer(2, relu));
+    model.add(Layer(20, tanh));
+    model.add(Layer(20, tanh));
+    model.add(Layer(dataset.back().y.size(), linear));
 
-    model.fit(dataset, 1e-5, 5);
+    model.fit(dataset, 1e-2, 50);
 
     return 0;
 }
