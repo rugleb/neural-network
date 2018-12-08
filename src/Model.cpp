@@ -13,6 +13,11 @@ void Model::fit(const dataset &data, double acc, std::size_t epochs)
     train.run(data, acc, epochs);
 }
 
+void Model::predict(const vector &x)
+{
+    matrix input = T(x);
+}
+
 Training::Training(Model *model)
 {
     this->model = model;

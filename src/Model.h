@@ -19,6 +19,7 @@ protected:
 public:
     void add(Layer layer);
     void fit(const dataset &data, double acc, std::size_t epochs);
+    void predict(const vector &x);
 };
 
 class Training {
