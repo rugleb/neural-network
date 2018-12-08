@@ -27,7 +27,14 @@ int main()
     model.add(Layer(20, tanh));
     model.add(Layer(dataset.back().y.size(), linear));
 
-    model.fit(dataset, 1e-2, 50);
+    trainParams params = {              // enabling training params
+        .dataset = dataset,             // training dataset
+        .accuracy = 1e-2,               // stop accuracy value
+        .teach = 1e-4,                  // teaching coefficient
+        .epochs = 100                   // max epochs number
+    };
+
+    model.fit(params);
 
     data testing = {{ 3.14 / 6 }, { .5 }};
     vector actual = model.predict(testing.x);

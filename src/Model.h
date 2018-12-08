@@ -13,12 +13,19 @@ typedef struct {
     vector y;
 } data;
 
+typedef struct {
+    std::vector<data> dataset;
+    std::double_t accuracy;
+    std::double_t teach;
+    std::size_t epochs;
+} trainParams;
+
 class Model {
 protected:
     std::vector<Layer> layers;
 public:
     void add(Layer layer);
-    void fit(std::vector<data>, double, std::size_t);
+    void fit(trainParams params);
     vector predict(const vector &);
 };
 

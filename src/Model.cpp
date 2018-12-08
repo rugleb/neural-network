@@ -5,18 +5,17 @@ void Model::add(Layer layer)
     this->layers.push_back(layer);
 }
 
-void Model::fit(std::vector<data> dataset, double accuracy, std::size_t epochs)
+void Model::fit(trainParams params)
 {
     auto size = layers.size() + 1;
 
     double acc = 0.;
-    double teach = 1e-4;
 
     std::vector<matrix> w (size);
     std::vector<matrix> y (size);
     std::vector<matrix> sigma (size);
 
-    auto ySize = dataset.front().x.size();
+    auto ySize = params.dataset.front().x.size();
 
     for (auto i = 1; i < size; i++) {
         auto xSize = layers[i - 1].dimension();
@@ -25,12 +24,12 @@ void Model::fit(std::vector<data> dataset, double accuracy, std::size_t epochs)
     }
 
     std::cout << "Training started" << std::endl;
-    for (auto epoch = 0; epoch < epochs; epoch++) {
+    for (auto epoch = 0; epoch < params.epochs; epoch++) {
 
         acc = 0.;
-        shuffle(dataset);
+        shuffle(params.dataset);
 
-        for (const data &sample : dataset) {
+        for (const data &sample : params.dataset) {
 
             y[0] = T(sample.x);
             for (auto i = 1; i < size; i++) {
@@ -47,15 +46,15 @@ void Model::fit(std::vector<data> dataset, double accuracy, std::size_t epochs)
 
             for (auto i = 1; i < size; i++) {
                 matrix gradient = sigma[i] * T(y[i - 1]);
-                w[i] = w[i] - gradient * teach;
+                w[i] = w[i] - gradient * params.teach;
             }
         }
 
-        acc /= dataset.size();
+        acc /= params.dataset.size();
 
         std::cout << "---- Epoch: " << epoch + 1 << ", acc: " << acc << std::endl;
 
-        if (acc < accuracy) {
+        if (acc < params.accuracy) {
             break;
         }
     }
