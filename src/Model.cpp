@@ -63,6 +63,17 @@ void Model::fit(std::vector<data> dataset, double accuracy, std::size_t epochs)
     std::cout << "Training finished" << std::endl;
 }
 
+vector Model::predict(const vector &sample)
+{
+    matrix y = T(sample);
+
+    for (Layer &layer : this->layers) {
+        y = layer.activate(y);
+    }
+
+    return T(y).front();
+}
+
 void shuffle(std::vector<data> dataset)
 {
     std::random_device device;

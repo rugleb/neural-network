@@ -19,6 +19,7 @@ protected:
 public:
     void add(Layer layer);
     void fit(std::vector<data>, double, std::size_t);
+    vector predict(const vector &);
 };
 
 void shuffle(std::vector<data>);

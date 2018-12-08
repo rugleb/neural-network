@@ -29,5 +29,10 @@ int main()
 
     model.fit(dataset, 1e-2, 50);
 
+    data testing = {{ 3.14 / 6 }, { .5 }};
+    vector actual = model.predict(testing.x);
+
+    std::cout << "Testing accuracy: " << relative(testing.y, actual) << std::endl;
+
     return 0;
 }
