@@ -9,29 +9,14 @@
 typedef struct {
     vector x;
     vector y;
-} set;
-
-typedef std::vector<set> dataset;
+} data;
 
 class Model {
 protected:
     std::vector<Layer> layers;
 public:
     void add(Layer layer);
-    void fit(const dataset &data, double acc, std::size_t epochs);
-    void predict(const vector &x);
-};
-
-class Training {
-protected:
-    Model *model;
-
-    matrix feedforward(set sample);
-    void backPropagation(matrix e);
-public:
-    explicit Training(Model * model);
-    void compile();
-    void run(dataset dataset, double acc, std::size_t epochs);
+    void fit(const std::vector<data> &, double, std::size_t);
 };
 
 #endif

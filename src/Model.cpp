@@ -5,48 +5,54 @@ void Model::add(Layer layer)
     this->layers.push_back(layer);
 }
 
-void Model::fit(const dataset &data, double acc, std::size_t epochs)
+void Model::fit(const std::vector<data> &dataset, double accuracy, std::size_t epochs)
 {
-    Training train(this);
+    auto size = layers.size() + 1;
 
-    train.compile();
-    train.run(data, acc, epochs);
-}
+    double acc = 0.;
+    double teach = 1e-4;
 
-void Model::predict(const vector &x)
-{
-    matrix input = T(x);
-}
+    std::vector<matrix> w (size);
+    std::vector<matrix> y (size);
+    std::vector<matrix> sigma (size);
 
-Training::Training(Model *model)
-{
-    this->model = model;
-}
+    auto ySize = dataset.front().x.size();
 
-void Training::compile()
-{
-    //
-}
-
-void Training::run(dataset dataset, double accuracy, std::size_t maxEpochs)
-{
-    double acc = 0;
-    std::size_t epoch = 0;
+    for (auto i = 1; i < size; i++) {
+        auto xSize = layers[i - 1].getNeurons();
+        w[i] = rand(xSize, ySize, -1., 1.);
+        ySize = xSize;
+    }
 
     std::cout << "Training started" << std::endl;
+    for (auto epoch = 0; epoch < epochs; epoch++) {
 
-    while (epoch < maxEpochs) {
-        acc = 0;
+        acc = 0.;
 
-        for (auto &set : dataset) {
-            matrix e = this->feedforward(set);
-            this->backPropagation(e);
+        for (const data &sample : dataset) {
+
+            y[0] = T(sample.x);
+            for (auto i = 1; i < size; i++) {
+                y[i] = layers[i - 1].activate(w[i] * y[i - 1]);
+            }
+
+            acc += relative(y.back(), T(sample.y));
+
+            matrix e = y.back() - T(sample.y);
+            for (auto i = size - 1; i >= 1; i--) {
+                sigma[i] = e ^ layers[i - 1].activate(w[i] * y[i - 1], true);
+                e = T(w[i]) * sigma[i];
+            }
+
+            for (auto i = 1; i < size; i++) {
+                matrix gradient = sigma[i] * T(y[i - 1]);
+                w[i] = w[i] - gradient * teach;
+            }
         }
 
         acc /= dataset.size();
-        epoch++;
 
-        std::cout << "---- Epoch: " << epoch << ", acc: " << acc << std::endl;
+        std::cout << "---- Epoch: " << epoch + 1 << ", acc: " << acc << std::endl;
 
         if (acc < accuracy) {
             break;

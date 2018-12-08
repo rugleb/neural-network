@@ -6,9 +6,12 @@
 class Layer {
 protected:
     callable activation;
-    unsigned int neurons;
+    unsigned long neurons;
 public:
-    Layer(unsigned int neurons, callable activation);
+    Layer(unsigned long neurons, callable activation);
+    matrix activate(const matrix &m, bool derivative = false);
+    double activate(double x, bool derivative = false);
+    unsigned long getNeurons();
 };
 
 

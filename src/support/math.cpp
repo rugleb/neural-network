@@ -147,7 +147,7 @@ double rand(double min, double max)
     return distribution(generator);
 }
 
-vector rand(unsigned int size, double min, double max)
+vector rand(unsigned long size, double min, double max)
 {
     vector v(size);
 
@@ -158,7 +158,7 @@ vector rand(unsigned int size, double min, double max)
     return v;
 }
 
-matrix rand(unsigned int rows, unsigned int cols, double min, double max)
+matrix rand(unsigned long rows, unsigned long cols, double min, double max)
 {
     matrix m(rows);
 
@@ -198,6 +198,17 @@ double sigmoid(double x, bool derivative)
     return y;
 }
 
+double tanh(double x, bool derivative)
+{
+    double y = (exp(2 * x) - 1) / (exp(2 * x) + 1);
+
+    if (derivative) {
+        return 4. / square(exp(-x) + exp(x));
+    }
+
+    return y;
+}
+
 double MSE(const vector &e, const vector &a)
 {
     auto size = e.size();
@@ -220,5 +231,17 @@ double MSE(const matrix &e, const matrix &a)
     }
 
     return y / size;
+}
+
+double relative(const matrix &e, const matrix &a)
+{
+    auto rows = e.size();
+    double y = .0;
+
+    for (auto i = 0; i < rows; i++) {
+        y += fabs((e[i][0] - a[i][0]) / e[i][0]);
+    }
+
+    return y / rows;
 }
 
