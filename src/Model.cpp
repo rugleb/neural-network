@@ -5,23 +5,17 @@ void Model::add(Layer layer)
     this->layers.push_back(layer);
 }
 
-void Model::fit(trainParams params)
+void Model::fit(TrainParams params)
 {
+    // The number of layers during training
+    // is considered from the input layer
     auto size = layers.size() + 1;
+    std::double_t acc;
 
-    double acc = 0.;
+    std::vector<matrix> y(size);
+    std::vector<matrix> sigma(size);
 
-    std::vector<matrix> w (size);
-    std::vector<matrix> y (size);
-    std::vector<matrix> sigma (size);
-
-    auto ySize = params.dataset.front().x.size();
-
-    for (auto i = 1; i < size; i++) {
-        auto xSize = layers[i - 1].dimension();
-        w[i] = rand(xSize, ySize, -1., 1.);
-        ySize = xSize;
-    }
+    this->init(params);
 
     std::cout << "Training started" << std::endl;
     for (auto epoch = 0; epoch < params.epochs; epoch++) {
@@ -29,24 +23,24 @@ void Model::fit(trainParams params)
         acc = 0.;
         shuffle(params.dataset);
 
-        for (const data &sample : params.dataset) {
+        for (const Data &sample : params.dataset) {
 
             y[0] = T(sample.x);
             for (auto i = 1; i < size; i++) {
-                y[i] = layers[i - 1].activate(w[i] * y[i - 1]);
+                y[i] = layers[i - 1].activate(y[i - 1]);
             }
 
             acc += relative(T(sample.y), y.back());
 
             matrix e = y.back() - T(sample.y);
             for (auto i = size - 1; i >= 1; i--) {
-                sigma[i] = e ^ layers[i - 1].activate(w[i] * y[i - 1], true);
-                e = T(w[i]) * sigma[i];
+                sigma[i] = e ^ layers[i - 1].activate(y[i - 1], true);
+                e = T(layers[i - 1].w) * sigma[i];
             }
 
             for (auto i = 1; i < size; i++) {
                 matrix gradient = sigma[i] * T(y[i - 1]);
-                w[i] = w[i] - gradient * params.teach;
+                layers[i - 1].w = layers[i - 1].w - gradient * params.teach;
             }
         }
 
@@ -62,6 +56,22 @@ void Model::fit(trainParams params)
     std::cout << "Training finished" << std::endl;
 }
 
+void Model::init(TrainParams params)
+{
+    // The number of rows of the matrix is equal to
+    // the dimension of the input vector (layer)
+    auto cols = params.dataset.front().x.size();
+
+    for (auto &layer : layers) {
+        // The number of columns of the matrix is equal to
+        //  the dimension of the output vector (layer)
+        auto rows = layer.dim;
+        layer.w = rand(rows, cols, -1., 1.);
+
+        cols = rows;
+    }
+}
+
 vector Model::predict(const vector &sample)
 {
     matrix y = T(sample);
@@ -73,7 +83,7 @@ vector Model::predict(const vector &sample)
     return T(y).front();
 }
 
-void shuffle(std::vector<data> dataset)
+void shuffle(Dataset dataset)
 {
     std::random_device device;
     std::mt19937 generator(device());

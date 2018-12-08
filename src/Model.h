@@ -5,30 +5,67 @@
 #include <random>
 #include <algorithm>
 
-#include "Layer.h"
 #include "support/math.h"
 
-typedef struct {
-    vector x;
-    vector y;
-} data;
+struct Data {
+    vector x = {};
+    vector y = {};
+};
 
-typedef struct {
-    std::vector<data> dataset;
-    std::double_t accuracy;
-    std::double_t teach;
-    std::size_t epochs;
-} trainParams;
+typedef std::vector<Data> Dataset;
+
+struct TrainParams {
+    std::vector<Data> dataset = {};
+    std::double_t accuracy = 1e-2;
+    std::double_t teach = 1e-4;
+    std::size_t epochs = 200;
+};
+
+struct Layer {
+    matrix w;
+    std::size_t dim;
+    callable activation;
+
+    explicit Layer(std::size_t dimension, callable activation) {
+        this->w = {};
+        this->dim = dimension;
+        this->activation = activation;
+    }
+
+    matrix apply(const matrix &x, bool derivative = false) {
+        auto rows = x.size();
+        auto cols = x.front().size();
+
+        matrix y(rows);
+
+        for (auto i = 0; i < rows; i++) {
+            y[i] = vector(cols);
+            for (auto j = 0; j < cols; j++) {
+                y[i][j] = this->activation(x[i][j], derivative);
+            }
+        }
+
+        return y;
+    }
+
+    matrix activate(const matrix &x, bool derivative = false)
+    {
+        matrix v = w * x;
+
+        return apply(v, derivative);
+    }
+};
 
 class Model {
 protected:
     std::vector<Layer> layers;
+    void init(TrainParams params);
 public:
     void add(Layer layer);
-    void fit(trainParams params);
+    void fit(TrainParams params);
     vector predict(const vector &);
 };
 
-void shuffle(std::vector<data>);
+void shuffle(Dataset);
 
 #endif
