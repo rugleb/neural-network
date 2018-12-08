@@ -129,7 +129,6 @@ matrix T(const matrix &m)
 matrix T(const vector &v)
 {
     auto rows = v.size();
-
     matrix y(rows);
 
     for (auto i = 0; i < rows; i++) {

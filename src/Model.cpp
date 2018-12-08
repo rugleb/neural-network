@@ -36,8 +36,6 @@ void Training::run(dataset dataset, double accuracy, std::size_t maxEpochs)
         for (auto &set : dataset) {
             matrix e = this->feedforward(set);
             this->backPropagation(e);
-
-            acc += MSE(e);
         }
 
         acc /= dataset.size();
