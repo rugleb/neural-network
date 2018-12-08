@@ -38,5 +38,6 @@ double MSE (const vector &, const vector &);
 double MSE (const matrix &, const matrix &);
 
 double relative (const matrix &, const matrix &);
+double relative (const vector &, const vector &);
 
 #endif

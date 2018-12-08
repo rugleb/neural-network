@@ -244,3 +244,15 @@ double relative(const matrix &e, const matrix &a)
 
     return y / rows;
 }
+
+double relative(const vector &e, const vector &a)
+{
+    auto size = e.size();
+    double y = .0;
+
+    for (auto i = 0; i < size; i++) {
+        y += fabs((e[i] - a[i]) / e[i]);
+    }
+
+    return y / size;
+}
