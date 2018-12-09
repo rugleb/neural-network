@@ -40,6 +40,7 @@ public:
     unsigned int getHeight();
     unsigned int getWidth();
 
+    void setPointers(const matrix &m);
 };
 
 

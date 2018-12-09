@@ -190,3 +190,12 @@ matrix Image::getMatrix()
 
     return m;
 }
+
+void Image::setPointers(const matrix &m)
+{
+    for (auto i = 0; i < m.size(); i++) {
+        for (auto j = 0; j < m[i].size(); j++) {
+            pointers[i][j] = (png_byte) m[i][j];
+        }
+    }
+}
