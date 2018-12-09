@@ -10,6 +10,7 @@
 
 typedef std::vector<double> vector;
 typedef std::vector<vector> matrix;
+typedef std::vector<matrix> tensor;
 
 typedef double (*callable) (double, bool);
 

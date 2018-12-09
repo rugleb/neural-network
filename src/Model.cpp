@@ -29,8 +29,8 @@ void Model::fit(TrainParams params)
     auto size = layers.size() + 1;
     std::double_t acc;
 
-    std::vector<matrix> y(size);
-    std::vector<matrix> sigma(size);
+    tensor y(size);
+    tensor sigma(size);
 
     this->init(params);
 
@@ -81,7 +81,7 @@ void Model::init(TrainParams params)
 
     for (auto &layer : layers) {
         // The number of columns of the matrix is equal to
-        //  the dimension of the output vector (layer)
+        // the dimension of the output vector (layer)
         auto rows = layer.dim;
         layer.w = rand(rows, cols, -1., 1.);
 
