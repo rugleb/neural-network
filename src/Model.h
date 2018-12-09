@@ -124,6 +124,7 @@ public:
     vector predict(const vector &x);
 };
 
-void shuffle(Dataset);
+template <typename T>
+void shuffle(std::vector<T>);
 
 #endif

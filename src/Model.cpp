@@ -100,9 +100,10 @@ vector Model::predict(const vector &sample)
     return T(y).front();
 }
 
-void shuffle(Dataset dataset)
+template <typename T>
+void shuffle(std::vector<T> vector)
 {
     std::random_device device;
     std::mt19937 generator(device());
-    std::shuffle(dataset.begin(), dataset.end(), generator);
+    std::shuffle(vector.begin(), vector.end(), generator);
 }
