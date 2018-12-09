@@ -6,8 +6,6 @@
 #include <random>
 #include <iostream>
 
-#define  square(x)  ((x) * (x))
-
 typedef std::vector<double> vector;
 typedef std::vector<vector> matrix;
 typedef std::vector<matrix> tensor;
@@ -41,7 +39,7 @@ matrix apply(const matrix &, callable, bool = false);
 double MSE (const vector &, const vector &);
 double MSE (const matrix &, const matrix &);
 
-double relative (matrix, const matrix &);
+double relative (const matrix &, const matrix &);
 double relative (const vector &, const vector &);
 
 #endif
