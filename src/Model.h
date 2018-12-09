@@ -65,22 +65,6 @@ struct Layer {
      * @return  y           Output values vector
      */
     matrix activate(const matrix &x, bool derivative = false);
-
-    matrix apply(const matrix &x, bool derivative = false) {
-        auto rows = x.size();
-        auto cols = x.front().size();
-
-        matrix y(rows);
-
-        for (auto i = 0; i < rows; i++) {
-            y[i] = vector(cols);
-            for (auto j = 0; j < cols; j++) {
-                y[i][j] = this->activation(x[i][j], derivative);
-            }
-        }
-
-        return y;
-    }
 };
 
 class Model {

@@ -209,6 +209,30 @@ double tanh(double x, bool derivative)
     return y;
 }
 
+vector apply(const vector &v, callable f, bool derivative)
+{
+    auto size = v.size();
+    vector y(size);
+
+    for (auto i = 0; i < size; i++) {
+        y[i] = f(v[i], derivative);
+    }
+
+    return y;
+}
+
+matrix apply(const matrix &m, callable f, bool derivative)
+{
+    auto size = m.size();
+    matrix y(size);
+
+    for (auto i = 0; i < size; i++) {
+        y[i] = apply(m[i], f, derivative);
+    }
+
+    return y;
+}
+
 double MSE(const vector &e, const vector &a)
 {
     auto size = e.size();

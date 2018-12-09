@@ -35,6 +35,9 @@ double tanh (double, bool = false);
 double linear (double, bool = false);
 double sigmoid (double, bool = false);
 
+vector apply(const vector &, callable, bool = false);
+matrix apply(const matrix &, callable, bool = false);
+
 double MSE (const vector &, const vector &);
 double MSE (const matrix &, const matrix &);
 

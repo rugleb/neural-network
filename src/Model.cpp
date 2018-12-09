@@ -8,16 +8,16 @@ void shuffle(std::vector<T> vector)
     std::shuffle(vector.begin(), vector.end(), generator);
 }
 
-Layer::Layer(std::size_t dimension, callable activation)
+Layer::Layer(std::size_t dimension, callable function)
 {
-    this->activation = activation;
-    this->dim = dimension;
-    this->w = {};
+    activation = function;
+    dim = dimension;
+    w = {};
 }
 
 matrix Layer::activate(const matrix &x, bool derivative)
 {
-    return apply(w * x, derivative);
+    return apply(w * x, activation, derivative);
 }
 
 Model::Model()
@@ -40,7 +40,7 @@ void Model::fit(TrainParams params)
     tensor y(size);
     tensor sigma(size);
 
-    this->init(params);
+    init(params);
 
     std::cout << "Training started" << std::endl;
     for (auto epoch = 0; epoch < params.epochs; epoch++) {
@@ -101,7 +101,7 @@ vector Model::predict(const vector &sample)
 {
     matrix y = T(sample);
 
-    for (Layer &layer : this->layers) {
+    for (Layer &layer : layers) {
         y = layer.activate(y);
     }
 
