@@ -1,19 +1,32 @@
 #include "src/Model.h"
+#include "src/Image.h"
 
-#define PI 3.14
+struct Frame {
+    std::size_t width;
+    std::size_t height;
 
-Dataset generate(unsigned int size)
+    explicit Frame(std::size_t w, std::size_t h) {
+        width = w;
+        height = h;
+    }
+};
+
+Dataset split(Frame frame, Image img)
 {
-    Dataset dataset(size);
+    Dataset dataset;
+    matrix pixels = img.getMatrix();
 
-    for (auto i = 0; i < size; i++) {
-        Data sample;
-        double x = rand(-PI, PI);
-
-        sample.x = { x };
-        sample.y = { sin(x) };
-
-        dataset[i] = sample;
+    for (auto i = 0; i < img.getWidth(); i += frame.width) {
+        for (auto j = 0; j < img.getHeight(); j += frame.height) {
+            vector v;
+            for (auto ii = 0; ii < frame.width; ii++) {
+                for (auto jj = 0; jj < frame.height; jj++) {
+                    v.push_back(pixels[i + ii][j + jj] / 255);
+                }
+            }
+            Data sample(v, v);
+            dataset.push_back(sample);
+        }
     }
 
     return dataset;
@@ -21,28 +34,29 @@ Dataset generate(unsigned int size)
 
 int main()
 {
+    Image img("exam.png");
     TrainParams params;
-    params.dataset = generate(1000);
+
+    params.dataset = split(Frame(2, 2), img);
+    params.epochs = 50;
+    params.teach = 0.05;
+
 
     Model model;
 
-    model.add(Layer(20, tanh));
-    model.add(Layer(20, tanh));
+    model.add(Layer(4, linear));
     model.add(Layer(params.dataset.back().y.size(), linear));
 
     model.fit(params);
 
     Data testing;
-    testing.x = { PI / 6. };
-    testing.y = { .5 };
+    testing.x = { 141, 130, 137, 122 };
+    testing.y = { 141, 130, 137, 122 };
 
     vector actual = model.predict(testing.x);
 
     std::cout << std::endl;
-    std::cout << "Testing results: " << std::endl;
-    std::cout << "---- Received: " << actual.front() << std::endl;
-    std::cout << "---- Expected: " << testing.y.front() << std::endl;
-    std::cout << "---- Testing error: " << relative(testing.y, actual) << std::endl;
+    std::cout << "Testing error: " << relative(testing.y, actual) << std::endl;
 
     return 0;
 }

@@ -257,12 +257,16 @@ double MSE(const matrix &e, const matrix &a)
     return y / size;
 }
 
-double relative(const matrix &e, const matrix &a)
+double relative(matrix e, const matrix &a)
 {
     auto rows = e.size();
     double y = .0;
 
     for (auto i = 0; i < rows; i++) {
+        if (e[i][0] == 0) {
+            e[i][0] = 1e-10;
+        }
+
         y += fabs((e[i][0] - a[i][0]) / e[i][0]);
     }
 

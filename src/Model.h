@@ -10,6 +10,16 @@
 struct Data {
     vector x = {};
     vector y = {};
+
+    Data() {
+        x = {};
+        y = {};
+    };
+
+    Data(const vector &_x, const vector &_y) {
+        x = _x;
+        y = _y;
+    };
 };
 
 typedef std::vector<Data> Dataset;
