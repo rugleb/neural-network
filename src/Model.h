@@ -14,23 +14,54 @@ struct Data {
 
 typedef std::vector<Data> Dataset;
 
+/**
+ * The structure is designed to store
+ * parameters of the training model.
+ */
 struct TrainParams {
-    std::vector<Data> dataset = {};
-    std::double_t accuracy = 1e-2;
-    std::double_t teach = 1e-4;
-    std::size_t epochs = 200;
+    std::vector<Data> dataset = {};        // Model training set
+    std::double_t accuracy = 1e-2;         // Acceptable (stop) accuracy
+    std::double_t teach = 1e-4;            // Teaching coefficient
+    std::size_t epochs = 200;              // Maximum number of learning epochs
 };
 
 struct Layer {
+    /**
+     * Weights matrix of this layer.
+     *
+     * Not recommended to change
+     * weights outside the application.
+     */
     matrix w;
+
+    /**
+     * The number of neurons in this layer.
+     */
     std::size_t dim;
+
+    /**
+     * Activation function:
+     * one for all neurons of this layer.
+     */
     callable activation;
 
-    explicit Layer(std::size_t dimension, callable activation) {
-        this->w = {};
-        this->dim = dimension;
-        this->activation = activation;
-    }
+    /**
+     * The Layer class constructor.
+     *
+     * @param  dimension   Neurons number in the layer
+     * @param  activation  Neuron activation function
+     */
+    Layer(std::size_t dimension, callable activation);
+
+    /**
+     * Passes the input value vector through the layer
+     * and returns the activated weighted sum.
+     *
+     * @param   x           Input values vector
+     * @param   derivative  Use derivative or not flag
+     * @return  y           Output values vector
+     */
+    matrix activate(const matrix &x, bool derivative = false);
 
     matrix apply(const matrix &x, bool derivative = false) {
         auto rows = x.size();
@@ -47,23 +78,50 @@ struct Layer {
 
         return y;
     }
-
-    matrix activate(const matrix &x, bool derivative = false)
-    {
-        matrix v = w * x;
-
-        return apply(v, derivative);
-    }
 };
 
 class Model {
 protected:
+    /**
+     * List of layers of this model.
+     */
     std::vector<Layer> layers;
+
+    /**
+     * Initializes the model parameters
+     * and values of its layers.
+     *
+     * @param  params  Training parameters
+     */
     void init(TrainParams params);
+
 public:
+    /**
+     * The model constructor.
+     */
+    explicit Model();
+
+    /**
+     * Adds a new layer to the model.
+     *
+     * @param  layer  New layer
+     */
     void add(Layer layer);
+
+    /**
+     * Starts the model training process.
+     *
+     * @param  params  Training params list
+     */
     void fit(TrainParams params);
-    vector predict(const vector &);
+
+    /**
+     * Makes prediction based on learning.
+     *
+     * @param  params  Input values vector
+     * @return         Prediction result vector
+     */
+    vector predict(const vector &x);
 };
 
 void shuffle(Dataset);

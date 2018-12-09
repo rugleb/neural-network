@@ -1,8 +1,25 @@
 #include "Model.h"
 
+Layer::Layer(std::size_t dimension, callable activation)
+{
+    this->activation = activation;
+    this->dim = dimension;
+    this->w = {};
+}
+
+matrix Layer::activate(const matrix &x, bool derivative)
+{
+    return apply(w * x, derivative);
+}
+
+Model::Model()
+{
+    layers = {};
+}
+
 void Model::add(Layer layer)
 {
-    this->layers.push_back(layer);
+    layers.push_back(layer);
 }
 
 void Model::fit(TrainParams params)
