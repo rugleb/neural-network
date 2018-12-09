@@ -37,7 +37,6 @@ void Model::fit(TrainParams params)
     auto size = layers.size() + 1;
     std::double_t acc;
 
-    tensor y(size);
     tensor sigma(size);
 
     init(params);
@@ -50,10 +49,7 @@ void Model::fit(TrainParams params)
 
         for (const Data &sample : params.dataset) {
 
-            y[0] = T(sample.x);
-            for (auto i = 1; i < size; i++) {
-                y[i] = layers[i - 1].activate(y[i - 1]);
-            }
+            tensor y = feedforward(sample.x);
 
             acc += relative(T(sample.y), y.back());
 
@@ -97,13 +93,22 @@ void Model::init(TrainParams params)
     }
 }
 
-vector Model::predict(const vector &sample)
+tensor Model::feedforward(const vector &x)
 {
-    matrix y = T(sample);
+    auto size = layers.size() + 1;
+    tensor y(size);
 
-    for (Layer &layer : layers) {
-        y = layer.activate(y);
+    y[0] = T(x);
+    for (auto i = 1; i < size; i++) {
+        y[i] = layers[i - 1].activate(y[i - 1]);
     }
+
+    return y;
+}
+
+vector Model::predict(const vector &x)
+{
+    matrix y = feedforward(x).back();
 
     return T(y).front();
 }

@@ -92,6 +92,13 @@ protected:
      */
     void init(TrainParams params);
 
+    /**
+     * The forward pass propagation.
+     *
+     * @return  Output matrices vector (tensor)
+     */
+    tensor feedforward(const vector &);
+
 public:
     /**
      * The model constructor.
