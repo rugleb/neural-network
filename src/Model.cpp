@@ -32,41 +32,23 @@ void Model::add(Layer layer)
 
 void Model::fit(TrainParams params)
 {
-    // The number of layers during training
-    // is considered from the input layer
-    auto size = layers.size() + 1;
-    std::double_t acc;
-
-    tensor y(size);
-    tensor sigma(size);
-
     init(params);
 
     std::cout << "Training started" << std::endl;
     for (auto epoch = 0; epoch < params.epochs; epoch++) {
 
-        acc = 0.;
+        std::double_t acc = 0;
         shuffle(params.dataset);
 
         for (const Data &sample : params.dataset) {
 
-            y[0] = T(sample.x);
-            for (auto i = 1; i < size; i++) {
-                y[i] = layers[i - 1].activate(y[i - 1]);
-            }
-
+            tensor y = feedforward(sample.x);
             acc += relative(T(sample.y), y.back());
 
             matrix e = y.back() - T(sample.y);
-            for (auto i = size - 1; i >= 1; i--) {
-                sigma[i] = e ^ layers[i - 1].activate(y[i - 1], true);
-                e = T(layers[i - 1].w) * sigma[i];
-            }
+            tensor sigma = backward(e, y);
 
-            for (auto i = 1; i < size; i++) {
-                matrix gradient = sigma[i] * T(y[i - 1]);
-                layers[i - 1].w = layers[i - 1].w - gradient * params.teach;
-            }
+            corrective(sigma, y, params.teach);
         }
 
         acc /= params.dataset.size();
@@ -97,13 +79,46 @@ void Model::init(TrainParams params)
     }
 }
 
-vector Model::predict(const vector &sample)
+tensor Model::feedforward(const vector &x)
 {
-    matrix y = T(sample);
+    auto size = layers.size() + 1;
+    tensor y(size);
 
-    for (Layer &layer : layers) {
-        y = layer.activate(y);
+    y[0] = T(x);
+    for (auto i = 1; i < size; i++) {
+        y[i] = layers[i - 1].activate(y[i - 1]);
     }
+
+    return y;
+}
+
+tensor Model::backward(matrix e, const tensor &y)
+{
+    auto size = layers.size() + 1;
+    tensor sigma(size);
+
+    for (auto i = size - 1; i >= 1; i--) {
+        sigma[i] = e ^ layers[i - 1].activate(y[i - 1], true);
+        e = T(layers[i - 1].w) * sigma[i];
+    }
+
+    return sigma;
+}
+
+void Model::corrective(const tensor &sigma, const tensor &y, double teach)
+{
+    auto size = layers.size() + 1;
+
+    for (auto i = 1; i < size; i++) {
+        matrix gradient = sigma[i] * T(y[i - 1]);
+        layers[i - 1].w = layers[i - 1].w - gradient * teach;
+    }
+}
+
+
+vector Model::predict(const vector &x)
+{
+    matrix y = feedforward(x).back();
 
     return T(y).front();
 }

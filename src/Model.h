@@ -10,6 +10,16 @@
 struct Data {
     vector x = {};
     vector y = {};
+
+    Data() {
+        x = {};
+        y = {};
+    };
+
+    Data(const vector &_x, const vector &_y) {
+        x = _x;
+        y = _y;
+    };
 };
 
 typedef std::vector<Data> Dataset;
@@ -81,6 +91,30 @@ protected:
      * @param  params  Training parameters
      */
     void init(TrainParams params);
+
+    /**
+     * The forward pass propagation.
+     *
+     * @return  Output matrices vector (tensor)
+     */
+    tensor feedforward(const vector &x);
+
+    /**
+     * The backward propagation.
+     *
+     * @param  e  Network error
+     * @param  y  Output matrices vector (tensor)
+     * @return    Matrices vector of gradients
+     */
+    tensor backward(matrix e, const tensor &y);
+
+    /**
+     * The weight corrective procedure.
+     *
+     * @param y
+     * @param sigma
+     */
+    void corrective(const tensor &sigma, const tensor &y, double teach);
 
 public:
     /**

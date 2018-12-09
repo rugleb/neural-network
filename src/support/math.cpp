@@ -1,5 +1,8 @@
 #include "math.h"
 
+#define ZERO(x)   ((x == 0) ? (1e-7) : (x))
+#define SQUARE(x) ((x) * (x))
+
 const char * MatrixException::what() const noexcept
 {
     return "Can't perform an operation on matrices";
@@ -203,7 +206,7 @@ double tanh(double x, bool derivative)
     double y = (exp(2 * x) - 1) / (exp(2 * x) + 1);
 
     if (derivative) {
-        return 4. / square(exp(-x) + exp(x));
+        return 4. / SQUARE(exp(-x) + exp(x));
     }
 
     return y;
@@ -239,7 +242,7 @@ double MSE(const vector &e, const vector &a)
     double y = 0.;
 
     for (auto i = 0; i < size; i++) {
-        y += square(e[i] - a[i]) / 2;
+        y += SQUARE(e[i] - a[i]) / 2;
     }
 
     return y / size;
@@ -251,7 +254,7 @@ double MSE(const matrix &e, const matrix &a)
     double y = 0.;
 
     for (auto i = 0; i < size; i++) {
-        y += square(e[i][0] - a[i][0]) / 2;
+        y += SQUARE(e[i][0] - a[i][0]) / 2;
     }
 
     return y / size;
@@ -263,7 +266,7 @@ double relative(const matrix &e, const matrix &a)
     double y = .0;
 
     for (auto i = 0; i < rows; i++) {
-        y += fabs((e[i][0] - a[i][0]) / e[i][0]);
+        y += fabs(1 - a[i][0] / ZERO(e[i][0]));
     }
 
     return y / rows;
@@ -275,7 +278,7 @@ double relative(const vector &e, const vector &a)
     double y = .0;
 
     for (auto i = 0; i < size; i++) {
-        y += fabs((e[i] - a[i]) / e[i]);
+        y += fabs(1 - a[i] / ZERO(e[i]));
     }
 
     return y / size;

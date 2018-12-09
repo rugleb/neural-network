@@ -6,8 +6,6 @@
 #include <random>
 #include <iostream>
 
-#define  square(x)  ((x) * (x))
-
 typedef std::vector<double> vector;
 typedef std::vector<vector> matrix;
 typedef std::vector<matrix> tensor;
