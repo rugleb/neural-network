@@ -14,6 +14,9 @@ struct Data {
 
 typedef std::vector<Data> Dataset;
 
+template <typename T>
+void shuffle(std::vector<T>);
+
 /**
  * The structure is designed to store
  * parameters of the training model.
@@ -123,7 +126,5 @@ public:
      */
     vector predict(const vector &x);
 };
-
-void shuffle(Dataset);
 
 #endif

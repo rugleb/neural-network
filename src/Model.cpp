@@ -1,5 +1,13 @@
 #include "Model.h"
 
+template <typename T>
+void shuffle(std::vector<T> vector)
+{
+    std::random_device device;
+    std::mt19937 generator(device());
+    std::shuffle(vector.begin(), vector.end(), generator);
+}
+
 Layer::Layer(std::size_t dimension, callable activation)
 {
     this->activation = activation;
@@ -98,11 +106,4 @@ vector Model::predict(const vector &sample)
     }
 
     return T(y).front();
-}
-
-void shuffle(Dataset dataset)
-{
-    std::random_device device;
-    std::mt19937 generator(device());
-    std::shuffle(dataset.begin(), dataset.end(), generator);
 }
