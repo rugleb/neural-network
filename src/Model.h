@@ -93,13 +93,6 @@ protected:
     void init(TrainParams params);
 
     /**
-     * The forward pass propagation.
-     *
-     * @return  Output matrices vector (tensor)
-     */
-    tensor feedforward(const vector &x);
-
-    /**
      * The backward propagation.
      *
      * @param  e  Network error
@@ -135,6 +128,13 @@ public:
      * @param  params  Training params list
      */
     void fit(TrainParams params);
+
+    /**
+     * The forward pass propagation.
+     *
+     * @return  Output matrices vector (tensor)
+     */
+    tensor feedforward(const vector &x);
 
     /**
      * Makes prediction based on learning.
