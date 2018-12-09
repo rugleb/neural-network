@@ -97,7 +97,16 @@ protected:
      *
      * @return  Output matrices vector (tensor)
      */
-    tensor feedforward(const vector &);
+    tensor feedforward(const vector &x);
+
+    /**
+     * The backward propagation.
+     *
+     * @param  e  Network error
+     * @param  y  Output matrices vector (tensor)
+     * @return    Matrices vector of gradients
+     */
+    tensor backward(matrix e, const tensor &y);
 
 public:
     /**
