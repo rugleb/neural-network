@@ -53,7 +53,6 @@ int main()
 
     vector actual = model.predict(testing.x);
 
-    std::cout << std::endl;
     std::cout << "Testing error: " << relative(testing.y, actual) << std::endl;
 
     return 0;
