@@ -24,8 +24,7 @@ Dataset split(Frame frame, Image img)
                     v.push_back(pixels[i + ii][j + jj] / 255);
                 }
             }
-            Data sample(v, v);
-            dataset.push_back(sample);
+            dataset.push_back({v, v});
         }
     }
 
@@ -40,7 +39,6 @@ int main()
     params.dataset = split(Frame(2, 2), img);
     params.epochs = 50;
     params.teach = 0.05;
-
 
     Model model;
 
