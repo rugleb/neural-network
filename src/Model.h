@@ -108,6 +108,14 @@ protected:
      */
     tensor backward(matrix e, const tensor &y);
 
+    /**
+     * The weight corrective procedure.
+     *
+     * @param y
+     * @param sigma
+     */
+    void corrective(const tensor &sigma, const tensor &y, double teach);
+
 public:
     /**
      * The model constructor.
