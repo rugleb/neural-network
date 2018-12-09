@@ -1,16 +1,19 @@
 #include "src/Model.h"
 
-std::vector<data> generate(unsigned int size)
+#define PI 3.14
+
+Dataset generate(unsigned int size)
 {
-    std::vector<data> dataset(size);
+    Dataset dataset(size);
 
-    for (unsigned int i = 0; i < size; i++) {
-        data set;
+    for (auto i = 0; i < size; i++) {
+        Data sample;
+        double x = rand(-PI, PI);
 
-        set.x = { (double) i / size};
-        set.y = { (double) i * 2 / size };
+        sample.x = { x };
+        sample.y = { sin(x) };
 
-        dataset[i] = set;
+        dataset[i] = sample;
     }
 
     return dataset;
@@ -18,14 +21,28 @@ std::vector<data> generate(unsigned int size)
 
 int main()
 {
-    std::vector<data> dataset = generate((unsigned int) 1e+5);
+    TrainParams params;
+    params.dataset = generate(1000);
 
     Model model;
 
-    model.add(Layer(3, relu));      // hidden layer
-    model.add(Layer(1, relu));      // output layer
+    model.add(Layer(20, tanh));
+    model.add(Layer(20, tanh));
+    model.add(Layer(params.dataset.back().y.size(), linear));
 
-    model.fit(dataset, 200, 1e-5);
+    model.fit(params);
+
+    Data testing;
+    testing.x = { PI / 6. };
+    testing.y = { .5 };
+
+    vector actual = model.predict(testing.x);
+
+    std::cout << std::endl;
+    std::cout << "Testing results: " << std::endl;
+    std::cout << "---- Received: " << actual.front() << std::endl;
+    std::cout << "---- Expected: " << testing.y.front() << std::endl;
+    std::cout << "---- Testing error: " << relative(testing.y, actual) << std::endl;
 
     return 0;
 }
