@@ -24,6 +24,9 @@ matrix operator* (const matrix &, double);
 matrix T (const matrix &);
 matrix T (const vector &);
 
+void print (const vector &v);
+void print (const matrix &m);
+
 double rand(double, double);
 vector rand(unsigned long, double, double);
 matrix rand(unsigned long, unsigned long, double, double);
@@ -41,5 +44,7 @@ double MSE (const matrix &, const matrix &);
 
 double relative (const matrix &, const matrix &);
 double relative (const vector &, const vector &);
+
+vector vectorize(const matrix &m);
 
 #endif
