@@ -7,6 +7,56 @@ Frame::Frame(unsigned int h, unsigned int w)
     pixels = matrix(h, vector(w));
 }
 
+vector Frame::toVector()
+{
+    vector v;
+
+    for (vector &row : pixels) {
+        for (double pixel : row) {
+            v.push_back(pixel);
+        }
+    }
+
+    return v;
+}
+
+std::size_t Frame::width()
+{
+    return pixels.front().size();
+}
+
+std::size_t Frame::height()
+{
+    return pixels.size();
+}
+
+Image::Image(const std::string &filename)
+{
+    FILE * f = this->readFile(filename);
+    this->validate(f);
+
+    try {
+        this->reader = this->makeReadStruct();
+        this->info = this->makeInfoStruct(this->reader);
+
+        if (setjmp(png_jmpbuf(this->reader))) {
+            throw std::string("Error during image IO initialization");
+        }
+    } catch (const std::string &msg) {
+        png_destroy_read_struct(&this->reader, &this->info, nullptr);
+        fclose(f);
+        throw;
+    }
+
+    png_init_io(this->reader, f);
+    png_set_sig_bytes(this->reader, PNG_BYTES_TO_CHECK);
+    png_read_png(this->reader, this->info, PNG_TRANSFORM_IDENTITY, nullptr);
+
+    fclose(f);
+
+    this->init(this->reader, this->info);
+}
+
 FILE * Image::readFile(const std::string &filename)
 {
     FILE * f = fopen(filename.data(), "r");

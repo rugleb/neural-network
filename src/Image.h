@@ -8,9 +8,39 @@
 #include "support/math.h"
 
 struct Frame {
+    /**
+     * Matrix of pixels contained in the frame.
+     */
     matrix pixels;
 
+    /**
+     * The Frame struct constructor.
+     *
+     * @param  h  Frame height
+     * @param  w  Frame width
+     */
     Frame(unsigned int h, unsigned int w);
+
+    /**
+     * Spreads the matrix of pixels in rows into a vector.
+     *
+     * @return  Vector of pixels
+     */
+    vector toVector();
+
+    /**
+     * Returns frame width.
+     *
+     * @return  The frame width
+     */
+    std::size_t width();
+
+    /**
+     * Returns frame height.
+     *
+     * @return  The frame height
+     */
+    std::size_t height();
 };
 
 typedef std::vector<Frame> Series;

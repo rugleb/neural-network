@@ -5,10 +5,30 @@
 #define  FRAME_H     2
 #define  L           4
 
+Dataset toDataset(const Dataframe &df)
+{
+    Dataset dataset;
+    for (const Series &series : df) {
+        for (Frame frame : series) {
+
+            vector values;
+            for (double pixel : frame.toVector()) {
+                values.push_back(pixel / 255);
+            }
+
+            dataset.push_back({values, values});
+        }
+    }
+
+    return dataset;
+}
+
 int main()
 {
     Image img("exam.png");
-    Dataset dataset;
+    Dataframe df = img.split(FRAME_W, FRAME_H);
+
+    Dataset dataset = toDataset(df);
 
     TrainParams params;
     params.dataset = dataset;
@@ -24,14 +44,26 @@ int main()
 
     model.fit(params);
 
-    vector expected = rand(outputSize, 0, 255);
-    vector actual = model.predict(expected);
+    Dataset testingSet;
+    for (auto i = 0; i < 5; i++) {
+        vector pixels = rand(outputSize, 0, 255);
+        testingSet.push_back({pixels, pixels});
+    }
 
-    std::cout << "Testing error: " << relative(expected, actual) << std::endl;
+    model.testing(testingSet);
 
-    auto df = img.split(FRAME_W, FRAME_H);
+    for (Series &series : df) {
+        for (Frame &frame : series) {
+            vector output = model.predict(frame.toVector());
 
-    img.dump("new.png");
+            for (auto i = 0; i < frame.height(); i++) {
+                for (auto j = 0; j < frame.width(); j++) {
+                    auto pixel = output[i * frame.width() + j];
+                    frame.pixels[i][j] = pixel;
+                }
+            }
+        }
+    }
 
     return 0;
 }
