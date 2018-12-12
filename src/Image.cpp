@@ -2,31 +2,9 @@
 
 #define PNG_BYTES_TO_CHECK 8
 
-Image::Image(const std::string &filename)
+Frame::Frame(unsigned int h, unsigned int w)
 {
-    FILE * f = this->readFile(filename);
-    this->validate(f);
-
-    try {
-        this->reader = this->makeReadStruct();
-        this->info = this->makeInfoStruct(this->reader);
-
-        if (setjmp(png_jmpbuf(this->reader))) {
-            throw std::string("Error during image IO initialization");
-        }
-    } catch (const std::string &msg) {
-        png_destroy_read_struct(&this->reader, &this->info, nullptr);
-        fclose(f);
-        throw;
-    }
-
-    png_init_io(this->reader, f);
-    png_set_sig_bytes(this->reader, PNG_BYTES_TO_CHECK);
-    png_read_png(this->reader, this->info, PNG_TRANSFORM_IDENTITY, nullptr);
-
-    fclose(f);
-
-    this->init(this->reader, this->info);
+    pixels = matrix(h, vector(w));
 }
 
 FILE * Image::readFile(const std::string &filename)
@@ -201,4 +179,35 @@ void Image::setPointers(const matrix &m)
             pointers[i][j] = (png_byte) m[i][j];
         }
     }
+}
+
+Dataframe Image::split(unsigned int frameWidth, unsigned int frameHeight)
+{
+    if (width % frameWidth != 0) {
+        throw std::string("Can't split the image width to frame width");
+    } else if (height % frameHeight) {
+        throw std::string("Can't split the image height to frame height");
+    }
+
+    Dataframe df;
+    for (auto i = 0; i < height; i += frameHeight) {
+
+        Series series;
+        for (auto j = 0; j < width; j += frameWidth) {
+
+            Frame frame(frameHeight, frameWidth);
+            for (auto ii = 0; ii < frameHeight; ii++) {
+                for (auto jj = 0; jj < frameWidth; jj++) {
+
+                    frame.pixels[ii][jj] = (double) pointers[i + ii][j + jj];
+                }
+            }
+
+            series.push_back(frame);
+        }
+
+        df.push_back(series);
+    }
+
+    return df;
 }

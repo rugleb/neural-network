@@ -7,24 +7,14 @@
 
 #include "support/math.h"
 
-struct Partial {
+struct Frame {
     matrix pixels;
 
-    std::size_t width() {
-        return pixels.front().size();
-    }
-
-    std::size_t height() {
-        return pixels.size();
-    }
-
-    vector toVector() {
-        return vectorize(pixels);
-    }
+    Frame(unsigned int h, unsigned int w);
 };
 
-typedef std::vector<Partial> Serial;
-typedef std::vector<Serial> Dataframe;
+typedef std::vector<Frame> Series;
+typedef std::vector<Series> Dataframe;
 
 class Image {
 protected:
@@ -64,30 +54,7 @@ public:
 
     void setPointers(const matrix &m);
 
-    Dataframe split(std::size_t Nx, std::size_t Ny)
-    {
-        auto nFramesX = width / Nx;
-        auto nFramesY = height / Ny;
-
-        Dataframe df(nFramesY, Serial(nFramesY));
-
-        for (std::size_t nY = 0; nY < nFramesY; nY++) {
-            for (std::size_t nX = 0; nX < nFramesX; nX++) {
-
-                df[nX][nY].pixels = matrix(Ny, vector(Nx));
-
-                for (std::size_t i = 0; i < Nx; i++) {
-                    for (std::size_t j = 0; j < Ny; j++) {
-
-                        auto pixel = (double) pointers[nX * Nx + i][nY * Ny + j];
-                        df[nX][nY].pixels[i][j] = pixel;
-                    }
-                }
-            }
-        }
-
-        return df;
-    }
+    Dataframe split(unsigned int frameWidth, unsigned int frameHeight);
 };
 
 
