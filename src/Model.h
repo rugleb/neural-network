@@ -8,18 +8,11 @@
 #include "support/math.h"
 
 struct Data {
-    vector x = {};
-    vector y = {};
+    vector x;        // Neural network input values vector
+    vector y;        // Expected output values vector
 
-    Data() {
-        x = {};
-        y = {};
-    };
-
-    Data(const vector &_x, const vector &_y) {
-        x = _x;
-        y = _y;
-    };
+    Data();
+    Data(const vector &x, const vector &y);
 };
 
 typedef std::vector<Data> Dataset;
@@ -33,7 +26,7 @@ void shuffle(std::vector<T>);
  */
 struct TrainParams {
     std::vector<Data> dataset = {};        // Model training set
-    std::double_t accuracy = 1e-2;         // Acceptable (stop) accuracy
+    std::double_t error = 1e-2;            // Acceptable (stop) error
     std::double_t teach = 1e-4;            // Teaching coefficient
     std::size_t epochs = 200;              // Maximum number of learning epochs
 };
@@ -143,6 +136,14 @@ public:
      * @return         Prediction result vector
      */
     vector predict(const vector &x);
+
+    /**
+     * Checks the quality of network training on a test sample.
+     *
+     * @param  dataset  Testing dataset
+     * @return          Average dataset error
+     */
+    double testing(const Dataset &dataset);
 };
 
 #endif

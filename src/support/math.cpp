@@ -283,3 +283,38 @@ double relative(const vector &e, const vector &a)
 
     return y / size;
 }
+
+void print(const vector &v)
+{
+    for (auto &x : v) {
+        std::cout << x << " ";
+    }
+
+    std::cout << std::endl;
+}
+
+void print(const matrix &m)
+{
+    for (auto &row : m) {
+        print(row);
+    }
+
+    std::cout << std::endl;
+}
+
+vector vectorize(const matrix &m)
+{
+    auto rows = m.size();
+    auto cols = m.front().size();
+
+    auto size = rows * cols;
+    vector y;
+
+    for (auto i = 0; i < rows; i++) {
+        for (auto j = 0; j < cols; j++) {
+            y.push_back(m[i][j]);
+        }
+    }
+
+    return y;
+}

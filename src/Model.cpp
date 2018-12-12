@@ -1,5 +1,16 @@
 #include "Model.h"
 
+Data::Data()
+{
+    x = {};
+    y = {};
+}
+
+Data::Data(const vector &_x, const vector &_y) {
+    x = _x;
+    y = _y;
+};
+
 template <typename T>
 void shuffle(std::vector<T> vector)
 {
@@ -37,13 +48,13 @@ void Model::fit(TrainParams params)
     std::cout << "Training started" << std::endl;
     for (auto epoch = 0; epoch < params.epochs; epoch++) {
 
-        std::double_t acc = 0;
+        std::double_t error = 0;
         shuffle(params.dataset);
 
         for (const Data &sample : params.dataset) {
 
             tensor y = feedforward(sample.x);
-            acc += relative(T(sample.y), y.back());
+            error += relative(T(sample.y), y.back());
 
             matrix e = y.back() - T(sample.y);
             tensor sigma = backward(e, y);
@@ -51,11 +62,11 @@ void Model::fit(TrainParams params)
             corrective(sigma, y, params.teach);
         }
 
-        acc /= params.dataset.size();
+        error /= params.dataset.size();
 
-        std::cout << "---- Epoch: " << epoch + 1 << ", acc: " << acc << std::endl;
+        std::cout << "---- Epoch: " << epoch + 1 << ", error: " << error << std::endl;
 
-        if (acc < params.accuracy) {
+        if (error < params.error) {
             break;
         }
     }
@@ -121,4 +132,27 @@ vector Model::predict(const vector &x)
     matrix y = feedforward(x).back();
 
     return T(y).front();
+}
+
+double Model::testing(const Dataset &dataset)
+{
+    auto size = dataset.size();            // dataset size
+    auto total = 0.;                       // average dataset error
+
+    std::cout << "Testing started" << std::endl;
+
+    for (auto i = 0; i < size; i++) {
+        Data set = dataset[i];
+        vector output = predict(set.x);
+
+        double err = relative(set.y, output);
+        total += err;
+
+        std::cout << "---- Set " << i + 1 << ", error: " << err << std::endl;
+    }
+
+    total /= size;
+    std::cout << "Testing finished. Total error: " << total << std::endl;
+
+    return total;
 }

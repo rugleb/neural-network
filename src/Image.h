@@ -7,6 +7,45 @@
 
 #include "support/math.h"
 
+struct Frame {
+    /**
+     * Matrix of pixels contained in the frame.
+     */
+    matrix pixels;
+
+    /**
+     * The Frame struct constructor.
+     *
+     * @param  h  Frame height
+     * @param  w  Frame width
+     */
+    Frame(unsigned int h, unsigned int w);
+
+    /**
+     * Spreads the matrix of pixels in rows into a vector.
+     *
+     * @return  Vector of pixels
+     */
+    vector toVector();
+
+    /**
+     * Returns frame width.
+     *
+     * @return  The frame width
+     */
+    std::size_t width() const;
+
+    /**
+     * Returns frame height.
+     *
+     * @return  The frame height
+     */
+    std::size_t height() const;
+};
+
+typedef std::vector<Frame> Series;
+typedef std::vector<Series> Dataframe;
+
 class Image {
 protected:
     png_infop info = nullptr;
@@ -18,6 +57,9 @@ protected:
     unsigned int height;
     unsigned char bitDepth;
     unsigned char colorType;
+    unsigned char interlace;
+    unsigned char filterType;
+    unsigned char compression;
 
     FILE * readFile(const std::string &filename);
     void validate(FILE * f);
@@ -41,6 +83,9 @@ public:
     unsigned int getWidth();
 
     void setPointers(const matrix &m);
+
+    Dataframe split(unsigned int frameWidth, unsigned int frameHeight);
+    void assemble(const Dataframe &df);
 };
 
 

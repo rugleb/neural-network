@@ -2,6 +2,32 @@
 
 #define PNG_BYTES_TO_CHECK 8
 
+Frame::Frame(unsigned int h, unsigned int w)
+{
+    pixels = matrix(h, vector(w));
+}
+
+vector Frame::toVector()
+{
+    vector v;
+
+    for (vector &row : pixels) {
+        for (double pixel : row) {
+            v.push_back(pixel);
+        }
+    }
+
+    return v;
+}
+
+std::size_t Frame::width() const {
+    return pixels.front().size();
+}
+
+std::size_t Frame::height() const {
+    return pixels.size();
+}
+
 Image::Image(const std::string &filename)
 {
     FILE * f = this->readFile(filename);
@@ -82,6 +108,10 @@ void Image::init(png_structp png_reader, png_infop png_info)
     this->setPointers(png_reader, png_info);
     this->setHeight(png_reader, png_info);
     this->setWidth(png_reader, png_info);
+
+    this->interlace = png_get_interlace_type(png_reader, png_info);
+    this->compression = png_get_compression_type(png_reader, png_info);
+    this->filterType = png_get_filter_type(png_reader, png_info);
 }
 
 void Image::setColorType(png_structp png_reader, png_infop png_info)
@@ -156,15 +186,16 @@ void Image::dump(const std::string &filename)
         throw;
     }
 
-    png_set_IHDR(writer, info, width, height, bitDepth, colorType,
-                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE,
-                 PNG_FILTER_TYPE_BASE);
+    png_set_IHDR(writer, info, width, height, bitDepth,
+                 colorType, interlace, compression, filterType);
 
     png_set_rows(writer, info, pointers);
     png_init_io(writer, f);
     png_write_png(writer, info, PNG_TRANSFORM_IDENTITY, nullptr);
 
     fclose(f);
+
+    std::cout << "Image dumped in: " << filename << std::endl;
 }
 
 unsigned int Image::getHeight()
@@ -196,6 +227,61 @@ void Image::setPointers(const matrix &m)
     for (auto i = 0; i < m.size(); i++) {
         for (auto j = 0; j < m[i].size(); j++) {
             pointers[i][j] = (png_byte) m[i][j];
+        }
+    }
+}
+
+Dataframe Image::split(unsigned int frameWidth, unsigned int frameHeight)
+{
+    if (width % frameWidth != 0) {
+        throw std::string("Can't split the image width to frame width");
+    } else if (height % frameHeight) {
+        throw std::string("Can't split the image height to frame height");
+    }
+
+    Dataframe df;
+    for (auto i = 0; i < height; i += frameHeight) {
+
+        Series series;
+        for (auto j = 0; j < width; j += frameWidth) {
+
+            Frame frame(frameHeight, frameWidth);
+            for (auto ii = 0; ii < frameHeight; ii++) {
+                for (auto jj = 0; jj < frameWidth; jj++) {
+
+                    frame.pixels[ii][jj] = (double) pointers[i + ii][j + jj];
+                }
+            }
+
+            series.push_back(frame);
+        }
+
+        df.push_back(series);
+    }
+
+    return df;
+}
+
+void Image::assemble(const Dataframe &df)
+{
+    auto frameWidth = df.front().front().width();
+    auto frameHeight = df.front().front().height();
+
+    width = (unsigned int) (frameWidth * df.front().size());
+    height = (unsigned int) (frameHeight * df.size());
+
+    for (auto i = 0; i < df.size(); i++) {
+        for (auto j = 0; j < df[i].size(); j++) {
+
+            Frame frame = df[i][j];
+            for (auto ii = 0; ii < frame.height(); ii++) {
+                for (auto jj = 0; jj < frame.width(); jj++) {
+
+                    auto value = frame.pixels[ii][jj];
+                    auto pixel = (png_byte) (value > 0 ? value : 0);
+                    pointers[i * frameHeight + ii][j * frameWidth + jj] = pixel;
+                }
+            }
         }
     }
 }

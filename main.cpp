@@ -1,59 +1,72 @@
 #include "src/Model.h"
 #include "src/Image.h"
 
-struct Frame {
-    std::size_t width;
-    std::size_t height;
+#define  FRAME_W     2
+#define  FRAME_H     2
+#define  L           4
 
-    explicit Frame(std::size_t w, std::size_t h) {
-        width = w;
-        height = h;
-    }
-};
-
-Dataset split(Frame frame, Image img)
+Dataset toDataset(const Dataframe &df)
 {
     Dataset dataset;
-    matrix pixels = img.getMatrix();
+    for (const Series &series : df) {
+        for (Frame frame : series) {
 
-    for (auto i = 0; i < img.getWidth(); i += frame.width) {
-        for (auto j = 0; j < img.getHeight(); j += frame.height) {
-            vector v;
-            for (auto ii = 0; ii < frame.width; ii++) {
-                for (auto jj = 0; jj < frame.height; jj++) {
-                    v.push_back(pixels[i + ii][j + jj] / 255);
-                }
+            vector values;
+            for (double pixel : frame.toVector()) {
+                values.push_back(pixel / 255);
             }
-            dataset.push_back({v, v});
+
+            dataset.push_back({values, values});
         }
     }
 
     return dataset;
 }
 
-int main()
+int main(int argc, char **argv)
 {
     Image img("exam.png");
-    TrainParams params;
+    Dataframe df = img.split(FRAME_W, FRAME_H);
 
-    params.dataset = split(Frame(2, 2), img);
-    params.epochs = 50;
+    Dataset dataset = toDataset(df);
+
+    TrainParams params;
+    params.dataset = dataset;
+    params.epochs = 15;
     params.teach = 0.05;
+
+    auto outputSize = params.dataset.front().y.size();
 
     Model model;
 
-    model.add(Layer(4, linear));
-    model.add(Layer(params.dataset.back().y.size(), linear));
+    model.add(Layer(L, linear));                    // define hidden layer
+    model.add(Layer(outputSize, linear));           // define output layer
 
     model.fit(params);
 
-    Data testing;
-    testing.x = { 141, 130, 137, 122 };
-    testing.y = { 141, 130, 137, 122 };
+    Dataset testingSet;
+    for (auto i = 0; i < 5; i++) {
+        vector pixels = rand(outputSize, 0, 255);
+        testingSet.push_back({pixels, pixels});
+    }
 
-    vector actual = model.predict(testing.x);
+    model.testing(testingSet);
 
-    std::cout << "Testing error: " << relative(testing.y, actual) << std::endl;
+    for (Series &series : df) {
+        for (Frame &frame : series) {
+            vector output = model.predict(frame.toVector());
+
+            for (auto i = 0; i < frame.height(); i++) {
+                for (auto j = 0; j < frame.width(); j++) {
+                    auto pixel = output[i * frame.width() + j];
+                    frame.pixels[i][j] = pixel;
+                }
+            }
+        }
+    }
+
+    img.assemble(df);
+    img.dump(argc > 1 ? argv[1] : "result.png");
 
     return 0;
 }
