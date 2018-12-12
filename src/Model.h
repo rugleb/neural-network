@@ -8,18 +8,11 @@
 #include "support/math.h"
 
 struct Data {
-    vector x = {};
-    vector y = {};
+    vector x;        // Neural network input values vector
+    vector y;        // Expected output values vector
 
-    Data() {
-        x = {};
-        y = {};
-    };
-
-    Data(const vector &_x, const vector &_y) {
-        x = _x;
-        y = _y;
-    };
+    Data();
+    Data(const vector &x, const vector &y);
 };
 
 typedef std::vector<Data> Dataset;

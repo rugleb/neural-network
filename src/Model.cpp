@@ -1,5 +1,16 @@
 #include "Model.h"
 
+Data::Data()
+{
+    x = {};
+    y = {};
+}
+
+Data::Data(const vector &_x, const vector &_y) {
+    x = _x;
+    y = _y;
+};
+
 template <typename T>
 void shuffle(std::vector<T> vector)
 {
