@@ -143,6 +143,14 @@ public:
      * @return         Prediction result vector
      */
     vector predict(const vector &x);
+
+    /**
+     * Checks the quality of network training on a test sample.
+     *
+     * @param  dataset  Testing dataset
+     * @return          Average dataset error
+     */
+    double testing(const Dataset &dataset);
 };
 
 #endif

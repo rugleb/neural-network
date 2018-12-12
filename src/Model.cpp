@@ -122,3 +122,26 @@ vector Model::predict(const vector &x)
 
     return T(y).front();
 }
+
+double Model::testing(const Dataset &dataset)
+{
+    auto size = dataset.size();            // dataset size
+    auto total = 0.;                       // average dataset error
+
+    std::cout << "Testing started" << std::endl;
+
+    for (auto i = 0; i < size; i++) {
+        Data set = dataset[i];
+        vector output = predict(set.x);
+
+        double err = relative(set.y, output);
+        total += err;
+
+        std::cout << "---- Set " << i + 1 << ", error: " << err << std::endl;
+    }
+
+    total /= size;
+    std::cout << "Testing finished. Total error: " << total << std::endl;
+
+    return total;
+}
