@@ -96,8 +96,6 @@ int main()
         }
     }
 
-    img.setWidth(width);
-    img.setHeight(height);
     img.setPointers(pixels);
 
     img.dump("new.png");

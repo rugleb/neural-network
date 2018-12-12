@@ -38,8 +38,8 @@ protected:
     unsigned char bitDepth;
     unsigned char colorType;
     unsigned char interlace;
+    unsigned char filterType;
     unsigned char compression;
-    unsigned char filer;
 
     FILE * readFile(const std::string &filename);
     void validate(FILE * f);
@@ -63,12 +63,6 @@ public:
     unsigned int getWidth();
 
     void setPointers(const matrix &m);
-    void setWidth(unsigned int w) {
-        width = w;
-    }
-    void setHeight(unsigned int h) {
-        height = h;
-    }
 
     Dataframe split(std::size_t Nx, std::size_t Ny)
     {

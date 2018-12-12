@@ -85,7 +85,7 @@ void Image::init(png_structp png_reader, png_infop png_info)
 
     this->interlace = png_get_interlace_type(png_reader, png_info);
     this->compression = png_get_compression_type(png_reader, png_info);
-    this->filer = png_get_filter_type(png_reader, png_info);
+    this->filterType = png_get_filter_type(png_reader, png_info);
 }
 
 void Image::setColorType(png_structp png_reader, png_infop png_info)
@@ -161,7 +161,7 @@ void Image::dump(const std::string &filename)
     }
 
     png_set_IHDR(writer, info, width, height, bitDepth,
-                 colorType, interlace, compression, filer);
+                 colorType, interlace, compression, filterType);
 
     png_set_rows(writer, info, pointers);
     png_init_io(writer, f);
