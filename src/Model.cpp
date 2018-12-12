@@ -48,13 +48,13 @@ void Model::fit(TrainParams params)
     std::cout << "Training started" << std::endl;
     for (auto epoch = 0; epoch < params.epochs; epoch++) {
 
-        std::double_t acc = 0;
+        std::double_t error = 0;
         shuffle(params.dataset);
 
         for (const Data &sample : params.dataset) {
 
             tensor y = feedforward(sample.x);
-            acc += relative(T(sample.y), y.back());
+            error += relative(T(sample.y), y.back());
 
             matrix e = y.back() - T(sample.y);
             tensor sigma = backward(e, y);
@@ -62,11 +62,11 @@ void Model::fit(TrainParams params)
             corrective(sigma, y, params.teach);
         }
 
-        acc /= params.dataset.size();
+        error /= params.dataset.size();
 
-        std::cout << "---- Epoch: " << epoch + 1 << ", acc: " << acc << std::endl;
+        std::cout << "---- Epoch: " << epoch + 1 << ", error: " << error << std::endl;
 
-        if (acc < params.accuracy) {
+        if (error < params.error) {
             break;
         }
     }

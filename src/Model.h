@@ -26,7 +26,7 @@ void shuffle(std::vector<T>);
  */
 struct TrainParams {
     std::vector<Data> dataset = {};        // Model training set
-    std::double_t accuracy = 1e-2;         // Acceptable (stop) accuracy
+    std::double_t error = 1e-2;            // Acceptable (stop) error
     std::double_t teach = 1e-4;            // Teaching coefficient
     std::size_t epochs = 200;              // Maximum number of learning epochs
 };

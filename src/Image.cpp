@@ -194,6 +194,8 @@ void Image::dump(const std::string &filename)
     png_write_png(writer, info, PNG_TRANSFORM_IDENTITY, nullptr);
 
     fclose(f);
+
+    std::cout << "Image dumped in: " << filename << std::endl;
 }
 
 unsigned int Image::getHeight()
