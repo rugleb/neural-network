@@ -33,14 +33,14 @@ struct Frame {
      *
      * @return  The frame width
      */
-    std::size_t width();
+    std::size_t width() const;
 
     /**
      * Returns frame height.
      *
      * @return  The frame height
      */
-    std::size_t height();
+    std::size_t height() const;
 };
 
 typedef std::vector<Frame> Series;
@@ -85,6 +85,7 @@ public:
     void setPointers(const matrix &m);
 
     Dataframe split(unsigned int frameWidth, unsigned int frameHeight);
+    void assemble(const Dataframe &df);
 };
 
 

@@ -20,13 +20,11 @@ vector Frame::toVector()
     return v;
 }
 
-std::size_t Frame::width()
-{
+std::size_t Frame::width() const {
     return pixels.front().size();
 }
 
-std::size_t Frame::height()
-{
+std::size_t Frame::height() const {
     return pixels.size();
 }
 
@@ -260,4 +258,28 @@ Dataframe Image::split(unsigned int frameWidth, unsigned int frameHeight)
     }
 
     return df;
+}
+
+void Image::assemble(const Dataframe &df)
+{
+    auto frameWidth = df.front().front().width();
+    auto frameHeight = df.front().front().height();
+
+    width = (unsigned int) (frameWidth * df.front().size());
+    height = (unsigned int) (frameHeight * df.size());
+
+    for (auto i = 0; i < df.size(); i++) {
+        for (auto j = 0; j < df[i].size(); j++) {
+
+            Frame frame = df[i][j];
+            for (auto ii = 0; ii < frame.height(); ii++) {
+                for (auto jj = 0; jj < frame.width(); jj++) {
+
+                    auto value = frame.pixels[ii][jj];
+                    auto pixel = (png_byte) (value > 0 ? value : 0);
+                    pointers[i * frameHeight + ii][j * frameWidth + jj] = pixel;
+                }
+            }
+        }
+    }
 }

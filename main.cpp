@@ -23,7 +23,7 @@ Dataset toDataset(const Dataframe &df)
     return dataset;
 }
 
-int main()
+int main(int argc, char **argv)
 {
     Image img("exam.png");
     Dataframe df = img.split(FRAME_W, FRAME_H);
@@ -64,6 +64,9 @@ int main()
             }
         }
     }
+
+    img.assemble(df);
+    img.dump(argc > 1 ? argv[1] : "result.png");
 
     return 0;
 }
