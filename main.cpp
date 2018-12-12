@@ -1,10 +1,9 @@
 #include "src/Model.h"
 #include "src/Image.h"
 
-#define  FRAME_W     4
-#define  FRAME_H     4
-#define  L_X         2
-#define  L_Y         2
+#define  FRAME_W     2
+#define  FRAME_H     2
+#define  L           4
 
 struct Frame {
     std::size_t width;
@@ -45,17 +44,19 @@ int main()
     params.epochs = 15;
     params.teach = 0.05;
 
+    auto outputSize = params.dataset.front().y.size();
+
     Model model;
 
-    model.add(Layer(L_X * L_Y, linear));
-    model.add(Layer(params.dataset.back().y.size(), linear));
+    model.add(Layer(L, linear));
+    model.add(Layer(outputSize, linear));
 
     model.fit(params);
 
-//    vector expected = { 141, 130, 137, 122 };
-//    vector actual = model.predict(expected);
+    vector expected = rand(outputSize, 0, 255);
+    vector actual = model.predict(expected);
 
-//    std::cout << "Testing error: " << relative(expected, actual) << std::endl;
+    std::cout << "Testing error: " << relative(expected, actual) << std::endl;
 
     auto df = img.split(FRAME_W, FRAME_H);
 
@@ -65,10 +66,10 @@ int main()
             tensor y = model.feedforward(x);
             vector result = vectorize(y[1]);
 
-            matrix m(L_Y, vector(L_X));
-            for (auto i = 0; i < L_Y; i++) {
-                for (auto j = 0; j < L_X; j++) {
-                    auto n = i * L_X + j;
+            matrix m(FRAME_H, vector(FRAME_W));
+            for (auto i = 0; i < FRAME_H; i++) {
+                for (auto j = 0; j < FRAME_W; j++) {
+                    auto n = i * FRAME_W + j;
                     m[i][j] = result[n];
                 }
             }
