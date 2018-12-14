@@ -4,14 +4,14 @@
 
 Frame::Frame(unsigned int h, unsigned int w)
 {
-    pixels = matrix(h, vector(w));
+    data = matrix(h, vector(w));
 }
 
 vector Frame::toVector()
 {
     vector v;
 
-    for (vector &row : pixels) {
+    for (vector &row : data) {
         for (double pixel : row) {
             v.push_back(pixel);
         }
@@ -20,42 +20,55 @@ vector Frame::toVector()
     return v;
 }
 
-std::size_t Frame::width() const {
-    return pixels.front().size();
+std::size_t Frame::width() const
+{
+    return data.front().size();
 }
 
-std::size_t Frame::height() const {
-    return pixels.size();
+std::size_t Frame::height() const
+{
+    return data.size();
+}
+
+void Frame::fromVector(const vector &v)
+{
+    for (auto i = 0; i < height(); i++) {
+        for (auto j = 0; j < width(); j++) {
+            data[i][j] = v[i * width() + j];
+        }
+    }
 }
 
 Image::Image(const std::string &filename)
 {
-    FILE * f = this->readFile(filename);
-    this->validate(f);
+    FILE * f = read(filename);
+
+    png_structp reader;
 
     try {
-        this->reader = this->makeReadStruct();
-        this->info = this->makeInfoStruct(this->reader);
+        reader = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+        info = png_create_info_struct(reader);
 
-        if (setjmp(png_jmpbuf(this->reader))) {
+        if (setjmp(png_jmpbuf(reader))) {
             throw std::string("Error during image IO initialization");
         }
     } catch (const std::string &msg) {
-        png_destroy_read_struct(&this->reader, &this->info, nullptr);
+        png_destroy_read_struct(&reader, &info, nullptr);
         fclose(f);
         throw;
     }
 
-    png_init_io(this->reader, f);
-    png_set_sig_bytes(this->reader, PNG_BYTES_TO_CHECK);
-    png_read_png(this->reader, this->info, PNG_TRANSFORM_IDENTITY, nullptr);
+    png_init_io(reader, f);
+    png_set_sig_bytes(reader, PNG_BYTES_TO_CHECK);
+    png_read_png(reader, info, PNG_TRANSFORM_IDENTITY, nullptr);
+
+    init(reader, info);
 
     fclose(f);
-
-    this->init(this->reader, this->info);
+    png_destroy_read_struct(&reader, nullptr, nullptr);
 }
 
-FILE * Image::readFile(const std::string &filename)
+FILE * Image::read(const std::string &filename)
 {
     FILE * f = fopen(filename.data(), "r");
 
@@ -63,103 +76,34 @@ FILE * Image::readFile(const std::string &filename)
         throw std::string("Can't read file: ") + filename;
     }
 
-    return f;
-}
-
-void Image::validate(FILE * f)
-{
     char header[PNG_BYTES_TO_CHECK];
 
     if (fread(header, 1, PNG_BYTES_TO_CHECK, f) != PNG_BYTES_TO_CHECK) {
         throw std::string("Can't read bytes from file");
     }
 
-    if (png_sig_cmp((png_const_bytep) header, (png_size_t) 0, PNG_BYTES_TO_CHECK)) {
+    if (png_sig_cmp((png_const_bytep) header, 0, PNG_BYTES_TO_CHECK)) {
         throw std::string("File is not recognized as a PNG file");
     }
-}
 
-png_struct * Image::makeReadStruct()
-{
-    png_structp reader = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
-
-    if (! reader) {
-        throw std::string("Can't create image reader struct");
-    }
-
-    return reader;
-}
-
-png_info * Image::makeInfoStruct(png_structp reader)
-{
-    png_infop info = png_create_info_struct(reader);
-
-    if (! info) {
-        throw std::string("Can't create image info struct");
-    }
-
-    return info;
+    return f;
 }
 
 void Image::init(png_structp png_reader, png_infop png_info)
 {
-    this->setColorType(png_reader, png_info);
-    this->setBitDepth(png_reader, png_info);
-    this->setPointers(png_reader, png_info);
-    this->setHeight(png_reader, png_info);
-    this->setWidth(png_reader, png_info);
+    png_get_IHDR(png_reader, png_info, &width, &height, &colorDepth,
+                 &colorType, &interlaceMethod, &compressionMethod,
+                 &filterMethod);
 
-    this->interlace = png_get_interlace_type(png_reader, png_info);
-    this->compression = png_get_compression_type(png_reader, png_info);
-    this->filterType = png_get_filter_type(png_reader, png_info);
-}
-
-void Image::setColorType(png_structp png_reader, png_infop png_info)
-{
-    unsigned char type = png_get_color_type(png_reader, png_info);
-
-    if (type != 0) {
+    if (colorType != 0) {
         throw std::string("Invalid color type: expected 0");
     }
 
-    this->colorType = type;
-}
-
-void Image::setBitDepth(png_structp png_reader, png_infop png_info)
-{
-    unsigned char depth = png_get_bit_depth(png_reader, png_info);
-
-    if (depth != 8) {
-        throw std::string("Invalid color type: expected 0");
+    if (colorDepth != 8) {
+        throw std::string("Invalid color depth: expected 8");
     }
 
-    this->bitDepth = depth;
-}
-
-void Image::setHeight(png_structp png_reader, png_infop png_info)
-{
-    this->height = png_get_image_height(png_reader, png_info);
-}
-
-void Image::setWidth(png_structp png_reader, png_infop png_info)
-{
-    this->width = png_get_image_width(png_reader, png_info);
-}
-
-void Image::setPointers(png_structp png_reader, png_infop png_info)
-{
-    this->pointers = png_get_rows(png_reader, png_info);
-}
-
-png_structp Image::makeWriteStruct()
-{
-    png_structp writer = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
-
-    if (writer == nullptr) {
-        throw std::string("Can't create image reader struct");
-    }
-
-    return writer;
+    data = png_get_rows(png_reader, png_info);
 }
 
 void Image::dump(const std::string &filename)
@@ -171,11 +115,10 @@ void Image::dump(const std::string &filename)
     }
 
     png_structp writer;
-    png_infop info;
 
     try {
-        writer = this->makeWriteStruct();
-        info = this->makeInfoStruct(writer);
+        writer = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+                                         nullptr, nullptr, nullptr);
 
         if (setjmp(png_jmpbuf(writer))) {
             throw std::string("Error during image IO initialization");
@@ -186,49 +129,15 @@ void Image::dump(const std::string &filename)
         throw;
     }
 
-    png_set_IHDR(writer, info, width, height, bitDepth,
-                 colorType, interlace, compression, filterType);
+    png_set_IHDR(writer, info, width, height, colorDepth,
+                 colorType, interlaceMethod, compressionMethod, filterMethod);
 
-    png_set_rows(writer, info, pointers);
+    png_set_rows(writer, info, data);
     png_init_io(writer, f);
     png_write_png(writer, info, PNG_TRANSFORM_IDENTITY, nullptr);
 
     fclose(f);
-
-    std::cout << "Image dumped in: " << filename << std::endl;
-}
-
-unsigned int Image::getHeight()
-{
-    return this->height;
-}
-
-unsigned int Image::getWidth()
-{
-    return this->width;
-}
-
-matrix Image::getMatrix()
-{
-    matrix m(this->height);
-
-    for (std::size_t i = 0; i < this->height; i++) {
-        m[i] = vector(this->width);
-        for (std::size_t j = 0; j < this->width; j++) {
-            m[i][j] = (double) this->pointers[i][j];
-        }
-    }
-
-    return m;
-}
-
-void Image::setPointers(const matrix &m)
-{
-    for (auto i = 0; i < m.size(); i++) {
-        for (auto j = 0; j < m[i].size(); j++) {
-            pointers[i][j] = (png_byte) m[i][j];
-        }
-    }
+    png_destroy_write_struct(&writer, nullptr);
 }
 
 Dataframe Image::split(unsigned int frameWidth, unsigned int frameHeight)
@@ -249,7 +158,7 @@ Dataframe Image::split(unsigned int frameWidth, unsigned int frameHeight)
             for (auto ii = 0; ii < frameHeight; ii++) {
                 for (auto jj = 0; jj < frameWidth; jj++) {
 
-                    frame.pixels[ii][jj] = (double) pointers[i + ii][j + jj];
+                    frame.data[ii][jj] = (double) data[i + ii][j + jj];
                 }
             }
 
@@ -262,26 +171,56 @@ Dataframe Image::split(unsigned int frameWidth, unsigned int frameHeight)
     return df;
 }
 
-void Image::assemble(const Dataframe &df)
+void Image::assemble(const Dataframe &dataframe)
 {
-    auto frameWidth = df.front().front().width();
-    auto frameHeight = df.front().front().height();
+    auto frameWidth = dataframe.front().front().width();
+    auto frameHeight = dataframe.front().front().height();
 
-    width = (unsigned int) (frameWidth * df.front().size());
-    height = (unsigned int) (frameHeight * df.size());
+    width = (unsigned int) (frameWidth * dataframe.front().size());
+    height = (unsigned int) (frameHeight * dataframe.size());
 
-    for (auto i = 0; i < df.size(); i++) {
-        for (auto j = 0; j < df[i].size(); j++) {
+    for (auto i = 0; i < dataframe.size(); i++) {
+        for (auto j = 0; j < dataframe[i].size(); j++) {
 
-            Frame frame = df[i][j];
+            Frame frame = dataframe[i][j];
             for (auto ii = 0; ii < frame.height(); ii++) {
                 for (auto jj = 0; jj < frame.width(); jj++) {
 
-                    auto value = frame.pixels[ii][jj];
+                    auto value = frame.data[ii][jj];
                     auto pixel = (png_byte) (value > 0 ? value : 0);
-                    pointers[i * frameHeight + ii][j * frameWidth + jj] = pixel;
+                    data[i * frameHeight + ii][j * frameWidth + jj] = pixel;
                 }
             }
         }
     }
+}
+
+Dataset Image::makeTestingSet(std::size_t size, std::size_t ySize)
+{
+    Dataset testingSet;
+
+    for (auto i = 0; i < size; i++) {
+        vector pixels = rand(ySize, 0, 255);
+        testingSet.push_back({pixels, pixels});
+    }
+
+    return testingSet;
+}
+
+Dataset convert(const Dataframe &df)
+{
+    Dataset dataset;
+    for (const Series &series : df) {
+        for (Frame frame : series) {
+
+            vector values;
+            for (double pixel : frame.toVector()) {
+                values.push_back(pixel / 255);
+            }
+
+            dataset.push_back({values, values});
+        }
+    }
+
+    return dataset;
 }

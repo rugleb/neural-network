@@ -1,4 +1,4 @@
-#include "math.h"
+#include "support.h"
 
 #define ZERO(x)   ((x == 0) ? (1e-7) : (x))
 #define SQUARE(x) ((x) * (x))
@@ -300,21 +300,4 @@ void print(const matrix &m)
     }
 
     std::cout << std::endl;
-}
-
-vector vectorize(const matrix &m)
-{
-    auto rows = m.size();
-    auto cols = m.front().size();
-
-    auto size = rows * cols;
-    vector y;
-
-    for (auto i = 0; i < rows; i++) {
-        for (auto j = 0; j < cols; j++) {
-            y.push_back(m[i][j]);
-        }
-    }
-
-    return y;
 }

@@ -45,6 +45,4 @@ double MSE (const matrix &, const matrix &);
 double relative (const matrix &, const matrix &);
 double relative (const vector &, const vector &);
 
-vector vectorize(const matrix &m);
-
 #endif

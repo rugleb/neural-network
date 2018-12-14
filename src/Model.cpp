@@ -127,7 +127,6 @@ void Model::corrective(const tensor &sigma, const tensor &y, double teach)
     }
 }
 
-
 vector Model::predict(const vector &x)
 {
     matrix y = feedforward(x).back();

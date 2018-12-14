@@ -5,7 +5,7 @@
 #include <random>
 #include <algorithm>
 
-#include "support/math.h"
+#include "support.h"
 
 struct Data {
     vector x;        // Neural network input values vector
