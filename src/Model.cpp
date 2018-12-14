@@ -6,7 +6,8 @@ Data::Data()
     y = {};
 }
 
-Data::Data(const vector &_x, const vector &_y) {
+Data::Data(const vector &_x, const vector &_y)
+{
     x = _x;
     y = _y;
 };
