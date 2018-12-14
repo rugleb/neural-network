@@ -144,7 +144,9 @@ Dataframe Image::split(unsigned int frameWidth, unsigned int frameHeight)
 {
     if (width % frameWidth != 0) {
         throw std::string("Can't split the image width to frame width");
-    } else if (height % frameHeight) {
+    }
+
+    if (height % frameHeight) {
         throw std::string("Can't split the image height to frame height");
     }
 
