@@ -1,7 +1,6 @@
 #ifndef NEURAL_NETWORK_IMAGE_H
 #define NEURAL_NETWORK_IMAGE_H
 
-#include <iostream>
 #include <string>
 #include <png.h>
 

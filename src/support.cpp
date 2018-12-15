@@ -1,6 +1,5 @@
 #include "support.h"
 
-#define ZERO(x)   ((x == 0) ? (1e-7) : (x))
 #define SQUARE(x) ((x) * (x))
 
 const char * MatrixException::what() const noexcept
@@ -258,46 +257,4 @@ double MSE(const matrix &e, const matrix &a)
     }
 
     return y / size;
-}
-
-double relative(const matrix &e, const matrix &a)
-{
-    auto rows = e.size();
-    double y = .0;
-
-    for (auto i = 0; i < rows; i++) {
-        y += fabs(1 - a[i][0] / ZERO(e[i][0]));
-    }
-
-    return y / rows;
-}
-
-double relative(const vector &e, const vector &a)
-{
-    auto size = e.size();
-    double y = .0;
-
-    for (auto i = 0; i < size; i++) {
-        y += fabs(1 - a[i] / ZERO(e[i]));
-    }
-
-    return y / size;
-}
-
-void print(const vector &v)
-{
-    for (auto &x : v) {
-        std::cout << x << " ";
-    }
-
-    std::cout << std::endl;
-}
-
-void print(const matrix &m)
-{
-    for (auto &row : m) {
-        print(row);
-    }
-
-    std::cout << std::endl;
 }

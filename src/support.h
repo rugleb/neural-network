@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include <random>
-#include <iostream>
 
 typedef std::vector<double> vector;
 typedef std::vector<vector> matrix;
@@ -24,9 +23,6 @@ matrix operator* (const matrix &, double);
 matrix T (const matrix &);
 matrix T (const vector &);
 
-void print (const vector &v);
-void print (const matrix &m);
-
 double rand(double, double);
 vector rand(unsigned long, double, double);
 matrix rand(unsigned long, unsigned long, double, double);
@@ -41,8 +37,5 @@ matrix apply(const matrix &, callable, bool = false);
 
 double MSE (const vector &, const vector &);
 double MSE (const matrix &, const matrix &);
-
-double relative (const matrix &, const matrix &);
-double relative (const vector &, const vector &);
 
 #endif

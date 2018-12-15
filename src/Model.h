@@ -1,6 +1,7 @@
 #ifndef NEURAL_NETWORK_MODEL_H
 #define NEURAL_NETWORK_MODEL_H
 
+#include <cstdio>
 #include <vector>
 #include <random>
 #include <algorithm>
@@ -143,7 +144,7 @@ public:
      * @param  dataset  Testing dataset
      * @return          Average dataset error
      */
-    double testing(const Dataset &dataset);
+    std::double_t testing(const Dataset &dataset);
 };
 
 #endif

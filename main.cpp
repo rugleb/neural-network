@@ -18,7 +18,8 @@ int main(int argc, char **argv)
 
     TrainParams params;
     params.dataset = dataset;
-    params.epochs = 15;
+    params.epochs = 10;
+    params.error = 1e-10;
     params.teach = 0.05;
 
     Model model;

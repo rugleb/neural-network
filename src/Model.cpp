@@ -46,7 +46,7 @@ void Model::fit(TrainParams params)
 {
     init(params);
 
-    std::cout << "Training started" << std::endl;
+    puts("Training started");
     for (auto epoch = 0; epoch < params.epochs; epoch++) {
 
         std::double_t error = 0;
@@ -55,7 +55,7 @@ void Model::fit(TrainParams params)
         for (const Data &sample : params.dataset) {
 
             tensor y = feedforward(sample.x);
-            error += relative(T(sample.y), y.back());
+            error += MSE(y.back(), T(sample.y));
 
             matrix e = y.back() - T(sample.y);
             tensor sigma = backward(e, y);
@@ -65,14 +65,14 @@ void Model::fit(TrainParams params)
 
         error /= params.dataset.size();
 
-        std::cout << "---- Epoch: " << epoch + 1 << ", error: " << error << std::endl;
+        printf("---- Epoch: %2d, average MSE error: %.2e\n", epoch + 1, error);
 
         if (error < params.error) {
             break;
         }
     }
 
-    std::cout << "Training finished" << std::endl;
+    puts("Training finished");
 }
 
 void Model::init(TrainParams params)
@@ -117,7 +117,7 @@ tensor Model::backward(matrix e, const tensor &y)
     return sigma;
 }
 
-void Model::corrective(const tensor &sigma, const tensor &y, double teach)
+void Model::corrective(const tensor &sigma, const tensor &y, std::double_t teach)
 {
     auto size = layers.size() + 1;
 
@@ -129,30 +129,30 @@ void Model::corrective(const tensor &sigma, const tensor &y, double teach)
 
 vector Model::predict(const vector &x)
 {
-    matrix y = feedforward(x).back();
+    matrix out = feedforward(x).back();
 
-    return T(y).front();
+    return T(out).front();
 }
 
-double Model::testing(const Dataset &dataset)
+std::double_t Model::testing(const Dataset &dataset)
 {
-    auto size = dataset.size();            // dataset size
-    auto total = 0.;                       // average dataset error
+    std::size_t size = dataset.size();            // dataset size
+    std::double_t total = 0.;                     // average dataset error
 
-    std::cout << "Testing started" << std::endl;
+    puts("Testing started");
 
     for (auto i = 0; i < size; i++) {
         Data set = dataset[i];
-        vector output = predict(set.x);
+        auto output = predict(set.x);
 
-        double err = relative(set.y, output);
+        std::double_t err = MSE(set.y, output);
         total += err;
 
-        std::cout << "---- Set " << i + 1 << ", error: " << err << std::endl;
+        printf("---- Testing set: %2d, MSE error: %.2e\n", i + 1, err);
     }
 
     total /= size;
-    std::cout << "Testing finished. Total error: " << total << std::endl;
+    printf("Testing finished. Average MSE error: %.2e\n", total);
 
     return total;
 }
