@@ -11,9 +11,9 @@ int main(int argc, char **argv)
     std::string outputFile(argc > 2 ? argv[2] : "output.png");
 
     Image img(inputFile);
-    Dataframe df = img.split(FRAME_W, FRAME_H);
+    Dataframe dataframe = img.split(FRAME_W, FRAME_H);
 
-    Dataset dataset = convert(df);
+    Dataset dataset = convert(dataframe);
     std::size_t outputSize = dataset.front().y.size();
 
     TrainParams params;
@@ -31,14 +31,14 @@ int main(int argc, char **argv)
     Dataset testingSet = img.makeTestingSet(5, outputSize);
     model.testing(testingSet);
 
-    for (Series &series : df) {
+    for (Series &series : dataframe) {
         for (Frame &frame : series) {
             auto output = model.predict(frame.toVector());
             frame.fromVector(output);
         }
     }
 
-    img.assemble(df);
+    img.assemble(dataframe);
     img.dump(outputFile);
 
     return 0;
