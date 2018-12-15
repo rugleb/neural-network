@@ -1,11 +1,11 @@
-#ifndef NEURAL_NETWORK_IMAGE_H
-#define NEURAL_NETWORK_IMAGE_H
+#ifndef IMAGE_H
+#define IMAGE_H
 
 #include <string>
 #include <png.h>
 
-#include "support.h"
-#include "Model.h"
+#include "matrix.h"
+#include "network.h"
 
 struct Frame {
     /**
@@ -19,7 +19,7 @@ struct Frame {
      * @param  h  Frame height
      * @param  w  Frame width
      */
-    Frame(unsigned int h, unsigned int w);
+    Frame(std::size_t h, std::size_t w);
 
     /**
      * Spreads the matrix of pixels in rows into a vector.

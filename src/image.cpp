@@ -1,8 +1,8 @@
-#include "Png.h"
+#include "image.h"
 
 #define PNG_BYTES_TO_CHECK 8
 
-Frame::Frame(unsigned int h, unsigned int w)
+Frame::Frame(std::size_t h, std::size_t w)
 {
     data = matrix(h, vector(w));
 }

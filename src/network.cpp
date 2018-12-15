@@ -1,4 +1,81 @@
-#include "Model.h"
+#include "network.h"
+
+double relu(double x, bool derivative)
+{
+    if (derivative) {
+        return x > 0 ? 1. : 0.;
+    }
+
+    return x > 0 ? x : 0.;
+}
+
+double linear(double x, bool derivative)
+{
+    if (derivative) {
+        return 1.;
+    }
+
+    return x;
+}
+
+double sigmoid(double x, bool derivative)
+{
+    double y = 1. / (1. + exp(-x));
+
+    if (derivative) {
+        return y * (1. - y);
+    }
+
+    return y;
+}
+
+vector apply(const vector &v, callable f, bool derivative)
+{
+    auto size = v.size();
+    vector y(size);
+
+    for (auto i = 0; i < size; i++) {
+        y[i] = f(v[i], derivative);
+    }
+
+    return y;
+}
+
+matrix apply(const matrix &m, callable f, bool derivative)
+{
+    auto size = m.size();
+    matrix y(size);
+
+    for (auto i = 0; i < size; i++) {
+        y[i] = apply(m[i], f, derivative);
+    }
+
+    return y;
+}
+
+double MSE(const vector &e, const vector &a)
+{
+    auto size = e.size();
+    double y = 0.;
+
+    for (auto i = 0; i < size; i++) {
+        y += SQUARE(e[i] - a[i]) / 2;
+    }
+
+    return y / size;
+}
+
+double MSE(const matrix &e, const matrix &a)
+{
+    auto size = e.size();
+    double y = 0.;
+
+    for (auto i = 0; i < size; i++) {
+        y += SQUARE(e[i][0] - a[i][0]) / 2;
+    }
+
+    return y / size;
+}
 
 Data::Data()
 {

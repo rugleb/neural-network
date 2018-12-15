@@ -3,4 +3,4 @@
 cd build
 cmake ..
 make
-cp network ..
+cp app.out ..
