@@ -60,7 +60,7 @@ typedef std::vector<Series> Dataframe;      // matrix of frames
  */
 Dataset convert(const Dataframe &df);
 
-class Image {
+class Png {
 protected:
     /**
      * This structure provided info about the PNG file.
@@ -139,7 +139,7 @@ public:
      *
      * @param  filename  Name of image file
      */
-    explicit Image(const std::string &filename);
+    explicit Png(const std::string &filename);
 
     /**
      * Saves the image by the specified file name.

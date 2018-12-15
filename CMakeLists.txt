@@ -3,7 +3,7 @@ project(neural-network)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(network main.cpp src/support.cpp src/Model.cpp src/Image.cpp)
+add_executable(network main.cpp src/support.cpp src/Model.cpp src/Png.cpp)
 
 find_package(PNG REQUIRED)
 include_directories(${PNG_INCLUDE_DIR})

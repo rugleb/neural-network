@@ -1,5 +1,5 @@
 #include "src/Model.h"
-#include "src/Image.h"
+#include "src/Png.h"
 
 #define  FRAME_W     2
 #define  FRAME_H     2
@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     std::string inputFile(argc > 1 ? argv[1] : "example.png");
     std::string outputFile(argc > 2 ? argv[2] : "output.png");
 
-    Image img(inputFile);
+    Png img(inputFile);
     Dataframe dataframe = img.split(FRAME_W, FRAME_H);
 
     Dataset dataset = convert(dataframe);

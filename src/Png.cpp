@@ -1,4 +1,4 @@
-#include "Image.h"
+#include "Png.h"
 
 #define PNG_BYTES_TO_CHECK 8
 
@@ -39,7 +39,7 @@ void Frame::fromVector(const vector &v)
     }
 }
 
-Image::Image(const std::string &filename)
+Png::Png(const std::string &filename)
 {
     FILE * f = read(filename);
 
@@ -68,7 +68,7 @@ Image::Image(const std::string &filename)
     png_destroy_read_struct(&reader, nullptr, nullptr);
 }
 
-FILE * Image::read(const std::string &filename)
+FILE * Png::read(const std::string &filename)
 {
     FILE * f = fopen(filename.data(), "r");
 
@@ -89,7 +89,7 @@ FILE * Image::read(const std::string &filename)
     return f;
 }
 
-void Image::init(png_structp png_reader, png_infop png_info)
+void Png::init(png_structp png_reader, png_infop png_info)
 {
     png_get_IHDR(png_reader, png_info, &width, &height, &colorDepth,
                  &colorType, &interlaceMethod, &compressionMethod,
@@ -106,7 +106,7 @@ void Image::init(png_structp png_reader, png_infop png_info)
     data = png_get_rows(png_reader, png_info);
 }
 
-void Image::dump(const std::string &filename)
+void Png::dump(const std::string &filename)
 {
     FILE * f = fopen(filename.data(), "w");
 
@@ -140,7 +140,7 @@ void Image::dump(const std::string &filename)
     png_destroy_write_struct(&writer, nullptr);
 }
 
-Dataframe Image::split(unsigned int frameWidth, unsigned int frameHeight)
+Dataframe Png::split(unsigned int frameWidth, unsigned int frameHeight)
 {
     if (width % frameWidth != 0) {
         throw std::string("Can't split the image width to frame width");
@@ -173,7 +173,7 @@ Dataframe Image::split(unsigned int frameWidth, unsigned int frameHeight)
     return df;
 }
 
-void Image::assemble(const Dataframe &dataframe)
+void Png::assemble(const Dataframe &dataframe)
 {
     auto frameWidth = dataframe.front().front().width();
     auto frameHeight = dataframe.front().front().height();
@@ -197,7 +197,7 @@ void Image::assemble(const Dataframe &dataframe)
     }
 }
 
-Dataset Image::makeTestingSet(std::size_t size, std::size_t ySize)
+Dataset Png::makeTestingSet(std::size_t size, std::size_t ySize)
 {
     Dataset testingSet;
 
