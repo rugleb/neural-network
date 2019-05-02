@@ -3,7 +3,7 @@ dist: xenial
 addons:
   apt:
     packages:
-      - libpng-dev
+      - libpng16-16
 
 language: cpp
 
