@@ -3,6 +3,7 @@
 
 #include <string>
 #include <png.h>
+#include <zlib.h>
 
 #include "matrix.h"
 #include "network.h"
