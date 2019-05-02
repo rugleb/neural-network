@@ -9,7 +9,7 @@ add_library(network src/network.h src/network.cpp)
 
 add_executable(app.out main.cpp)
 
-find_package(PNG 1.5 REQUIRED)
+find_package(PNG REQUIRED)
 include_directories(${PNG_INCLUDE_DIR})
 
 target_link_libraries(app.out image ${PNG_LIBRARY} matrix network)
