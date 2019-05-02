@@ -76,13 +76,13 @@ FILE * Png::read(const std::string &filename)
         throw std::string("Can't read file: ") + filename;
     }
 
-    char header[PNG_BYTES_TO_CHECK];
+    unsigned char header[PNG_BYTES_TO_CHECK];
 
     if (fread(header, 1, PNG_BYTES_TO_CHECK, f) != PNG_BYTES_TO_CHECK) {
         throw std::string("Can't read bytes from file");
     }
 
-    if (png_sig_cmp((png_const_bytep) header, 0, PNG_BYTES_TO_CHECK)) {
+    if (png_sig_cmp(header, 0, PNG_BYTES_TO_CHECK)) {
         throw std::string("File is not recognized as a PNG file");
     }
 

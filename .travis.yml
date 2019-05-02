@@ -1,0 +1,22 @@
+dist: xenial
+
+addons:
+  apt:
+    packages:
+      - libpng16-16
+
+language: cpp
+
+compiler:
+  - gcc
+
+script:
+  - ./compile.sh
+  - ./app.out
+
+notifications:
+  email:
+    recipients:
+      - rugleb@gmail.com
+    on_success: never
+    on_failure: always

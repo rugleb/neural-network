@@ -12,4 +12,4 @@ add_executable(app.out main.cpp)
 find_package(PNG REQUIRED)
 include_directories(${PNG_INCLUDE_DIR})
 
-target_link_libraries(app.out image matrix network ${PNG_LIBRARY})
+target_link_libraries(app.out image matrix network ${PNG_LIBRARY} )
