@@ -3,6 +3,9 @@ language: cpp
 compiler:
   - gcc
 
+before_script:
+  - apt-get install libpng-dev
+
 script:
   - ./compile.sh
   - ./app.out
