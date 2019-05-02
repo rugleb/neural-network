@@ -5,7 +5,7 @@ compiler:
 
 before_script:
   - sudo apt-get -y update
-  - sudo apt-get -y install libpng-dev
+  - sudo apt-get -y install libpng16-16
 
 script:
   - ./compile.sh
