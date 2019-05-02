@@ -77,13 +77,13 @@ protected:
      * The image width.
      * Specifies the number of pixels by image height.
      */
-    unsigned int width;
+    png_uint_32 width;
 
     /**
      * The image height.
      * Specifies the number of pixels to the width of the image.
      */
-    unsigned int height;
+    png_uint_32 height;
 
     /**
      * The image color depth.
