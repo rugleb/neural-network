@@ -1,11 +1,14 @@
+dist: xenial
+
+addons:
+  apt:
+    packages:
+      - libpng-dev
+
 language: cpp
 
 compiler:
   - gcc
-
-before_script:
-  - sudo apt-get -y update
-  - sudo apt-get -y install libpng-dev
 
 script:
   - ./compile.sh
