@@ -4,7 +4,8 @@ compiler:
   - gcc
 
 before_script:
-  - apt-get install libpng-dev
+  - sudo apt-get -y update
+  - sudo apt-get -y install libpng-dev
 
 script:
   - ./compile.sh
