@@ -9,7 +9,8 @@ add_library(network src/network.h src/network.cpp)
 
 add_executable(app.out main.cpp)
 
-find_package(PNG REQUIRED)
-include_directories(${PNG_INCLUDE_DIR})
+include_directories (${LIBPNG_INCLUDE_DIRS})
+link_directories (${LIBPNG_LIBRARY_DIRS})
+link_libraries (${LIBPNG_LIBRARIES})
 
-target_link_libraries(app.out image matrix network ${PNG_LIBRARY})
+target_link_libraries(app.out image matrix network ${LIBPNG_LINK_FLAGS})
