@@ -13,7 +13,7 @@ The developed interface for working with neural networks is largely inspired by 
 The central data structure of this library is the [model](https://github.com/rugleb/neural-network/blob/8812e1cc41e8854e301d86987b03c69e2ef1cb5d/src/network.h#L108).
 It defines the structure of the [layers](https://github.com/rugleb/neural-network/blob/8812e1cc41e8854e301d86987b03c69e2ef1cb5d/src/network.h#L45) and the relationship between them.
 
-At the moment, only a Sequential network model is implemented.
+> At the moment, only a Sequential network model is implemented.
 
 Now create an instance of the new network model:
 
