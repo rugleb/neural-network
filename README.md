@@ -20,7 +20,7 @@ Now create an instance of the new network model:
 ```C++
 #include "src/network.h"
 
-Model model();
+Model model;
 ```
 
 Then add two hidden layers with different activation functions and neurons number:
@@ -35,7 +35,7 @@ model.add(Layer(10, sigmoid));      // 10 neurons and Sigmoid activation
 Now the structure of the neural network is ready.
 
 The next step is to train the neural network.
-But before you train a model, you must set the training parameters.
+But before you train a model, you must set the training parameters.  
 This is done quite simply:
 
 ```C++
