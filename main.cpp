@@ -13,8 +13,8 @@ int main(int argc, char **argv)
     Png img(inputFile);
     Dataframe dataframe = img.split(FRAME_W, FRAME_H);
 
-    Dataset dataset = convert(dataframe);
-    std::size_t outputSize = dataset.front().y.size();
+    auto dataset = convert(dataframe);
+    auto outputSize = dataset.front().y.size();
 
     TrainParams params;
     params.dataset = dataset;
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 
     model.fit(params);
 
-    Dataset testingSet = img.makeTestingSet(5, outputSize);
+    auto testingSet = img.makeTestingSet(5, outputSize);
     model.testing(testingSet);
 
     for (Series &series : dataframe) {
