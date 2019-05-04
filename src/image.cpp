@@ -95,7 +95,7 @@ void Png::init(png_structp png_reader, png_infop png_info)
                  &colorType, &interlaceMethod, &compressionMethod,
                  &filterMethod);
 
-    if (colorType != 0) {
+    if (colorType != PNG_COLOR_TYPE_GRAY) {
         throw std::string("Invalid color type: expected 0");
     }
 
