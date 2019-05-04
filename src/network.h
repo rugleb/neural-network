@@ -162,7 +162,7 @@ public:
      *
      * @param  params  Training params list
      */
-    void fit(TrainParams params);
+    void fit(const TrainParams& params);
 
     /**
      * Makes prediction based on learning.

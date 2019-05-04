@@ -117,8 +117,7 @@ void Png::dump(const std::string &filename)
     png_structp writer;
 
     try {
-        writer = png_create_write_struct(PNG_LIBPNG_VER_STRING,
-                                         nullptr, nullptr, nullptr);
+        writer = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
 
         if (setjmp(png_jmpbuf(writer))) {
             throw std::string("Error during image IO initialization");
@@ -129,8 +128,8 @@ void Png::dump(const std::string &filename)
         throw;
     }
 
-    png_set_IHDR(writer, info, width, height, colorDepth,
-                 colorType, interlaceMethod, compressionMethod, filterMethod);
+    png_set_IHDR(writer, info, width, height, colorDepth, colorType,
+                 interlaceMethod, compressionMethod, filterMethod);
 
     png_set_rows(writer, info, data);
     png_init_io(writer, f);
@@ -146,7 +145,7 @@ Dataframe Png::split(unsigned int frameWidth, unsigned int frameHeight)
         throw std::string("Can't split the image width to frame width");
     }
 
-    if (height % frameHeight) {
+    if (height % frameHeight != 0) {
         throw std::string("Can't split the image height to frame height");
     }
 
@@ -173,23 +172,25 @@ Dataframe Png::split(unsigned int frameWidth, unsigned int frameHeight)
     return df;
 }
 
-void Png::assemble(const Dataframe &dataframe)
+void Png::assemble(const Dataframe &df)
 {
-    auto frameWidth = dataframe.front().front().width();
-    auto frameHeight = dataframe.front().front().height();
+    auto frameWidth = df.front().front().width();
+    auto frameHeight = df.front().front().height();
 
-    width = (unsigned int) (frameWidth * dataframe.front().size());
-    height = (unsigned int) (frameHeight * dataframe.size());
+    width  = (png_uint_32) (frameWidth * df.front().size());
+    height = (png_uint_32) (frameHeight * df.size());
 
-    for (auto i = 0; i < dataframe.size(); i++) {
-        for (auto j = 0; j < dataframe[i].size(); j++) {
+    for (auto i = 0; i < df.size(); i++) {
+        for (auto j = 0; j < df[i].size(); j++) {
 
-            Frame frame = dataframe[i][j];
+            Frame frame = df[i][j];
+
             for (auto ii = 0; ii < frame.height(); ii++) {
                 for (auto jj = 0; jj < frame.width(); jj++) {
 
                     auto value = frame.data[ii][jj];
                     auto pixel = (png_byte) (value > 0 ? value : 0);
+
                     data[i * frameHeight + ii][j * frameWidth + jj] = pixel;
                 }
             }
@@ -199,19 +200,20 @@ void Png::assemble(const Dataframe &dataframe)
 
 Dataset Png::makeTestingSet(std::size_t size, std::size_t ySize)
 {
-    Dataset testingSet;
+    Dataset set(size);
 
     for (auto i = 0; i < size; i++) {
         vector pixels = rand(ySize, 0, 255);
-        testingSet.push_back({pixels, pixels});
+        set[i] = {pixels, pixels};
     }
 
-    return testingSet;
+    return set;
 }
 
 Dataset convert(const Dataframe &df)
 {
     Dataset dataset;
+
     for (const Series &series : df) {
         for (Frame frame : series) {
 

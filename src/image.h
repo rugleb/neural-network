@@ -160,9 +160,9 @@ public:
     /**
      * Assembly the image from matrix of frames (dataframe).
      *
-     * @param  dataframe  Matrix of frames
+     * @param  df  Matrix of frames
      */
-    void assemble(const Dataframe &dataframe);
+    void assemble(const Dataframe &df);
 
     /**
      * Generate testing dataset.
