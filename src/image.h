@@ -71,7 +71,7 @@ protected:
      * The image data.
      * It is an array of pointers to the pixel data for each row.
      */
-    unsigned char ** data;
+    png_bytepp data;
 
     /**
      * The image width.
