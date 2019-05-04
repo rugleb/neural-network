@@ -71,7 +71,7 @@ protected:
      * The image data.
      * It is an array of pointers to the pixel data for each row.
      */
-    unsigned char ** data;
+    png_bytepp data;
 
     /**
      * The image width.
@@ -160,9 +160,9 @@ public:
     /**
      * Assembly the image from matrix of frames (dataframe).
      *
-     * @param  dataframe  Matrix of frames
+     * @param  df  Matrix of frames
      */
-    void assemble(const Dataframe &dataframe);
+    void assemble(const Dataframe &df);
 
     /**
      * Generate testing dataset.
