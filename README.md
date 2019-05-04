@@ -101,5 +101,5 @@ Build from sources:
 
 Run application:
 ```bash
-./app.out example.png output.png
+./build/nn example.png output.png
 ```

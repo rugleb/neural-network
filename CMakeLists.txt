@@ -7,9 +7,9 @@ add_library(image src/image.h src/image.cpp)
 add_library(matrix src/matrix.h src/matrix.cpp)
 add_library(network src/network.h src/network.cpp)
 
-add_executable(app.out main.cpp)
+add_executable(nn main.cpp)
 
 find_package(PNG REQUIRED)
 include_directories(${PNG_INCLUDE_DIR})
 
-target_link_libraries(app.out image matrix network ${PNG_LIBRARY})
+target_link_libraries(nn image matrix network ${PNG_LIBRARY})
