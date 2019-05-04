@@ -155,7 +155,7 @@ public:
      *
      * @param  layer  New layer
      */
-    void add(Layer layer);
+    void add(const Layer& layer);
 
     /**
      * Starts the model training process.

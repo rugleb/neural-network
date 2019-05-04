@@ -114,7 +114,7 @@ Model::Model()
     layers = {};
 }
 
-void Model::add(Layer layer)
+void Model::add(const Layer& layer)
 {
     layers.push_back(layer);
 }
