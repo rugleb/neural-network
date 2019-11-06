@@ -1,5 +1,5 @@
-#include "src/network.h"
-#include "src/image.h"
+#include "network.h"
+#include "image.h"
 
 #define  FRAME_W     2
 #define  FRAME_H     2
