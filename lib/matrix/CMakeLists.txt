@@ -7,12 +7,16 @@ set(CMAKE_CXX_EXTENSIONS 0)
 
 set(SOURCES
     src/Exceptions.cpp
+    src/Operator.cpp
     src/Utils.cpp
+    src/Vector.cpp
 )
 
 set(HEADERS
     include/Matrix/Exceptions.hpp
+    include/Matrix/Operator.hpp
     include/Matrix/Utils.hpp
+    include/Matrix/Vector.hpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCES} ${HEADERS})
