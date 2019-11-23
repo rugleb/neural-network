@@ -1,5 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-cd build
+set -euo pipefail
+
+mkdir -p build && cd build
+
+# Configure
 cmake ..
-make
+
+# Build
+cmake --build .

@@ -1,4 +1,8 @@
+build/
 cmake-build-debug/
+
 .idea/
-output.png
+
+*.png
 *.out
+*.log
