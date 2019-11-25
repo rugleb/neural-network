@@ -9,3 +9,6 @@ cmake ..
 
 # Build
 cmake --build .
+
+# Run tests
+./lib/tests/matrix/TestMatrix
