@@ -10,6 +10,7 @@ set(SOURCES
     main.cpp
     TestOperator.cpp
     TestUtils.cpp
+    TestVector.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
