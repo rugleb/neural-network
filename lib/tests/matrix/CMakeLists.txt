@@ -17,7 +17,6 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 find_package(GTest REQUIRED)
 find_library(Matrix REQUIRED)
-find_package(Threads REQUIRED)
 
 include_directories(${GTEST_INCLUDE_DIRS})
 
