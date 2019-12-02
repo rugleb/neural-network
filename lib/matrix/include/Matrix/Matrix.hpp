@@ -30,7 +30,7 @@ public:
     [[nodiscard]] std::size_t nRows() const;
     [[nodiscard]] std::size_t nCols() const;
 
-    Dim dim();
+    [[nodiscard]] Dim dim() const;
 
     std::vector<T> & operator[] (std::size_t i);
     T operator() (std::size_t i, std::size_t j) const;
@@ -108,7 +108,7 @@ std::size_t Matrix<T>::nCols() const
 
 
 template <typename T>
-Dim Matrix<T>::dim()
+Dim Matrix<T>::dim() const
 {
     auto rows = nRows();
     auto cols = nCols();
@@ -249,10 +249,6 @@ Matrix<T> Matrix<T>::map(const Matrix & other, std::function<T(T, T)> f) const
 template <typename T>
 Matrix<T> Matrix<T>::dot(const Matrix<T> & other)
 {
-    if (nCols() != other.nRows()) {
-        throw DimensionError("Can't perform matrices multiplication: incorrect dimensions");
-    }
-
     auto rows = nRows();
     auto cols = other.nCols();
 
