@@ -45,6 +45,7 @@ public:
     Matrix<T> operator/(const Matrix<T> & other) const;
 
     Matrix<T> dot(const Matrix<T> & other);
+    Matrix<T> transpose();
 
     Matrix<T> map(std::function<T(T)> f) const;
     Matrix<T> map(const T & scalar, std::function<T(T, T)> f) const;
@@ -248,6 +249,24 @@ Matrix<T> Matrix<T>::dot(const Matrix<T> & other)
             for (std::size_t k = 0; k < nCols(); k++) {
                 result[i][j] += m_data[i][k] * other(k, j);
             }
+        }
+    }
+
+    return result;
+}
+
+
+template<typename T>
+Matrix<T> Matrix<T>::transpose()
+{
+    auto rows = nCols();
+    auto cols = nRows();
+
+    auto result = Matrix<T>(rows, cols);
+
+    for (std::size_t i = 0; i < rows; i++) {
+        for (std::size_t j = 0; j < cols; j++) {
+            result[i][j] = m_data[j][i];
         }
     }
 

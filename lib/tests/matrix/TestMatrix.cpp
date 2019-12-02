@@ -178,3 +178,13 @@ TEST(MatrixTestCase, testDotMethodWithInvalidDemention)
 
     ASSERT_THROW(m1.dot(m2), DimensionError);
 }
+
+
+TEST(MatrixTestCase, testTransposeMethod)
+{
+    auto matrix = Matrix<data_t>(3, 2, 5);
+
+    auto expected = Matrix<data_t>(2, 3, 5);
+
+    ASSERT_EQ(matrix.transpose(), expected);
+}
