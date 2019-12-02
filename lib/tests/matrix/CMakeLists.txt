@@ -16,12 +16,9 @@ set(SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-find_package(GTest REQUIRED)
 find_library(Matrix REQUIRED)
 
-include_directories(${GTEST_INCLUDE_DIRS})
-
-target_link_libraries(${PROJECT_NAME} ${GTEST_LIBRARIES} Matrix pthread)
+target_link_libraries(${PROJECT_NAME} gtest_main Matrix pthread)
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC
