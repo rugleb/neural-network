@@ -20,6 +20,22 @@ TEST(MatrixTestCase, testDimMethod)
 }
 
 
+TEST(MatrixTestCase, testRandomMethod)
+{
+    std::size_t rows = 2;
+    std::size_t cols = 3;
+
+    data_t min = -1;
+    data_t max = +1;
+
+    auto matrix = Matrix<data_t>::random(rows, cols, min, max);
+
+    ASSERT_TRUE(matrix.every([&] (data_t item) {
+        return item > min && item < max;
+    }));
+}
+
+
 TEST(MatrixTestCase, testOperatorEqualToMatrix)
 {
     std::size_t rows = 2;

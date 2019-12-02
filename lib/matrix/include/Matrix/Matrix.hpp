@@ -4,7 +4,9 @@
 #include <tuple>
 #include <vector>
 #include <functional>
+
 #include "Exceptions.hpp"
+#include "Utils.hpp"
 
 
 typedef std::tuple<std::size_t, std::size_t> Dim;
@@ -20,6 +22,8 @@ class Matrix
 public:
     explicit Matrix(std::size_t rows, std::size_t cols, T initial = 0);
     explicit Matrix(const Data<T> & data);
+
+    static Matrix<T> random(std::size_t rows, std::size_t cols, T min, T max);
 
     Data<T> data() const;
 
@@ -51,6 +55,7 @@ public:
     Matrix<T> map(const T & scalar, std::function<T(T, T)> f) const;
     Matrix<T> map(const Matrix & other, std::function<T(T, T)> f) const;
 
+    bool every(std::function<T(T)> f);
 
 protected:
     Data<T> m_data;
@@ -69,6 +74,15 @@ Matrix<T>::Matrix(const Data<T> & data)
     : m_data(data)
 {
     //
+}
+
+
+template <typename T>
+Matrix<T> Matrix<T>::random(std::size_t rows, std::size_t cols, T min, T max)
+{
+    auto data = rand(min, max, rows, cols);
+
+    return Matrix<T>(data);
 }
 
 
@@ -271,6 +285,15 @@ Matrix<T> Matrix<T>::transpose()
     }
 
     return result;
+}
+
+
+template <typename T>
+bool Matrix<T>::every(std::function<T(T)> f)
+{
+    return std::all_of(m_data.begin(), m_data.end(), [&] (std::vector<T> v) {
+        return std::all_of(v.begin(), v.end(), f);
+    });
 }
 
 
