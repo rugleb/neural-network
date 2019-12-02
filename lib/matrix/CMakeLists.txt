@@ -7,6 +7,7 @@ set(CMAKE_CXX_EXTENSIONS 0)
 
 set(SOURCES
     src/Exceptions.cpp
+    src/Matrix.cpp
     src/Operator.cpp
     src/Utils.cpp
     src/Vector.cpp
@@ -14,6 +15,7 @@ set(SOURCES
 
 set(HEADERS
     include/Matrix/Exceptions.hpp
+    include/Matrix/Matrix.hpp
     include/Matrix/Operator.hpp
     include/Matrix/Utils.hpp
     include/Matrix/Vector.hpp
