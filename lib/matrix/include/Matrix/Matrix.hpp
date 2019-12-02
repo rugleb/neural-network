@@ -20,10 +20,10 @@ template <typename T>
 class Matrix
 {
 public:
-    explicit Matrix(std::size_t rows, std::size_t cols, T initial = 0);
+    explicit Matrix(std::size_t rows, std::size_t cols, const T & initial = 0);
     explicit Matrix(const Data<T> & data);
 
-    static Matrix<T> random(std::size_t rows, std::size_t cols, T min, T max);
+    static Matrix<T> random(std::size_t rows, std::size_t cols, const T & min, const T & max);
 
     Data<T> data() const;
 
@@ -38,10 +38,10 @@ public:
     bool operator==(const Matrix<T> & other) const;
     bool operator!=(const Matrix<T> & other) const;
 
-    Matrix<T> operator+(T scalar) const;
-    Matrix<T> operator-(T scalar) const;
-    Matrix<T> operator*(T scalar) const;
-    Matrix<T> operator/(T scalar) const;
+    Matrix<T> operator+(const T & scalar) const;
+    Matrix<T> operator-(const T & scalar) const;
+    Matrix<T> operator*(const T & scalar) const;
+    Matrix<T> operator/(const T & scalar) const;
 
     Matrix<T> operator+(const Matrix<T> & other) const;
     Matrix<T> operator-(const Matrix<T> & other) const;
@@ -63,7 +63,7 @@ protected:
 
 
 template <typename T>
-Matrix<T>::Matrix(std::size_t rows, std::size_t cols, T initial)
+Matrix<T>::Matrix(std::size_t rows, std::size_t cols, const T & initial)
 {
     m_data = Data<T>(rows, std::vector<T>(cols, initial));
 }
@@ -78,7 +78,7 @@ Matrix<T>::Matrix(const Data<T> & data)
 
 
 template <typename T>
-Matrix<T> Matrix<T>::random(std::size_t rows, std::size_t cols, T min, T max)
+Matrix<T> Matrix<T>::random(std::size_t rows, std::size_t cols, const T & min, const T & max)
 {
     auto data = rand(min, max, rows, cols);
 
@@ -146,28 +146,28 @@ bool Matrix<T>::operator!=(const Matrix<T> & other) const
 
 
 template <typename T>
-Matrix<T> Matrix<T>::operator+(T scalar) const
+Matrix<T> Matrix<T>::operator+(const T & scalar) const
 {
     return map(scalar, std::plus<T>());
 }
 
 
 template <typename T>
-Matrix<T> Matrix<T>::operator-(T scalar) const
+Matrix<T> Matrix<T>::operator-(const T & scalar) const
 {
     return map(scalar, std::minus<T>());
 }
 
 
 template <typename T>
-Matrix<T> Matrix<T>::operator*(T scalar) const
+Matrix<T> Matrix<T>::operator*(const T & scalar) const
 {
     return map(scalar, std::multiplies<T>());
 }
 
 
 template <typename T>
-Matrix<T> Matrix<T>::operator/(T scalar) const
+Matrix<T> Matrix<T>::operator/(const T & scalar) const
 {
     return map(scalar, std::divides<T>());
 }
@@ -291,8 +291,8 @@ Matrix<T> Matrix<T>::transpose()
 template <typename T>
 bool Matrix<T>::every(std::function<T(T)> f)
 {
-    return std::all_of(m_data.begin(), m_data.end(), [&] (std::vector<T> v) {
-        return std::all_of(v.begin(), v.end(), f);
+    return std::all_of(m_data.begin(), m_data.end(), [& f] (const std::vector<T> & row) {
+        return std::all_of(row.begin(), row.end(), f);
     });
 }
 
