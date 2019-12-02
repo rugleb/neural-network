@@ -14,9 +14,9 @@ set(SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-find_library(Matrix REQUIRED)
+find_library(matrix REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} gtest gmock Matrix pthread)
+target_link_libraries(${PROJECT_NAME} matrix gtest gmock pthread)
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC

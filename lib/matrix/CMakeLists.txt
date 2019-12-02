@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
-project(Matrix)
+project(matrix)
+
+set(LIBRARY_NAME ${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
@@ -15,9 +17,9 @@ set(HEADERS
     include/Matrix/Utils.hpp
 )
 
-add_library(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_library(${LIBRARY_NAME} ${SOURCES} ${HEADERS})
 
-target_include_directories(${PROJECT_NAME}
+target_include_directories(${LIBRARY_NAME}
     PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -25,8 +27,8 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-set_target_properties(${PROJECT_NAME}
+set_target_properties(${LIBRARY_NAME}
     PROPERTIES
         PREFIX ""
-        OUTPUT_NAME ${PROJECT_NAME}
+        OUTPUT_NAME ${LIBRARY_NAME}
 )

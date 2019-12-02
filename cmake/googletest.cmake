@@ -2,7 +2,7 @@
 # is inspired by and adapted after https://crascit.com/2015/07/25/cmake-gtest/
 # download and unpack googletest at configure time
 
-macro(fetch_googletest _download_module_path _download_root)
+macro(install_gtest _download_module_path _download_root)
     set(GOOGLETEST_DOWNLOAD_ROOT ${_download_root})
     configure_file(
             ${_download_module_path}/googletest-download.cmake

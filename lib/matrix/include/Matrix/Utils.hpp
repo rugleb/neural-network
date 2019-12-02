@@ -5,8 +5,6 @@
 #include <random>
 #include <vector>
 
-#include "Exceptions.hpp"
-
 
 template <typename T>
 T rand(T min, T max)
@@ -20,7 +18,7 @@ T rand(T min, T max)
 
 
 template <typename T>
-std::vector<T> rand(T min, T max, std::size_t size)
+std::vector<T> rand(std::size_t size, T min, T max)
 {
     auto v = std::vector<T>(size);
 
@@ -33,12 +31,12 @@ std::vector<T> rand(T min, T max, std::size_t size)
 
 
 template <typename T>
-std::vector<std::vector<T>> rand(T min, T max, std::size_t rows, std::size_t cols)
+std::vector<std::vector<T>> rand(std::size_t rows, std::size_t cols, T min, T max)
 {
     auto m = std::vector<std::vector<T>>(rows);
 
     for (std::size_t i = 0; i < rows; i++) {
-        m[i] = rand(min, max, cols);
+        m[i] = rand(cols, min, max);
     }
 
     return m;

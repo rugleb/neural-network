@@ -5,7 +5,6 @@
 #include <vector>
 #include <functional>
 
-#include "Exceptions.hpp"
 #include "Utils.hpp"
 
 
@@ -80,7 +79,7 @@ Matrix<T>::Matrix(const Data<T> & data)
 template <typename T>
 Matrix<T> Matrix<T>::random(std::size_t rows, std::size_t cols, const T & min, const T & max)
 {
-    auto data = rand(min, max, rows, cols);
+    auto data = rand(rows, cols, min, max);
 
     return Matrix<T>(data);
 }

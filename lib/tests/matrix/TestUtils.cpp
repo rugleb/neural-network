@@ -9,7 +9,7 @@
 using namespace testing;
 
 
-TEST(Rand, TestThatUnitRandomized)
+TEST(RandTestCase, testScalarRandomized)
 {
     double min = 10.;
     double max = 20.;
@@ -21,21 +21,21 @@ TEST(Rand, TestThatUnitRandomized)
 }
 
 
-TEST(Rand, TestThatVectorRandomized)
+TEST(Rand, testVectorRandomized)
 {
     std::size_t size = 5;
 
     double min = 10;
     double max = 20;
 
-    auto vector = rand(min, max, size);
+    auto vector = rand(size, min, max);
 
     ASSERT_EQ(size, vector.size());
     ASSERT_THAT(vector, Each(AllOf(Ge(min), Le(max))));
 }
 
 
-TEST(Rand, TestThatMatrixRandomized)
+TEST(Rand, testMatrixRandomized)
 {
     std::size_t rows = 2;
     std::size_t cols = 4;
@@ -43,7 +43,7 @@ TEST(Rand, TestThatMatrixRandomized)
     double min = 10.;
     double max = 20.;
 
-    auto matrix = rand(min, max, rows, cols);
+    auto matrix = rand(rows, cols, min, max);
 
     ASSERT_EQ(rows, matrix.size());
 
@@ -54,7 +54,7 @@ TEST(Rand, TestThatMatrixRandomized)
 }
 
 
-TEST(Shuffle, TestThatVectorShuffled)
+TEST(Shuffle, testThatVectorShuffled)
 {
     std::vector<int> vector = {1, 2, 3, 4};
 
