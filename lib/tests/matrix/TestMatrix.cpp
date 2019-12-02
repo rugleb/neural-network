@@ -158,3 +158,23 @@ TEST(MatrixTestCase, testOperatorDivisionByMatrix)
 
     ASSERT_EQ(expected, m1 / m2);
 }
+
+
+TEST(MatrixTestCase, testDotMethodWithValidDemention)
+{
+    auto m1 = Matrix<data_t>(3, 2, 1);
+    auto m2 = Matrix<data_t>(2, 4, 2);
+
+    auto expected = Matrix<data_t>(3, 4, 4);
+
+    ASSERT_EQ(expected, m1.dot(m2));
+}
+
+
+TEST(MatrixTestCase, testDotMethodWithInvalidDemention)
+{
+    auto m1 = Matrix<data_t>(3, 2);
+    auto m2 = Matrix<data_t>(1, 4);
+
+    ASSERT_THROW(m1.dot(m2), DimensionError);
+}
