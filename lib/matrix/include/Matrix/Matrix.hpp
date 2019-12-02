@@ -28,6 +28,7 @@ public:
     Dim dim();
 
     std::vector<T> & operator[] (std::size_t i);
+    T operator() (std::size_t i, std::size_t j) const;
 
     bool operator==(const Matrix<T> & other) const;
     bool operator!=(const Matrix<T> & other) const;
@@ -37,8 +38,14 @@ public:
     Matrix<T> operator*(T scalar) const;
     Matrix<T> operator/(T scalar) const;
 
+    Matrix<T> operator+(const Matrix<T> & other) const;
+    Matrix<T> operator-(const Matrix<T> & other) const;
+    Matrix<T> operator*(const Matrix<T> & other) const;
+    Matrix<T> operator/(const Matrix<T> & other) const;
+
     Matrix<T> map(std::function<T(T)> f) const;
-    Matrix<T> map(T scalar, std::function<T(T, T)> f) const;
+    Matrix<T> map(const T & scalar, std::function<T(T, T)> f) const;
+    Matrix<T> map(const Matrix & other, std::function<T(T, T)> f) const;
 
 
 protected:
@@ -100,6 +107,13 @@ std::vector<T> & Matrix<T>::operator[](std::size_t i)
 
 
 template <typename T>
+T Matrix<T>::operator()(std::size_t i, std::size_t j) const
+{
+    return m_data[i][j];
+}
+
+
+template <typename T>
 bool Matrix<T>::operator==(const Matrix<T> & other) const
 {
     return m_data == other.data();
@@ -142,6 +156,34 @@ Matrix<T> Matrix<T>::operator/(T scalar) const
 
 
 template <typename T>
+Matrix<T> Matrix<T>::operator+(const Matrix<T> & other) const
+{
+    return map(other, std::plus<T>());
+}
+
+
+template <typename T>
+Matrix<T> Matrix<T>::operator-(const Matrix<T> & other) const
+{
+    return map(other, std::minus<T>());
+}
+
+
+template <typename T>
+Matrix<T> Matrix<T>::operator*(const Matrix<T> & other) const
+{
+    return map(other, std::multiplies<T>());
+}
+
+
+template <typename T>
+Matrix<T> Matrix<T>::operator/(const Matrix<T> & other) const
+{
+    return map(other, std::divides<T>());
+}
+
+
+template <typename T>
 Matrix<T> Matrix<T>::map(std::function<T(T)> f) const
 {
     auto rows = nRows();
@@ -160,11 +202,29 @@ Matrix<T> Matrix<T>::map(std::function<T(T)> f) const
 
 
 template <typename T>
-Matrix<T> Matrix<T>::map(T scalar, std::function<T(T, T)> f) const
+Matrix<T> Matrix<T>::map(const T & scalar, std::function<T(T, T)> f) const
 {
     return map([&] (const T & item) {
         return f(item, scalar);
     });
+}
+
+
+template <typename T>
+Matrix<T> Matrix<T>::map(const Matrix & other, std::function<T(T, T)> f) const
+{
+    auto rows = nRows();
+    auto cols = nCols();
+
+    auto result = Matrix<T>(rows, cols);
+
+    for (std::size_t i = 0; i < rows; i++) {
+        for (std::size_t j = 0; j < cols; j++) {
+            result[i][j] = f(m_data[i][j], other(i, j));
+        }
+    }
+
+    return result;
 }
 
 

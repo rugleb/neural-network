@@ -102,3 +102,59 @@ TEST(MatrixTestCase, testOperatorDivisionByScalar)
 
     ASSERT_EQ(m1, m2);
 }
+
+
+TEST(MatrixTestCase, testOperatorAdditionByMatrix)
+{
+    std::size_t rows = 2;
+    std::size_t cols = 3;
+
+    auto m1 = Matrix<data_t>(rows, cols, 5);
+    auto m2 = Matrix<data_t>(rows, cols, 5);
+
+    auto expected = Matrix<data_t>(rows, cols, 10);
+
+    ASSERT_EQ(expected, m1 + m2);
+}
+
+
+TEST(MatrixTestCase, testOperatorSubtractionByMatrix)
+{
+    std::size_t rows = 2;
+    std::size_t cols = 3;
+
+    auto m1 = Matrix<data_t>(rows, cols, 5);
+    auto m2 = Matrix<data_t>(rows, cols, 3);
+
+    auto expected = Matrix<data_t>(rows, cols, 2);
+
+    ASSERT_EQ(expected, m1 - m2);
+}
+
+
+TEST(MatrixTestCase, testOperatorMultiplicationByMatrix)
+{
+    std::size_t rows = 2;
+    std::size_t cols = 3;
+
+    auto m1 = Matrix<data_t>(rows, cols, 2);
+    auto m2 = Matrix<data_t>(rows, cols, 5);
+
+    auto expected = Matrix<data_t>(rows, cols, 10);
+
+    ASSERT_EQ(expected, m1 * m2);
+}
+
+
+TEST(MatrixTestCase, testOperatorDivisionByMatrix)
+{
+    std::size_t rows = 2;
+    std::size_t cols = 3;
+
+    auto m1 = Matrix<data_t>(rows, cols, 5);
+    auto m2 = Matrix<data_t>(rows, cols, 5);
+
+    auto expected = Matrix<data_t>(rows, cols, 1);
+
+    ASSERT_EQ(expected, m1 / m2);
+}
