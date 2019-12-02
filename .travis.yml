@@ -12,7 +12,7 @@ compiler:
 
 script:
   - ./compile.sh
-  - ./build/nn example.png output.png
+  - ./build/bin/nn example.png output.png
 
 notifications:
   email:
