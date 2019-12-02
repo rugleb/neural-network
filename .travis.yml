@@ -4,7 +4,6 @@ addons:
   apt:
     packages:
       - libpng-dev
-      - libgtest-dev
 
 language: cpp
 
