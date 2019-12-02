@@ -270,7 +270,7 @@ Matrix<T> Matrix<T>::dot(const Matrix<T> & other)
 }
 
 
-template<typename T>
+template <typename T>
 Matrix<T> Matrix<T>::transpose()
 {
     auto rows = nCols();
