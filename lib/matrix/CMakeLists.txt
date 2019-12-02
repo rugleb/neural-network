@@ -7,13 +7,11 @@ set(CMAKE_CXX_EXTENSIONS 0)
 
 set(SOURCES
     src/Matrix.cpp
-    src/Operator.cpp
     src/Utils.cpp
 )
 
 set(HEADERS
     include/Matrix/Matrix.hpp
-    include/Matrix/Operator.hpp
     include/Matrix/Utils.hpp
 )
 

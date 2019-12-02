@@ -9,9 +9,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
 set(SOURCES
     main.cpp
     TestMatrix.cpp
-    TestOperator.cpp
     TestUtils.cpp
-    TestVector.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
