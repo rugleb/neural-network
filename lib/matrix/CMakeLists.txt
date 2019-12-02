@@ -9,14 +9,12 @@ set(SOURCES
     src/Matrix.cpp
     src/Operator.cpp
     src/Utils.cpp
-    src/Vector.cpp
 )
 
 set(HEADERS
     include/Matrix/Matrix.hpp
     include/Matrix/Operator.hpp
     include/Matrix/Utils.hpp
-    include/Matrix/Vector.hpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCES} ${HEADERS})
