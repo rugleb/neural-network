@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.1)
+
 add_subdirectory(matrix)
 
 option(TESTS_ENABLED "Build the tests" ON)

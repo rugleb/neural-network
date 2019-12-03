@@ -1,32 +1,37 @@
-# the following code to fetch googletest
-# is inspired by and adapted after https://crascit.com/2015/07/25/cmake-gtest/
-# download and unpack googletest at configure time
+set(GTEST_DIR ${PROJECT_BINARY_DIR}/contrib/googletest)
 
-macro(install_gtest _download_module_path _download_root)
-    set(GOOGLETEST_DOWNLOAD_ROOT ${_download_root})
-    configure_file(
-            ${_download_module_path}/googletest-download.cmake
-            ${_download_root}/CMakeLists.txt
-            @ONLY
-    )
-    unset(GOOGLETEST_DOWNLOAD_ROOT)
+configure_file(
+    ${PROJECT_SOURCE_DIR}/cmake/googletest-download.cmake
+    ${GTEST_DIR}/CMakeLists.txt
+)
 
-    execute_process(
-            COMMAND
-            "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
-            WORKING_DIRECTORY
-            ${_download_root}
-    )
-    execute_process(
-            COMMAND
-            "${CMAKE_COMMAND}" --build .
-            WORKING_DIRECTORY
-            ${_download_root}
-    )
+execute_process(
+    COMMAND
+        "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
+    WORKING_DIRECTORY
+        ${GTEST_DIR}
+    RESULT_VARIABLE
+        result
+)
 
-    # adds the targers: gtest, gtest_main, gmock, gmock_main
-    add_subdirectory(
-            ${_download_root}/googletest-src
-            ${_download_root}/googletest-build
-    )
-endmacro()
+if (result)
+    message(FATAL_ERROR "CMake step for googletest failed: ${result}")
+endif()
+
+execute_process(
+    COMMAND
+        "${CMAKE_COMMAND}" --build .
+    WORKING_DIRECTORY
+        ${GTEST_DIR}
+    RESULT_VARIABLE
+        result
+)
+
+if (result)
+    message(FATAL_ERROR "CMake step for googletest failed: ${result}")
+endif()
+
+add_subdirectory(
+    ${GTEST_DIR}/googletest-src
+    ${GTEST_DIR}/googletest-build
+)
