@@ -34,5 +34,4 @@ endif()
 add_subdirectory(
     ${GTEST_DIR}/googletest-src
     ${GTEST_DIR}/googletest-build
-    EXCLUDE_FROM_ALL
 )
