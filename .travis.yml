@@ -9,6 +9,13 @@ compiler:
   - gcc
   - clang
 
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - cmake
+
 script:
   - ./compile.sh
   - ./build/bin/nn example.png output.png
