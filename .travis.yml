@@ -1,6 +1,9 @@
-dist: xenial
-
 language: cpp
+
+jobs:
+  include:
+    - os: linux
+      dist: xenial
 
 compiler:
   - gcc
