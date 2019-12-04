@@ -1,11 +1,8 @@
 language: cpp
 
-jobs:
-  include:
-    - os: linux
-      dist: xenial
-    - os: osx
-    - os: windows
+os:
+  - linux
+  - osx
 
 compiler:
   - gcc
