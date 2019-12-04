@@ -5,6 +5,7 @@ jobs:
     - os: linux
       dist: xenial
     - os: osx
+    - os: windows
 
 compiler:
   - gcc
