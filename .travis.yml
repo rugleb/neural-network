@@ -1,14 +1,19 @@
-dist: xenial
-
-addons:
-  apt:
-    packages:
-      - libpng-dev
-
 language: cpp
+
+os:
+  - linux
+  - osx
 
 compiler:
   - gcc
+  - clang
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - cmake
 
 script:
   - ./compile.sh
